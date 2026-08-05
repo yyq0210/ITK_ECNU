@@ -1,0 +1,161 @@
+# ITK 5.4 鲲鹏平台 — 代码交付说明
+
+**版本：** 2026-07  
+**原则：** 交付 **完整 ITK 源码树**（优化已合入），**不交付** `apply_*.sh` / `revert_*.sh` 等补丁脚本。
+
+---
+
+## 1. 交付物 vs 内部工程资产
+
+| 类别 | 是否交付 | 内容 |
+|------|----------|------|
+| **核心交付** | ✅ | `ITK-5.4.0-Huawei-Kunpeng/` 完整源码 + `README-KUNPENG.md` + 推荐 `CMake/KunpengToolchain.cmake` |
+| **验证程序（可选）** | ✅ 建议单独目录 | `ITK-Kunpeng-Validation/`：`precision_*_bench` 等，依赖已安装的 ITK |
+| **本仓库 `ITK_huawei/`** | ❌ 不随 ITK 交付 | 操作记录、结项 Markdown、**补丁脚本**、一键 workflow |
+| **远端 build 目录** | ❌ | `build-yyq/` 仅作验收产物，交付源码 + 构建说明即可 |
+
+补丁脚本的角色：**开发期 A/B 对比**；结项前运行一次「烘焙脚本」，把改动**写死进 ITK 头文件**，再打包交付。
+
+---
+
+## 2. 推荐目录结构（交付 tarball）
+
+```
+ITK-5.4.0-Huawei-Kunpeng/
+├── README-KUNPENG.md              # 平台说明、依赖、编译命令、混合精度说明
+├── CMakeLists.txt                 # 与 upstream 5.4.0 一致，根 CMake 可追加 Kunpeng 选项
+├── Modules/
+│   ├── Filtering/
+│   │   ├── ImageFeature/include/itkBilateralImageFilter.h|.hxx   # 已合入 float 累加
+│   │   └── Smoothing/include/itkMeanImageFilter.h 等
+│   └── Core/FiniteDifference/include/itkFiniteDifferenceFunction.h 等
+├── ...（其余 Module 与 upstream 5.4.0 相同）
+└── LICENSE / NOTICE               # 保留 ITK 开源许可
+
+ITK-Kunpeng-Validation/          # 可选，与本仓库 2026-0507/itk_hybrid_precision_demo 对应
+├── CMakeLists.txt
+├── precision_pipeline_bench.cxx
+└── README.md
+```
+
+验收方拿到 tarball 后：
+
+```bash
+tar xf ITK-5.4.0-Huawei-Kunpeng.tar.gz
+cd ITK-5.4.0-Huawei-Kunpeng
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_CXX_FLAGS="-O3 -march=armv8.2-a+crypto" \
+  -DITK_BUILD_DEFAULT_MODULES=ON
+cmake --build . -j
+```
+
+**无需**再执行任何 patch 脚本。
+
+---
+
+## 3. 源码里合入了什么（相对 upstream 5.4.0）
+
+以下为鲲鹏混合精度 **算子层** 改动（应用层 `Image<float>` 无需改 ITK 源码）：
+
+| 文件 | 改动要点 |
+|------|----------|
+| `itkBilateralImageFilter.h/.hxx` | 邻域/查表/内层循环使用 `OutputPixelRealType`（float 像素时为 float） |
+| `itkMeanImageFilter.h` | 累加类型 `RealType` → `FloatType` |
+| `itkDiscreteGaussianImageFilter.h` | 同上 |
+| `itkFiniteDifferenceFunction.h` | `PixelRealType` 随像素类型取 float |
+| `itkFiniteDifferenceImageFilter.hxx` | 扩散系数数组类型对齐 |
+| `itkBoxUtilities.h` | Box 均值累加类型 `FloatType` |
+
+**未合入 / 不推荐交付：** FP16 存储调研代码（收益 ≈1.0×，工具链限制）。
+
+---
+
+## 4. 从「补丁脚本」到「可交付源码」的流程
+
+在远端 ITK 源码树（如 `/home/pub/yyq/ITK-5.4.0`）执行：
+
+```bash
+# 在本仓库根目录
+bash delivery/prepare_kunpeng_itk_release.sh \
+  /home/pub/yyq/ITK-5.4.0 \
+  /home/pub/yyq/release/ITK-5.4.0-Huawei-Kunpeng \
+  -t
+```
+
+或：
+
+```bash
+python3 delivery/apply_kunpeng_to_itk.py \
+  /home/pub/yyq/ITK-5.4.0 \
+  /home/pub/yyq/release/ITK-5.4.0-Huawei-Kunpeng \
+  -t \
+  --validation-dir /home/pub/yyq/release/ITK-Kunpeng-Validation
+```
+
+脚本会：
+
+1. 复制干净 ITK 5.4.0 树到输出目录（不修改原开发目录）
+2. 合入 float 累加优化（等价于原 patch 1–3，**无 yyq 标记**）
+3. 写入 `README-KUNPENG.md` 与 `CMake/KunpengToolchain.cmake`
+4. 输出 `ITK-Kunpeng-Validation/` 验收程序
+5. 可选 `-t` 打 `ITK-5.4.0-Huawei-Kunpeng.tar.gz`
+
+**补丁脚本**（`2026-0507/itk_float_accum_patches/`）仅保留作开发期 A/B 对比，**不交付**。
+
+**更规范（可选）：** 对输出目录 `git init`，打 tag `v5.4.0-kunpeng.1`，便于版本管理与 diff 追溯。
+
+---
+
+## 5. 进阶：CMake 编译开关（替代「写死改动」）
+
+若希望 **同一套源码** 可切换「上游行为 / 鲲鹏优化行为」，在 ITK fork 中增加：
+
+```cmake
+option(ITK_USE_FLOAT_ACCUMULATION_FOR_FLOAT_PIXELS
+  "Use float internal accumulation when pixel type is float" ON)
+```
+
+头文件统一 typedef（示例）：
+
+```cpp
+#if defined(ITK_USE_FLOAT_ACCUMULATION_FOR_FLOAT_PIXELS)
+  using InternalAccumType = typename NumericTraits<TPixel>::FloatType;
+#else
+  using InternalAccumType = typename NumericTraits<TPixel>::RealType;
+#endif
+```
+
+**结项交付默认：** 开关 **ON**（鲲鹏优化版）；验收文档说明如何 `-DITK_USE_FLOAT_ACCUMULATION_FOR_FLOAT_PIXELS=OFF` 恢复 upstream 语义做对比。
+
+注意：Bilateral 等原硬编码 `double` 的路径仍需逐文件改造，**不能**仅靠改 `NumericTraits` 全局生效。
+
+---
+
+## 6. 结项报告怎么说
+
+- **交付物：** 「基于 ITK 5.4.0 的华为鲲鹏优化版完整源码包」  
+- **混合精度：** 「应用层单精度影像 + 热点算子内部累加精度优化（已合入源码）」  
+- **不写：** 补丁、apply/revert、脚本篇数、内部路径  
+
+---
+
+## 7. 与本仓库的关系
+
+```
+ITK_huawei/                          # 项目工作区（文档 + 验证 + 开发工具）
+├── delivery/                        # ★ 结项交付工具（烘焙脚本 + 验证包模板）
+│   ├── apply_kunpeng_to_itk.py
+│   ├── prepare_kunpeng_itk_release.sh
+│   └── ITK-Kunpeng-Validation/
+├── 2026-0507/
+│   ├── itk_float_accum_patches/     # 开发期 A/B 对比 → 不交付
+│   └── prepare_kunpeng_itk_release.sh  # 转发到 delivery/
+└── docs/                            # 结项 Word / 技术报告
+
+/home/pub/yyq/ITK-5.4.0/             # 开发用 ITK 树
+/home/pub/yyq/release/               # 交付输出目录
+  ├── ITK-5.4.0-Huawei-Kunpeng/
+  ├── ITK-Kunpeng-Validation/
+  └── ITK-5.4.0-Huawei-Kunpeng.tar.gz
+```
