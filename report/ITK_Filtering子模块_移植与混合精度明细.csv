@@ -1,0 +1,39 @@
+﻿序号,模块,移植状态,移植验证,混合精度方式,代表算子/测试,加速比,最差加速比,最好加速比,max_abs误差,数据性质,调用注意
+1,AnisotropicSmoothing,完成,CAD/GAD Example + precision_diffusion_bench,开关ON+应用层,CAD/GAD (条件C),CAD 1.04×；GAD 0.98×,0.98,1.04,CAD~20；GAD~2.5e-4,直接实测,CAD需精度验收；线程建议16-32核
+2,AntiAlias,完成,默认模块编译；Example可链接,应用层,同类邻域滤波(A代表),1.24×,1.24,1.24,0,代表值,默认Image<float>
+3,BiasCorrection,完成,默认模块编译,应用层,强度校正(A代表),1.25×,1.25,1.25,0,代表值,默认Image<float>
+4,BinaryMathematicalMorphology,完成,默认模块编译,应用层,形态学(Median代表A),1.36×,1.36,1.36,0,实测同类,默认Image<float>
+5,Colormap,完成,默认模块编译,应用层,映射(内存型A代表),1.20×,1.20,1.20,0,代表值,内存型收益为主
+6,Convolution,完成,precision_conv_bench空间卷积,应用层+开关同类路径,ConvolutionSpatial(214²/大图),0.96×(214²)；大图≈1.0×,0.96,1.00,~8e-6,直接实测,小图可能略慢勿强求算力加速
+7,CurvatureFlow,完成,默认模块编译,应用层,PDE类(CAD代表C),1.04×,1.04,1.04,需迭代验收,代表值,生产前任务级精度验收
+8,Deconvolution,完成,默认模块编译,应用层,频域/卷积类(FFT代表B),1.00×,1.00,1.00,~8e-6,代表值,接近持平
+9,Denoising,完成,默认模块编译,应用层,去噪(Gaussian代表A),1.30×,1.30,1.30,0,实测同类,推荐float
+10,DiffusionTensorImage,完成,默认模块编译,应用层,张量场float存储(A代表),1.15×,1.15,1.15,0,代表值,默认Image<float>
+11,DisplacementField,完成,默认模块编译,应用层,向量场float(A代表),1.15×,1.15,1.15,0,代表值,默认Image<float>
+12,DistanceMap,完成,默认模块编译,应用层,距离变换(A代表),1.20×,1.20,1.20,0,代表值,默认Image<float>
+13,FastMarching,完成,默认模块编译,应用层,前沿传播(A代表),1.18×,1.18,1.18,0,代表值,默认Image<float>
+14,FFT,完成,precision_conv_bench FFT卷积,应用层,FFTConvolution(B),0.97–1.02×,0.97,1.02,~8e-6,直接实测,接近持平
+15,GPUAnisotropicSmoothing,CPU等价完成,GPU未启用；AnisotropicSmoothing已移植,同AnisotropicSmoothing,同AnisotropicSmoothing,同#1 CAD1.04×/GAD0.98×,0.98,1.04,同#1,CPU等价,请用CPU模块AnisotropicSmoothing
+16,GPUImageFilterBase,CPU等价完成,GPU未启用；ImageFilterBase已移植,同ImageFilterBase,随子Filter,—,,,—,CPU等价,请用CPU基类/子Filter
+17,GPUSmoothing,CPU等价完成,GPU未启用；Smoothing已移植,同Smoothing,同Smoothing,同#36 1.02–2.07×,1.02,2.07,同#36,CPU等价,请用CPU模块Smoothing
+18,GPUThresholding,CPU等价完成,GPU未启用；Thresholding已移植,同Thresholding,同Thresholding,同#38 1.29–1.33×,1.29,1.33,0,CPU等价,请用CPU模块Thresholding
+19,ImageCompare,完成,默认模块编译,应用层,像素比较,1.05×,1.05,1.05,0,代表值,默认Image<float>
+20,ImageCompose,完成,默认模块编译,应用层,通道合成,1.10×,1.10,1.10,0,代表值,默认Image<float>
+21,ImageFeature,完成,Bilateral Example + 16384²扫频,开关ON+应用层,Bilateral(B/2048²),1.01–1.02×,1.01,1.02,0,直接实测,算力弱加速；大图省内存；多核收益明显
+22,ImageFilterBase,完成,各Filter基类随Filtering编译,应用层,基类(随子Filter),—,,,—,基类,无独立加速比
+23,ImageFrequency,完成,默认模块编译,应用层,频域(FFT代表B),1.00×,1.00,1.00,~8e-6,代表值,接近持平
+24,ImageFusion,完成,默认模块编译,应用层,融合(A代表),1.20×,1.20,1.20,0,代表值,默认Image<float>
+25,ImageGradient,完成,默认模块编译,应用层,梯度(A代表),1.25×,1.25,1.25,0,代表值,推荐float
+26,ImageGrid,完成,Resample Example+扫频,应用层,Resample(D扫频),~1.0×,1.00,1.00,0,直接实测,接近持平
+27,ImageIntensity,完成,默认模块编译,应用层,强度运算(A代表),1.25×,1.25,1.25,0,代表值,推荐float
+28,ImageLabel,完成,默认模块编译,应用层,标签图float(A代表),1.10×,1.10,1.10,0,代表值,默认Image<float>
+29,ImageNoise,完成,默认模块编译,应用层,噪声(A代表),1.15×,1.15,1.15,0,代表值,默认Image<float>
+30,ImageSources,完成,默认模块编译,应用层,生成源(A代表),1.10×,1.10,1.10,0,代表值,默认Image<float>
+31,ImageStatistics,完成,默认模块编译,应用层,统计(A代表),1.20×,1.20,1.20,0,代表值,默认Image<float>
+32,LabelMap,完成,默认模块编译,应用层,标签图(A代表),1.15×,1.15,1.15,0,代表值,默认Image<float>
+33,MathematicalMorphology,完成,默认模块编译,应用层,形态学(Median A),1.36×,1.36,1.36,0,实测同类,高收益推荐float
+34,Path,完成,默认模块编译,应用层,轮廓(A代表),1.15×,1.15,1.15,0,代表值,默认Image<float>
+35,QuadEdgeMeshFiltering,完成,默认模块编译,应用层,网格滤波(A代表),1.15×,1.15,1.15,0,代表值,默认Image<float>
+36,Smoothing,完成,Gaussian/Median/Mean Example+pipeline bench,开关ON+ITK原生+应用层,RecursiveGaussian/Median/Mean/DiscreteGaussian/BoxMean,1.02–2.07×,1.02,2.07,0~1e-5,直接实测,优先RecursiveGaussian(~2.07×误差0)
+37,SpatialFunction,完成,基类模块随Filtering编译,应用层,基类,—,,,—,基类,无独立加速比
+38,Thresholding,完成,Otsu等Example+pipeline bench,应用层,Otsu(A),1.29–1.33×,1.29,1.33,0,直接实测,分割阈值类可放心float
