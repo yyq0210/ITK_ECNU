@@ -1,18 +1,29 @@
 // precision_pipeline_bench — 滤波/分割：full_float vs full_double（无 hybrid cast 链）
 // 用法: precision_pipeline_bench [image.png|mha] [runs=5]
+#include "itkBinaryBallStructuringElement.h"
+#include "itkBinaryThresholdImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkConstantPadImageFilter.h"
+#include "itkCurvatureFlowImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
+#include "itkGradientMagnitudeImageFilter.h"
+#include "itkGrayscaleDilateImageFilter.h"
+#include "itkIdentityTransform.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkMultiThreaderBase.h"
 #include "itkMedianImageFilter.h"
+#include "itkNormalizeImageFilter.h"
 #include "itkOtsuThresholdImageFilter.h"
 #include "itkPNGImageIOFactory.h"
+#include "itkResampleImageFilter.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
+#include "itkSobelEdgeDetectionImageFilter.h"
 
 #include <chrono>
 #include <cmath>
@@ -267,6 +278,247 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
     const double msF = TimeRuns<Dim>(runF, runs);
     const double msD = TimeRuns<Dim>(runD, runs);
     ReportCase<Dim>("OtsuThreshold", msF, msD, DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 5) ImageGradient
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using F = itk::GradientMagnitudeImageFilter<FImg<Dim>, FImg<Dim>>;
+      auto g = F::New();
+      g->SetInput(input);
+      g->Update();
+      return g->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using F = itk::GradientMagnitudeImageFilter<DImg<Dim>, DImg<Dim>>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto g = F::New();
+      g->SetInput(c->GetOutput());
+      g->Update();
+      return g->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("GradientMagnitude", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 6) ImageIntensity
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using F = itk::NormalizeImageFilter<FImg<Dim>, FImg<Dim>>;
+      auto n = F::New();
+      n->SetInput(input);
+      n->Update();
+      return n->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using F = itk::NormalizeImageFilter<DImg<Dim>, DImg<Dim>>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto n = F::New();
+      n->SetInput(c->GetOutput());
+      n->Update();
+      return n->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("Normalize", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 7) ImageGrid
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using Xf = itk::IdentityTransform<double, Dim>;
+      using Interp = itk::LinearInterpolateImageFunction<FImg<Dim>, double>;
+      using F = itk::ResampleImageFilter<FImg<Dim>, FImg<Dim>, double>;
+      auto r = F::New();
+      r->SetInput(input);
+      r->SetTransform(Xf::New());
+      r->SetInterpolator(Interp::New());
+      r->SetSize(input->GetLargestPossibleRegion().GetSize());
+      r->SetOutputSpacing(input->GetSpacing());
+      r->SetOutputOrigin(input->GetOrigin());
+      r->SetOutputDirection(input->GetDirection());
+      r->Update();
+      return r->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using Xf = itk::IdentityTransform<double, Dim>;
+      using Interp = itk::LinearInterpolateImageFunction<DImg<Dim>, double>;
+      using F = itk::ResampleImageFilter<DImg<Dim>, DImg<Dim>, double>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto r = F::New();
+      r->SetInput(c->GetOutput());
+      r->SetTransform(Xf::New());
+      r->SetInterpolator(Interp::New());
+      r->SetSize(input->GetLargestPossibleRegion().GetSize());
+      r->SetOutputSpacing(input->GetSpacing());
+      r->SetOutputOrigin(input->GetOrigin());
+      r->SetOutputDirection(input->GetDirection());
+      r->Update();
+      return r->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("ResampleIdentity", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 8) ImageFeature
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using F = itk::SobelEdgeDetectionImageFilter<FImg<Dim>, FImg<Dim>>;
+      auto s = F::New();
+      s->SetInput(input);
+      s->Update();
+      return s->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using F = itk::SobelEdgeDetectionImageFilter<DImg<Dim>, DImg<Dim>>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto s = F::New();
+      s->SetInput(c->GetOutput());
+      s->Update();
+      return s->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("SobelEdge", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 9) MathematicalMorphology
+  {
+    using BallF = itk::BinaryBallStructuringElement<float, Dim>;
+    using BallD = itk::BinaryBallStructuringElement<double, Dim>;
+    BallF kf;
+    kf.SetRadius(1);
+    kf.CreateStructuringElement();
+    BallD kd;
+    kd.SetRadius(1);
+    kd.CreateStructuringElement();
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using F = itk::GrayscaleDilateImageFilter<FImg<Dim>, FImg<Dim>, BallF>;
+      auto d = F::New();
+      d->SetInput(input);
+      d->SetKernel(kf);
+      d->Update();
+      return d->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using F = itk::GrayscaleDilateImageFilter<DImg<Dim>, DImg<Dim>, BallD>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto d = F::New();
+      d->SetInput(c->GetOutput());
+      d->SetKernel(kd);
+      d->Update();
+      return d->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("GrayscaleDilate", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 10) BinaryThreshold + DistanceMap
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using Th = itk::BinaryThresholdImageFilter<FImg<Dim>, FImg<Dim>>;
+      auto t = Th::New();
+      t->SetInput(input);
+      t->SetLowerThreshold(50.0f);
+      t->SetUpperThreshold(200.0f);
+      t->SetInsideValue(1.0f);
+      t->SetOutsideValue(0.0f);
+      t->Update();
+      return t->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using Th = itk::BinaryThresholdImageFilter<DImg<Dim>, DImg<Dim>>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto t = Th::New();
+      t->SetInput(c->GetOutput());
+      t->SetLowerThreshold(50.0);
+      t->SetUpperThreshold(200.0);
+      t->SetInsideValue(1.0);
+      t->SetOutsideValue(0.0);
+      t->Update();
+      return t->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("BinaryThreshold", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using Th = itk::OtsuThresholdImageFilter<FImg<Dim>, FImg<Dim>>;
+      using Dist = itk::SignedMaurerDistanceMapImageFilter<FImg<Dim>, FImg<Dim>>;
+      auto t = Th::New();
+      t->SetInput(input);
+      t->SetInsideValue(1.0f);
+      t->SetOutsideValue(0.0f);
+      auto d = Dist::New();
+      d->SetInput(t->GetOutput());
+      d->SetInsideIsPositive(true);
+      d->Update();
+      return d->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using Th = itk::OtsuThresholdImageFilter<DImg<Dim>, DImg<Dim>>;
+      using Dist = itk::SignedMaurerDistanceMapImageFilter<DImg<Dim>, DImg<Dim>>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto t = Th::New();
+      t->SetInput(c->GetOutput());
+      t->SetInsideValue(1.0);
+      t->SetOutsideValue(0.0);
+      auto d = Dist::New();
+      d->SetInput(t->GetOutput());
+      d->SetInsideIsPositive(true);
+      d->Update();
+      return d->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("SignedMaurerDistance", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  }
+
+  // 11) CurvatureFlow
+  {
+    auto runF = [&]() -> typename FImg<Dim>::Pointer {
+      using F = itk::CurvatureFlowImageFilter<FImg<Dim>, FImg<Dim>>;
+      auto f = F::New();
+      f->SetInput(input);
+      f->SetTimeStep(0.125);
+      f->SetNumberOfIterations(8);
+      f->Update();
+      return f->GetOutput();
+    };
+    auto runD = [&]() -> typename DImg<Dim>::Pointer {
+      using Cast = itk::CastImageFilter<FImg<Dim>, DImg<Dim>>;
+      using F = itk::CurvatureFlowImageFilter<DImg<Dim>, DImg<Dim>>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      auto f = F::New();
+      f->SetInput(c->GetOutput());
+      f->SetTimeStep(0.125);
+      f->SetNumberOfIterations(8);
+      f->Update();
+      return f->GetOutput();
+    };
+    runF();
+    ReportCase<Dim>("CurvatureFlow", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
+                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
   }
 }
 

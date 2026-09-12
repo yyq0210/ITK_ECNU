@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+project(precision_fill_missing_bench LANGUAGES CXX)
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_executable(precision_fill_missing_bench precision_fill_missing_bench.cxx)
+target_link_libraries(precision_fill_missing_bench PRIVATE ${ITK_LIBRARIES})

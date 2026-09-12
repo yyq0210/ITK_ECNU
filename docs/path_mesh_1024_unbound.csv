@@ -1,0 +1,14 @@
+module,operator,ms_float,ms_double,speedup,max_abs,rmse
+Path,ContourExtractor2DImageFilter,56.4151,73.4345,1.3017,0,0
+Path,PathToImageFilter,0.3587,0.3149,0.8780,0,0
+Path,PathToChainCodePathFilter,0.0389,0.0345,0.8876,0,0
+Path,ChainCodeToFourierSeriesPathFilter,0.2190,0.1987,0.9071,0,0
+Path,ExtractOrthogonalSwath2DImageFilter,0.2151,0.8199,3.8116,0,0
+QuadEdgeMeshFiltering,SmoothingQuadEdgeMeshFilter,9.9004,10.0758,1.0177,0,0
+QuadEdgeMeshFiltering,CleanQuadEdgeMeshFilter,25.7875,25.5600,0.9912,0,0
+QuadEdgeMeshFiltering,BorderQuadEdgeMeshFilter,FAIL,FAIL,FAIL,ITK ERROR: This filter requires at least one boundary,
+QuadEdgeMeshFiltering,DelaunayConformingQuadEdgeMeshFilter,8.8146,9.0572,1.0275,0,0
+QuadEdgeMeshFiltering,DiscreteMeanCurvatureQuadEdgeMeshFilter,15.2443,17.3222,1.1363,0,0
+QuadEdgeMeshFiltering,DiscreteGaussianCurvatureQuadEdgeMeshFilter,12.0507,12.1184,1.0056,0,0
+QuadEdgeMeshFiltering,DiscreteMaximumCurvatureQuadEdgeMeshFilter,16.0648,16.0282,0.9977,0,0
+QuadEdgeMeshFiltering,DiscreteMinimumCurvatureQuadEdgeMeshFilter,16.1844,16.2438,1.0037,0,0

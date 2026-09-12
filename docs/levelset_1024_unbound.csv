@@ -1,0 +1,16 @@
+module,operator,ms_float,ms_double,speedup,max_abs,rmse
+LevelSets,ReinitializeLevelSetImageFilter,498.5419,513.4594,1.0299,0,0
+LevelSets,GeodesicActiveContourLevelSetImageFilter,99.3680,102.2348,1.0289,0,0
+LevelSets,ShapeDetectionLevelSetImageFilter,31.8644,32.6381,1.0243,0,0
+LevelSets,ThresholdSegmentationLevelSetImageFilter,40.2552,42.2737,1.0501,0,0
+LevelSets,CurvesLevelSetImageFilter,98.4911,102.3871,1.0396,0,0
+LevelSets,LaplacianSegmentationLevelSetImageFilter,37.1668,36.0059,0.9688,0,0
+LevelSets,CannySegmentationLevelSetImageFilter,402.3845,403.2546,1.0022,0,0
+LevelSets,NarrowBandThresholdSegmentationLevelSetImageFilter,78.7742,84.5810,1.0737,0,0
+LevelSets,NarrowBandCurvesLevelSetImageFilter,150.3695,153.6073,1.0215,0,0
+LevelSets,CollidingFrontsImageFilter,1489.6566,1520.5878,1.0208,0,0
+LevelSets,UnsharpMaskLevelSetImageFilter,140.2914,141.2819,1.0071,0,0
+LevelSets,AnisotropicFourthOrderLevelSetImageFilter,1555.0063,1688.7656,1.0860,0,0
+LevelSets,IsotropicFourthOrderLevelSetImageFilter,1506.3840,1524.4637,1.0120,0,0
+LevelSets,BinaryMaskToNarrowBandPointSetFilter,63.4154,63.5287,1.0018,0,0
+LevelSets,ExtensionVelocitiesImageFilter,564.4815,583.6932,1.0340,0,0

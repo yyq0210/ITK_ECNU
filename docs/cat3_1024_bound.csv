@@ -1,0 +1,16 @@
+module,operator,ms_float,ms_double,speedup,max_abs,rmse
+QuadEdgeMeshFiltering,BorderQuadEdgeMeshFilter,1.0559,1.0832,1.0259,0,0
+QuadEdgeMeshFiltering,ParameterizationQuadEdgeMeshFilter,1.9551,1.9451,0.9949,0,0
+QuadEdgeMeshFiltering,NormalQuadEdgeMeshFilter,4.5354,4.7291,1.0427,0,0
+QuadEdgeMeshFiltering,QuadricDecimationQuadEdgeMeshFilter,58.5662,58.5225,0.9993,0,0
+QuadEdgeMeshFiltering,SquaredEdgeLengthDecimationQuadEdgeMeshFilter,6.9050,6.8344,0.9898,0,0
+QuadEdgeMeshFiltering,LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints,8.8021,8.8681,1.0075,0,0
+QuadEdgeMeshFiltering,LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints,24.1374,24.1679,1.0013,0,0
+Path,OrthogonalSwath2DPathFilter,35.0621,29.9054,0.8529,0,0
+LevelSetsv4,LevelSetDomainMapImageFilter,0.0556,0.0529,0.9525,0,0
+Metricsv4,LabeledPointSetToPointSetMetricv4,0.1908,0.1803,0.9446,0,0
+LevelSets,GeodesicActiveContourShapePriorLevelSetImageFilter,4.5554,4.7120,1.0344,0,0
+DeformableMesh,DeformableSimplexMesh3DFilter,9.1765,9.1631,0.9985,0,0
+DeformableMesh,DeformableSimplexMesh3DBalloonForceFilter,5.9246,5.8593,0.9890,0,0
+DeformableMesh,DeformableSimplexMesh3DGradientConstraintForceFilter,6.0500,5.9962,0.9911,0,0
+Common,ImageToSpatialObjectRegistrationMethod,1.2346,1.2299,0.9962,0,0

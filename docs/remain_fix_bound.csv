@@ -1,0 +1,5 @@
+module,operator,ms_float,ms_double,speedup,max_abs,rmse
+LabelMap,CropLabelMapFilter,0.0205,0.0196,0.9534,0,0
+LabelMap,LabelMapMaskImageFilter,2.7815,3.0102,1.0822,0,0
+DisplacementField,DisplacementFieldToBSplineImageFilter,5.0524,4.9046,0.9708,0,0
+Common,BlockMatchingImageFilter,0.7179,0.7972,1.1105,0,0
