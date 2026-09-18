@@ -1,20 +1,28 @@
 # 测试数据
 
+送测打包入口见仓库 **[送测/](../送测/README.md)**（图 + 脚本 + bench 源码在同一目录）。
+
 ## 官方示例图（滤波 / 度量主图）
 
-ITK 5.4 自带，不重新发明：
+ITK 5.4 自带，不重新发明。本目录已放副本：
 
-```text
-/home/pub/yyq/ITK-5.4.0/Examples/Data/BrainProtonDensitySlice.png
-```
+| 文件 | 用途 |
+|------|------|
+| `BrainProtonDensitySlice.png` | 官方脑切片（与 ITK Examples/Data 相同） |
+| `images/BrainProtonDensitySlice.png` | 同上 |
+| `images/BrainProtonDensitySliceBorder20.png` | 配准固定图原图 |
+| `images/BrainProtonDensitySliceShifted13x17y.png` | 配准移动图原图 |
+| `images/BrainProtonDensitySliceBorder20Mask.png` | 掩膜 |
+| `images/BrainProtonDensitySlice256x256.png` | 256² 切片 |
+| `images/BrainProtonDensity1024.png` | 主测 1024×1024 |
+| `images/BrainProtonDensity1024_fixed.png` | 配准固定图 1024 |
+| `images/BrainProtonDensity1024_moving.png` | 配准移动图 1024 |
 
-1024 批次由脚本现生成：
+若需自行生成 1024：
 
 ```bash
-convert "$OFFICIAL" -resize 1024x1024! /tmp/BrainProtonDensity1024.png
+python3 送测/scripts/prepare_data.py
 ```
-
-本目录可放一份官方 PNG 副本（`BrainProtonDensitySlice.png`），方便离线复测。
 
 ## 程序内造数（无独立文件）
 
@@ -30,3 +38,7 @@ convert "$OFFICIAL" -resize 1024x1024! /tmp/BrainProtonDensity1024.png
 - remain/extra35：裁块、位移场、复数频谱、LabelMap、DTI 梯度方向等
 
 官方 `Testing/Data` 的 `.vtk` 在本机只有 `.cid` 哈希、没有实体文件，复测不依赖 ExternalData。
+
+## 分批脚本
+
+`testdata/scripts/` 是鲲鹏上实际用过的分批 `run_*_1024.sh` 副本（内部路径写死 `/home/pub/yyq/...`）。新测请用 `送测/scripts/run_all.sh`。
