@@ -272,6 +272,59 @@
     },
     runs);
 
+  Bench(
+    "Convolution",
+    "ConvolutionImageFilter",
+    [&]() {
+      auto ker = FImg::New();
+      {
+        FImg::IndexType idx;
+        idx.Fill(0);
+        FImg::SizeType ksz;
+        ksz.Fill(5);
+        FImg::RegionType rg;
+        rg.SetIndex(idx);
+        rg.SetSize(ksz);
+        ker->SetRegions(rg);
+        ker->Allocate();
+        ker->FillBuffer(1.0f / 25.0f);
+      }
+      using F = itk::ConvolutionImageFilter<FImg, FImg, FImg>;
+      auto f = F::New();
+      f->SetInput(input);
+      f->SetKernelImage(ker);
+      f->NormalizeOn();
+      f->Update();
+      return Hold(f->GetOutput());
+    },
+    [&]() {
+      auto ker = DImg::New();
+      {
+        DImg::IndexType idx;
+        idx.Fill(0);
+        DImg::SizeType ksz;
+        ksz.Fill(5);
+        DImg::RegionType rg;
+        rg.SetIndex(idx);
+        rg.SetSize(ksz);
+        ker->SetRegions(rg);
+        ker->Allocate();
+        ker->FillBuffer(1.0 / 25.0);
+      }
+      using Cast = itk::CastImageFilter<FImg, DImg>;
+      using F = itk::ConvolutionImageFilter<DImg, DImg, DImg>;
+      auto c = Cast::New();
+      c->SetInput(input);
+      c->Update();
+      auto f = F::New();
+      f->SetInput(c->GetOutput());
+      f->SetKernelImage(ker);
+      f->NormalizeOn();
+      f->Update();
+      return Hold(f->GetOutput());
+    },
+    runs);
+
   Run1<itk::PermuteAxesImageFilter<FImg>, itk::PermuteAxesImageFilter<DImg>>(
     "ImageGrid", "PermuteAxesImageFilter", input, runs,
     [&](auto * f) {

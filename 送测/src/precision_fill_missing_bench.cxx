@@ -88,6 +88,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include "precision_mode.h"
 
 using Clock = std::chrono::steady_clock;
 constexpr unsigned int Dim = 2;
@@ -198,10 +199,14 @@ Bench(const std::string & module, const std::string & op, FnF runF, FnD runD, in
   std::cerr << ">> " << module << '/' << op << std::endl;
   try
   {
-    runF();
-    const double     msF = TimeRuns(runF, runs);
-    const double     msD = TimeRuns(runD, runs);
-    const DiffResult d = DiffFD(runD().GetPointer(), runF().GetPointer());
+    double msF = 0.0;
+    double msD = 0.0;
+    TimePrec(runF, runD, runs, [](auto fn, int n) { return TimeRuns(fn, n); }, msF, msD);
+    DiffResult d{};
+    if (WantFloat() && WantDouble())
+    {
+      d = DiffFD(runD().GetPointer(), runF().GetPointer());
+    }
     Emit(module, op, msF, msD, d);
   }
   catch (const itk::ExceptionObject & e)
@@ -229,9 +234,9 @@ BenchTime(const std::string & module, const std::string & op, FnF runF, FnD runD
   std::cerr << ">> " << module << '/' << op << std::endl;
   try
   {
-    runF();
-    const double msF = TimeRuns(runF, runs);
-    const double msD = TimeRuns(runD, runs);
+    double msF = 0.0;
+    double msD = 0.0;
+    TimePrec(runF, runD, runs, [](auto fn, int n) { return TimeRuns(fn, n); }, msF, msD);
     Emit(module, op, msF, msD, DiffResult{});
   }
   catch (const itk::ExceptionObject & e)

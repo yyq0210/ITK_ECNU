@@ -17,6 +17,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include "precision_mode.h"
 
 using Clock = std::chrono::steady_clock;
 
@@ -190,23 +191,29 @@ main(int argc, char ** argv)
   std::cout << "模式 A — Metricsv4 推荐: Image<float> + TranslationTransform<double> + "
                "Metric/Optimizer<double>\n";
   double msFloat = 0.0;
-  RegResult<float> lastF;
-  for (int i = 0; i < runs; ++i)
+  RegResult<float> lastF{};
+  if (WantFloat())
   {
-    lastF = RunRegistration<float>(fixedPath, movingPath, maxIter);
-    msFloat += lastF.ms;
+    for (int i = 0; i < runs; ++i)
+    {
+      lastF = RunRegistration<float>(fixedPath, movingPath, maxIter);
+      msFloat += lastF.ms;
+    }
+    msFloat /= runs;
   }
-  msFloat /= runs;
 
   std::cout << "模式 B — 对照: Cast→Image<double> 存储 + 同样 double 度量/变换\n";
   double msDouble = 0.0;
-  RegResult<double> lastD;
-  for (int i = 0; i < runs; ++i)
+  RegResult<double> lastD{};
+  if (WantDouble())
   {
-    lastD = RunDoubleViaCast(fixedPath, movingPath, maxIter);
-    msDouble += lastD.ms;
+    for (int i = 0; i < runs; ++i)
+    {
+      lastD = RunDoubleViaCast(fixedPath, movingPath, maxIter);
+      msDouble += lastD.ms;
+    }
+    msDouble /= runs;
   }
-  msDouble /= runs;
 
   const double dTx = std::fabs(static_cast<double>(lastF.params[0]) - lastD.params[0]);
   const double dTy = std::fabs(static_cast<double>(lastF.params[1]) - lastD.params[1]);
@@ -216,7 +223,14 @@ main(int argc, char ** argv)
   std::cout << "\n--- 墙钟 ms (avg of " << runs << ") ---\n";
   std::cout << "float_storage:  " << msFloat << " ms\n";
   std::cout << "double_storage: " << msDouble << " ms  (含 cast 读入)\n";
-  std::cout << "speedup (double/float): " << (msDouble / msFloat) << "x\n";
+  if (msFloat > 0.0)
+  {
+    std::cout << "speedup (double/float): " << (msDouble / msFloat) << "x\n";
+  }
+  else
+  {
+    std::cout << "speedup (double/float): n/a\n";
+  }
   std::cout << "\n--- 收敛结果 (最后一次) ---\n";
   std::cout << "float  final_metric=" << lastF.finalMetric << " tx=" << lastF.params[0]
             << " ty=" << lastF.params[1] << '\n';

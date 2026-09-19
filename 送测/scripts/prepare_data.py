@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # 若缺少 1024 图，从官方切片拉成 1024×1024。
-from __future__ import annotations
-
 import sys
 from pathlib import Path
 

@@ -87,6 +87,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include "precision_mode.h"
 
 using Clock = std::chrono::steady_clock;
 constexpr unsigned int Dim = 2;
@@ -186,9 +187,9 @@ BenchTime(const std::string & module, const std::string & op, FnF runF, FnD runD
   std::cerr << ">> " << module << '/' << op << std::endl;
   try
   {
-    runF();
-    const double msF = TimeRuns(runF, runs);
-    const double msD = TimeRuns(runD, runs);
+    double msF = 0.0;
+    double msD = 0.0;
+    TimePrec(runF, runD, runs, [](auto fn, int n) { return TimeRuns(fn, n); }, msF, msD);
     Emit(module, op, msF, msD);
   }
   catch (const itk::ExceptionObject & e)
@@ -899,9 +900,18 @@ main(int argc, char ** argv)
         f->SetNumberOfIterations(1);
         f->Update();
       };
-      run(smallF.GetPointer(), smallF.GetPointer());
-      const double msF = TimeRuns([&]() { run(smallF.GetPointer(), smallF.GetPointer()); }, runs);
-      const double msD = TimeRuns([&]() { run(smallD.GetPointer(), smallD.GetPointer()); }, runs);
+      double msF = 0.0;
+      double msD = 0.0;
+      if (WantFloat())
+      {
+        run(smallF.GetPointer(), smallF.GetPointer());
+        msF = TimeRuns([&]() { run(smallF.GetPointer(), smallF.GetPointer()); }, runs);
+      }
+      if (WantDouble())
+      {
+        run(smallD.GetPointer(), smallD.GetPointer());
+        msD = TimeRuns([&]() { run(smallD.GetPointer(), smallD.GetPointer()); }, runs);
+      }
       Emit("PDEDeformable", "CurvatureRegistrationFilter", msF, msD);
     }
     catch (const itk::ExceptionObject & e)

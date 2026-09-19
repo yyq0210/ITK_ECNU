@@ -1,4 +1,5 @@
 # 送测包公共环境。用法：source "$(dirname "$0")/env.sh"
+# 官方流程：bash scripts/run_test.sh
 _THIS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$_THIS/.." && pwd)"
 

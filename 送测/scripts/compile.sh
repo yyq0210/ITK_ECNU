@@ -1,5 +1,6 @@
 #!/bin/bash
 # 编译全部送测 bench。鲲鹏上必须 env -i，避免 kunpeng-simd.sh 注入 -march=native。
+# 官方全流程：bash scripts/run_test.sh（会先调本脚本）
 set -euo pipefail
 source "$(cd "$(dirname "$0")" && pwd)/env.sh"
 

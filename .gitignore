@@ -1,5 +1,7 @@
 build/
 **/build/
+送测/results/*
+!送测/results/.gitkeep
 *.o
 *.obj
 __pycache__/

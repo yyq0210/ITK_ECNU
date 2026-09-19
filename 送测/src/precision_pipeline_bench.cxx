@@ -31,6 +31,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include "precision_mode.h"
 
 using Clock = std::chrono::steady_clock;
 
@@ -134,9 +135,26 @@ ReportCase(const std::string & name,
            const DiffResult &  diff)
 {
   std::cout << std::fixed << std::setprecision(4);
-  std::cout << name << " | ms_float=" << msF << " ms_double=" << msD << " speedup=" << (msD / msF)
+  const double sp = (msF > 0.0) ? (msD / msF) : 0.0;
+  std::cout << name << " | ms_float=" << msF << " ms_double=" << msD << " speedup=" << sp
             << "x | max_abs=" << diff.maxAbs << " mean_abs=" << diff.meanAbs << " rmse=" << diff.rmse
             << " max_rel=" << diff.maxRel << '\n';
+}
+
+
+template <unsigned int Dim, typename FnF, typename FnD>
+static void
+TimeAndReport(const std::string & name, FnF runF, FnD runD, int runs)
+{
+  double msF = 0.0;
+  double msD = 0.0;
+  DiffResult diff{};
+  TimePrec(runF, runD, runs, [](auto fn, int n) { return TimeRuns<Dim>(fn, n); }, msF, msD);
+  if (WantFloat() && WantDouble())
+  {
+    diff = DiffFD<Dim>(runD().GetPointer(), runF().GetPointer());
+  }
+  ReportCase<Dim>(name, msF, msD, diff);
 }
 
 template <unsigned int Dim>
@@ -181,10 +199,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       s->Update();
       return s->GetOutput();
     };
-    runF();
-    const double msF = TimeRuns<Dim>(runF, runs);
-    const double msD = TimeRuns<Dim>(runD, runs);
-    ReportCase<Dim>("RecursiveGaussian", msF, msD, DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("RecursiveGaussian", runF, runD, runs);
   }
 
   // 2) Median + RecursiveGaussian
@@ -216,10 +231,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       s->Update();
       return s->GetOutput();
     };
-    runF();
-    const double msF = TimeRuns<Dim>(runF, runs);
-    const double msD = TimeRuns<Dim>(runD, runs);
-    ReportCase<Dim>("Median+RecursiveGaussian", msF, msD, DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("Median+RecursiveGaussian", runF, runD, runs);
   }
 
   // 3) DiscreteGaussian
@@ -245,10 +257,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       g->Update();
       return g->GetOutput();
     };
-    runF();
-    const double msF = TimeRuns<Dim>(runF, runs);
-    const double msD = TimeRuns<Dim>(runD, runs);
-    ReportCase<Dim>("DiscreteGaussian", msF, msD, DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("DiscreteGaussian", runF, runD, runs);
   }
 
   // 4) Otsu 分割
@@ -274,10 +283,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       o->Update();
       return o->GetOutput();
     };
-    runF();
-    const double msF = TimeRuns<Dim>(runF, runs);
-    const double msD = TimeRuns<Dim>(runD, runs);
-    ReportCase<Dim>("OtsuThreshold", msF, msD, DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("OtsuThreshold", runF, runD, runs);
   }
 
   // 5) ImageGradient
@@ -299,9 +305,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       g->Update();
       return g->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("GradientMagnitude", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("GradientMagnitude", runF, runD, runs);
   }
 
   // 6) ImageIntensity
@@ -323,9 +327,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       n->Update();
       return n->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("Normalize", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("Normalize", runF, runD, runs);
   }
 
   // 7) ImageGrid
@@ -363,9 +365,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       r->Update();
       return r->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("ResampleIdentity", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("ResampleIdentity", runF, runD, runs);
   }
 
   // 8) ImageFeature
@@ -387,9 +387,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       s->Update();
       return s->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("SobelEdge", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("SobelEdge", runF, runD, runs);
   }
 
   // 9) MathematicalMorphology
@@ -421,9 +419,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       d->Update();
       return d->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("GrayscaleDilate", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("GrayscaleDilate", runF, runD, runs);
   }
 
   // 10) BinaryThreshold + DistanceMap
@@ -453,9 +449,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       t->Update();
       return t->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("BinaryThreshold", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("BinaryThreshold", runF, runD, runs);
   }
 
   {
@@ -488,9 +482,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       d->Update();
       return d->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("SignedMaurerDistance", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("SignedMaurerDistance", runF, runD, runs);
   }
 
   // 11) CurvatureFlow
@@ -516,9 +508,7 @@ RunAll(typename FImg<Dim>::Pointer input, int runs)
       f->Update();
       return f->GetOutput();
     };
-    runF();
-    ReportCase<Dim>("CurvatureFlow", TimeRuns<Dim>(runF, runs), TimeRuns<Dim>(runD, runs),
-                    DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+    TimeAndReport<Dim>("CurvatureFlow", runF, runD, runs);
   }
 }
 

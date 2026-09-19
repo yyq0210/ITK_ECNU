@@ -1,8 +1,10 @@
 #!/bin/bash
-# 统一送测：每个函数 未绑核 + 绑核，各 3 次平均。
-# 结果写到 ../results/
+# 可选：先绑核再未绑核，用来填表的 H 列（未绑核双精度）。
+# 官方送测请用 run_test.sh（移植双精度 + 混合精度 + 汇总），不要用本脚本代替。
+# 默认 mixed：每个函数内部 float+double。结果写到 ../results/
 set -u
 source "$(cd "$(dirname "$0")" && pwd)/env.sh"
+export ITK_BENCH_PRECISION="${ITK_BENCH_PRECISION:-both}"
 
 python3 "$ROOT/scripts/prepare_data.py" || true
 

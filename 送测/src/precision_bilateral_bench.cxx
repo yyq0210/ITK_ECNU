@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include "precision_mode.h"
 
 using Clock = std::chrono::steady_clock;
 
@@ -102,17 +103,33 @@ RunBench(typename FImg<Dim>::Pointer input, double domainSigma, double rangeSigm
     return t / runs;
   };
 
-  runFloat();
-  const double msF = timeRuns(runFloat);
-  const double msD = timeRuns(runDouble);
-
-  typename FImg<Dim>::Pointer oF = runFloat();
-  typename DImg<Dim>::Pointer oD = runDouble();
+  double msF = 0.0;
+  double msD = 0.0;
+  if (WantFloat())
+  {
+    runFloat();
+    msF = timeRuns(runFloat);
+  }
+  if (WantDouble())
+  {
+    runDouble();
+    msD = timeRuns(runDouble);
+  }
   double maxAbs = 0, rmse = 0, maxRel = 0;
-  DiffStats<Dim>(oD.GetPointer(), oF.GetPointer(), maxAbs, rmse, maxRel);
+  if (WantFloat() && WantDouble())
+  {
+    typename FImg<Dim>::Pointer oF = runFloat();
+    typename DImg<Dim>::Pointer oD = runDouble();
+    DiffStats<Dim>(oD.GetPointer(), oF.GetPointer(), maxAbs, rmse, maxRel);
+  }
 
   std::cout << std::setprecision(6);
-  std::cout << "wall_ms: float=" << msF << " double=" << msD << " speedup=" << (msD / msF) << "x\n";
+  std::cout << "wall_ms: float=" << msF << " double=" << msD;
+  if (WantFloat() && WantDouble() && msF > 0.0)
+  {
+    std::cout << " speedup=" << (msD / msF) << "x";
+  }
+  std::cout << "\n";
   std::cout << "vs_double: max_abs=" << maxAbs << " rmse=" << rmse << " max_rel=" << maxRel << '\n';
 }
 

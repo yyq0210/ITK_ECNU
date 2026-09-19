@@ -17,6 +17,7 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include "precision_mode.h"
 
 using Clock = std::chrono::steady_clock;
 
@@ -81,7 +82,8 @@ static void
 Report(const std::string & name, double msF, double msD, const DiffResult & diff)
 {
   std::cout << std::fixed << std::setprecision(4);
-  std::cout << name << " | ms_float=" << msF << " ms_double=" << msD << " speedup=" << (msD / msF)
+  const double sp = (msF > 0.0) ? (msD / msF) : 0.0;
+  std::cout << name << " | ms_float=" << msF << " ms_double=" << msD << " speedup=" << sp
             << "x | max_abs=" << std::setprecision(6) << diff.maxAbs << " rmse=" << diff.rmse
             << " max_rel=" << diff.maxRel << '\n';
 }
@@ -93,11 +95,15 @@ BenchCase(const std::string &                         name,
           const std::function<typename DImg<Dim>::Pointer()> & runD,
           int                                         runs)
 {
-  runF();
-  runD();
-  const double msF = TimeRuns<Dim>(runF, runs);
-  const double msD = TimeRuns<Dim>(runD, runs);
-  Report<Dim>(name, msF, msD, DiffFD<Dim>(runD().GetPointer(), runF().GetPointer()));
+  double msF = 0.0;
+  double msD = 0.0;
+  TimePrec(runF, runD, runs, [](auto fn, int n) { return TimeRuns<Dim>(fn, n); }, msF, msD);
+  DiffResult d{};
+  if (WantFloat() && WantDouble())
+  {
+    d = DiffFD<Dim>(runD().GetPointer(), runF().GetPointer());
+  }
+  Report<Dim>(name, msF, msD, d);
 }
 
 template <unsigned int Dim>

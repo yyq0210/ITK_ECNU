@@ -83,6 +83,7 @@ set(BENCHES
 
 foreach(target IN LISTS BENCHES)
   add_executable(${target} ${target}.cxx)
+  target_include_directories(${target} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
   target_link_libraries(${target} PRIVATE ${ITK_LIBRARIES})
   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_link_options(${target} PRIVATE -static-libgcc -static-libstdc++)
@@ -91,6 +92,7 @@ endforeach()
 
 # 与 fill_missing 同一源，历史脚本名 precision_construct_bench
 add_executable(precision_construct_bench precision_fill_missing_bench.cxx)
+target_include_directories(precision_construct_bench PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(precision_construct_bench PRIVATE ${ITK_LIBRARIES})
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_link_options(precision_construct_bench PRIVATE -static-libgcc -static-libstdc++)
