@@ -353,15 +353,71 @@
     "DisplacementField",
     "InverseDisplacementFieldImageFilter",
     [&]() {
-      auto f = itk::InverseDisplacementFieldImageFilter<VFImg, VFImg>::New();
-      f->SetInput(dispF2);
-      f->SetSize(input->GetLargestPossibleRegion().GetSize());
+      using VF = itk::Image<itk::Vector<float, 2>, Dim>;
+      auto in = VF::New();
+      {
+        VF::IndexType idx;
+        idx.Fill(0);
+        VF::SizeType sz;
+        sz.Fill(24);
+        VF::RegionType rg;
+        rg.SetIndex(idx);
+        rg.SetSize(sz);
+        in->SetRegions(rg);
+        VF::SpacingType sp;
+        sp.Fill(1.0);
+        in->SetSpacing(sp);
+        in->Allocate();
+        itk::ImageRegionIterator<VF> it(in, rg);
+        for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+        {
+          const auto i = it.GetIndex();
+          VF::PixelType v;
+          v[0] = 0.02f * static_cast<float>(i[0]);
+          v[1] = 0.01f * static_cast<float>(i[1]);
+          it.Set(v);
+        }
+      }
+      auto f = itk::InverseDisplacementFieldImageFilter<VF, VF>::New();
+      f->SetInput(in);
+      f->SetSize(in->GetLargestPossibleRegion().GetSize());
+      f->SetOutputSpacing(in->GetSpacing());
+      f->SetOutputOrigin(in->GetOrigin());
+      f->SetSubsamplingFactor(8);
       f->Update();
     },
     [&]() {
-      auto f = itk::InverseDisplacementFieldImageFilter<VDImg, VDImg>::New();
-      f->SetInput(dispD2);
-      f->SetSize(input->GetLargestPossibleRegion().GetSize());
+      using VD = itk::Image<itk::Vector<double, 2>, Dim>;
+      auto in = VD::New();
+      {
+        VD::IndexType idx;
+        idx.Fill(0);
+        VD::SizeType sz;
+        sz.Fill(24);
+        VD::RegionType rg;
+        rg.SetIndex(idx);
+        rg.SetSize(sz);
+        in->SetRegions(rg);
+        VD::SpacingType sp;
+        sp.Fill(1.0);
+        in->SetSpacing(sp);
+        in->Allocate();
+        itk::ImageRegionIterator<VD> it(in, rg);
+        for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+        {
+          const auto i = it.GetIndex();
+          VD::PixelType v;
+          v[0] = 0.02 * static_cast<double>(i[0]);
+          v[1] = 0.01 * static_cast<double>(i[1]);
+          it.Set(v);
+        }
+      }
+      auto f = itk::InverseDisplacementFieldImageFilter<VD, VD>::New();
+      f->SetInput(in);
+      f->SetSize(in->GetLargestPossibleRegion().GetSize());
+      f->SetOutputSpacing(in->GetSpacing());
+      f->SetOutputOrigin(in->GetOrigin());
+      f->SetSubsamplingFactor(8);
       f->Update();
     },
     runs);

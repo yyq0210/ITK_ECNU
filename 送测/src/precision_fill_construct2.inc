@@ -87,8 +87,18 @@
     [&](auto * f) { f->SetLower(20.0); f->SetUpper(220.0); });
   Run2<itk::HistogramThresholdImageFilter<FImg, FImg>, itk::HistogramThresholdImageFilter<DImg, DImg>>(
     "Thresholding", "HistogramThresholdImageFilter", input, runs,
-    [&](auto * f) { f->SetInsideValue(1.0f); f->SetOutsideValue(0.0f); },
-    [&](auto * f) { f->SetInsideValue(1.0); f->SetOutsideValue(0.0); });
+    [&](auto * f) {
+      using Calc = itk::OtsuThresholdCalculator<itk::HistogramThresholdImageFilter<FImg, FImg>::HistogramType, float>;
+      f->SetCalculator(Calc::New());
+      f->SetInsideValue(1.0f);
+      f->SetOutsideValue(0.0f);
+    },
+    [&](auto * f) {
+      using Calc = itk::OtsuThresholdCalculator<itk::HistogramThresholdImageFilter<DImg, DImg>::HistogramType>;
+      f->SetCalculator(Calc::New());
+      f->SetInsideValue(1.0);
+      f->SetOutsideValue(0.0);
+    });
   Run2<itk::KappaSigmaThresholdImageFilter<FImg, FImg>, itk::KappaSigmaThresholdImageFilter<DImg, DImg>>(
     "Thresholding", "KappaSigmaThresholdImageFilter", input, runs,
     [&](auto * f) { f->SetInsideValue(1.0f); f->SetOutsideValue(0.0f); },
@@ -614,8 +624,9 @@
       using F = itk::N4BiasFieldCorrectionImageFilter<FImg, U8Img, FImg>;
       auto f = F::New();
       f->SetInput(input);
-      itk::Array<unsigned int> n4it(2);
-      n4it.Fill(2);
+      f->SetNumberOfFittingLevels(1);
+      itk::Array<unsigned int> n4it(1);
+      n4it[0] = 3;
       f->SetMaximumNumberOfIterations(n4it);
       f->Update();
       return Hold(f->GetOutput());
@@ -627,8 +638,9 @@
       c->SetInput(input);
       auto f = F::New();
       f->SetInput(c->GetOutput());
-      itk::Array<unsigned int> n4it(2);
-      n4it.Fill(2);
+      f->SetNumberOfFittingLevels(1);
+      itk::Array<unsigned int> n4it(1);
+      n4it[0] = 3;
       f->SetMaximumNumberOfIterations(n4it);
       f->Update();
       return Hold(f->GetOutput());

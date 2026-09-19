@@ -123,6 +123,41 @@ MakePolyline()
   return p;
 }
 
+template <typename TMesh>
+static typename TMesh::Pointer
+MakeDiskQE(unsigned n = 14)
+{
+  auto mesh = TMesh::New();
+  using PointType = typename TMesh::PointType;
+  using Id = typename TMesh::PointIdentifier;
+  using Coord = typename PointType::ValueType;
+  Id id = 0;
+  for (unsigned j = 0; j < n; ++j)
+  {
+    for (unsigned i = 0; i < n; ++i)
+    {
+      PointType p;
+      p[0] = static_cast<Coord>(i);
+      p[1] = static_cast<Coord>(j);
+      p[2] = static_cast<Coord>(0.15 * std::sin(0.4 * i) * std::cos(0.4 * j));
+      mesh->SetPoint(id++, p);
+    }
+  }
+  for (unsigned j = 0; j + 1 < n; ++j)
+  {
+    for (unsigned i = 0; i + 1 < n; ++i)
+    {
+      const Id a = static_cast<Id>(j * n + i);
+      const Id b = a + 1;
+      const Id c = a + n;
+      const Id d = c + 1;
+      mesh->AddFaceTriangle(a, b, d);
+      mesh->AddFaceTriangle(a, d, c);
+    }
+  }
+  return mesh;
+}
+
 int
 main(int argc, char ** argv)
 {
@@ -311,13 +346,19 @@ main(int argc, char ** argv)
     "QuadEdgeMeshFiltering",
     "BorderQuadEdgeMeshFilter",
     [&]() {
+      auto mesh = MakeDiskQE<MeshF>(14);
       auto f = itk::BorderQuadEdgeMeshFilter<MeshF, MeshF>::New();
-      f->SetInput(meshF);
+      f->SetInput(mesh);
+      f->SetTransformType(itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::SQUARE_BORDER_TRANSFORM);
+      f->SetBorderPick(itk::BorderQuadEdgeMeshFilterEnums::BorderPick::LONGEST);
       f->Update();
     },
     [&]() {
+      auto mesh = MakeDiskQE<MeshD>(14);
       auto f = itk::BorderQuadEdgeMeshFilter<MeshD, MeshD>::New();
-      f->SetInput(meshD);
+      f->SetInput(mesh);
+      f->SetTransformType(itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::SQUARE_BORDER_TRANSFORM);
+      f->SetBorderPick(itk::BorderQuadEdgeMeshFilterEnums::BorderPick::LONGEST);
       f->Update();
     },
     runs);

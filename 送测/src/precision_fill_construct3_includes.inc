@@ -22,6 +22,7 @@
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkHoughTransform2DLinesImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkInverseDeconvolutionImageFilter.h"
 #include "itkInverseDisplacementFieldImageFilter.h"
 #include "itkIsolatedWatershedImageFilter.h"

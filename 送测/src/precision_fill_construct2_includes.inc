@@ -18,6 +18,7 @@
 #include "itkHausdorffDistanceImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkHistogramThresholdImageFilter.h"
+#include "itkOtsuThresholdCalculator.h"
 #include "itkInvertDisplacementFieldImageFilter.h"
 #include "itkJoinImageFilter.h"
 #include "itkJoinSeriesImageFilter.h"
