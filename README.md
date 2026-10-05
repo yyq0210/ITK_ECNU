@@ -1,6 +1,6 @@
 # ITK_ECNU（灵昇分支）
 
-本分支 **`lingsheng-592-qualified`** 用于在 **灵昇 HPC** 上编译当前 ITK 5.4，并在计算节点 592 核上重测已合格的混合精度函数。
+本分支 **`lingsheng-592-qualified`** 用于在 **灵昇 HPC** 上编译当前 ITK 5.4，并在计算节点 592 核上重测已合格的混合精度函数。改过源码、592 核实测的 ITK 树在 [`lingsheng-itk-5.4-592`](https://github.com/yyq0210/ITK_ECNU/tree/lingsheng-itk-5.4-592)。
 
 最终测试入口：**[lingsheng592/README.md](lingsheng592/README.md)**
 

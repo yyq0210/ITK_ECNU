@@ -2,6 +2,8 @@
 
 本目录是 **灵昇 HPC 上的最终测试入口**。编译当前 ITK、只跑已合格函数，都必须在灵昇上完成。登录节点只用来提交作业、看队列；计时结果以计算节点 592 核作业为准。
 
+592 核实测用的改源码 ITK 5.4.0 在分支 [`lingsheng-itk-5.4-592`](https://github.com/yyq0210/ITK_ECNU/tree/lingsheng-itk-5.4-592)（`InsightToolkit-5.4.0/`，不是官方未改树）。
+
 不要用鲲鹏脚本当本分支的验收流程。不要在登录节点跑 `run_qualified.sh`。
 
 ## 合格标准
