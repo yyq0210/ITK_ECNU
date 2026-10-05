@@ -301,3 +301,5 @@ precision_remain_bench	list	VoronoiSegmentationImageFilter	3	2.517900	2.560500	1
 precision_fail_retry_bench	list	HoughTransform2DLinesImageFilter	1	2.880841	3.954186	1.372580	0	failretry-1803449
 precision_remainder_instantiable_bench	list	ImageRegistrationMethodv4	1	55.912045	61.305709	1.096467	0	remainder-1803421
 precision_remainder_instantiable_bench	list	MultiResolutionImageRegistrationMethod	1	222.312132	234.613308	1.055333	0	remainder-1803421
+precision_four_retry_bench	list	BSplineSyNImageRegistrationMethod	1	113.332898	116.999530	1.032353	6.69191785e-07	fourretry-1803853
+precision_four_retry_bench	list	TimeVaryingBSplineVelocityFieldImageRegistrationMethod	1	91.956002	196.033559	2.131819	6.69191785e-07	fourretry-1803853

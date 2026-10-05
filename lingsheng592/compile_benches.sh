@@ -26,7 +26,11 @@ p = Path(sys.argv[1])
 text = p.read_text(encoding="utf-8")
 if "ITKMarkovRandomFieldsClassifiers" not in text:
     text = text.replace("  ITKClassifiers\n", "  ITKClassifiers\n  ITKMarkovRandomFieldsClassifiers\n")
-for name in ("precision_remainder_instantiable_bench", "precision_fail_retry_bench"):
+for name in (
+    "precision_remainder_instantiable_bench",
+    "precision_fail_retry_bench",
+    "precision_four_retry_bench",
+):
     if name not in text:
         text = text.replace("  precision_cat3_bench\n", "  precision_cat3_bench\n  %s\n" % name)
 p.write_text(text, encoding="utf-8")

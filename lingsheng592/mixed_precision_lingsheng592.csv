@@ -466,6 +466,10 @@
 能做混合精度,465,583,Segmentation/Watersheds,MorphologicalWatershedImageFilter,并行,430.8874,437.8676,,,,,灵昇 592 核已做单精度对双精度对比。float 1144.9824 ms，double 1317.8210 ms，加速比 1.1510，max_abs 0.00000000。误差可判定：是；小于 1e-5：是；float 更快：是。算子 bench，作业 1799867，1024，592 核。,1144.9824,1317.8210,1.1510,0.00000000,是,是,是,已测
 能做混合精度,466,584,Segmentation/Watersheds,TobogganImageFilter,并行,118.1578,121.9029,,,,,灵昇 592 核已做单精度对双精度对比。float 234.2334 ms，double 265.1431 ms，加速比 1.1320，max_abs 0.00000000。误差可判定：是；小于 1e-5：是；float 更快：是。算子 bench，作业 1799867，1024，592 核。,234.2334,265.1431,1.1320,0.00000000,是,是,是,已测
 能做混合精度,467,585,Segmentation/Watersheds,WatershedImageFilter,并行,344.9216,335.7351,,,,,灵昇 592 核已做单精度对双精度对比。float 927.1819 ms，double 943.2518 ms，加速比 1.0173，max_abs 0.00000000。误差可判定：是；小于 1e-5：是；float 更快：是。算子 bench，作业 1799867，1024，592 核。,927.1819,943.2518,1.0173,0.00000000,是,是,是,已测
+能做混合精度,468,151,Filtering/ImageFilterBase,VectorNeighborhoodOperatorImageFilter,并行,,,,,,,每个像素不是一个亮度，而是彩色、箭头（位移）或多个数。混合精度对比需要一张灰度亮度图，套不上。 灵昇 592 核补测（作业 1803853，cn23174）。向量图+DerivativeOperator，分量 max_abs。float 10.2125 ms，double 10.1658 ms，加速比 0.9954，max_abs 0。误差可判定：是；小于 1e-5：是；float 更快：否。,10.2125,10.1658,0.9954,0.00000000e+00,是,是,否,已测
+能做混合精度,469,153,Filtering/ImageFrequency,UnaryFrequencyDomainFilter,并行,,,,,,,输出是频谱（每个点两个数：实部+虚部），不是灰度亮度图。不能按「一张单精度灰图 vs 一张双精度灰图」去填混合精度。 灵昇 592 核补测（作业 1803853，cn23174）。Vnl FFT 频谱后恒等 functor，复数实部/虚部 max_abs。float 0.8562 ms，double 1.0327 ms，加速比 1.2062，max_abs 7.694e-03。误差可判定：是；小于 1e-5：否；float 更快：是。,0.8562,1.0327,1.2062,7.69442780e-03,是,否,是,已测
+能做混合精度,470,518,Registration/RegistrationMethodsv4,BSplineSyNImageRegistrationMethod,并行,,,,,,,需要固定图+移动图+变换，不是单张灰度滤波。未单独测混合精度。 灵昇 592 核补测（作业 1803853，cn23174）。官方 adaptor+逆位移场。float 113.3329 ms，double 116.9995 ms，加速比 1.0324，max_abs 6.692e-07。误差可判定：是；小于 1e-5：是；float 更快：是。,113.3329,116.9995,1.0324,6.69191785e-07,是,是,是,已测
+能做混合精度,471,521,Registration/RegistrationMethodsv4,TimeVaryingBSplineVelocityFieldImageRegistrationMethod,并行,,,,,,,每个像素不是一个亮度，而是彩色、箭头（位移）或多个数。混合精度对比需要一张灰度亮度图，套不上。 灵昇 592 核补测（作业 1803853，cn23174）。控制点格子+adaptor。float 91.9560 ms，double 196.0336 ms，加速比 2.1318，max_abs 6.692e-07。误差可判定：是；小于 1e-5：是；float 更快：是。,91.9560,196.0336,2.1318,6.69191785e-07,是,是,是,已测
 不能做混合精度,1,2,Filtering/AnisotropicSmoothing,AnisotropicDiffusionImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
 不能做混合精度,2,15,Filtering/BinaryMathematicalMorphology,BinaryMorphologyImageFilter,并行,,,,,,,主要输出 0 和 1（物体/背景），不是连续灰度。表上的混合精度专指灰度图单精度 vs 双精度，故不填。,,,,,,,,未测
 不能做混合精度,3,22,Filtering/BinaryMathematicalMorphology,ObjectMorphologyImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
@@ -512,74 +516,70 @@
 不能做混合精度,44,148,Filtering/ImageFilterBase,TernaryFunctorImageFilter,并行,,,,,,,这是框架/基类，要再挂具体规则才能跑。不能单独做混合精度对比。,,,,,,,,未测
 不能做混合精度,45,149,Filtering/ImageFilterBase,TernaryGeneratorImageFilter,并行,,,,,,,这是框架/基类，要再挂具体规则才能跑。不能单独做混合精度对比。,,,,,,,,未测
 不能做混合精度,46,150,Filtering/ImageFilterBase,UnaryGeneratorImageFilter,并行,,,,,,,这是框架/基类，要再挂具体规则才能跑。不能单独做混合精度对比。,,,,,,,,未测
-不能做混合精度,47,151,Filtering/ImageFilterBase,VectorNeighborhoodOperatorImageFilter,并行,,,,,,,每个像素不是一个亮度，而是彩色、箭头（位移）或多个数。混合精度对比需要一张灰度亮度图，套不上。,,,,,,,,未测
-不能做混合精度,48,153,Filtering/ImageFrequency,UnaryFrequencyDomainFilter,并行,,,,,,,输出是频谱（每个点两个数：实部+虚部），不是灰度亮度图。不能按「一张单精度灰图 vs 一张双精度灰图」去填混合精度。,,,,,,,,未测
-不能做混合精度,49,165,Filtering/ImageGrid,BSplineCenteredL2ResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,50,166,Filtering/ImageGrid,BSplineCenteredResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,51,169,Filtering/ImageGrid,BSplineL2ResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,52,170,Filtering/ImageGrid,BSplineResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,53,185,Filtering/ImageGrid,PadImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,54,200,Filtering/ImageIntensity,AdaptImageFilter,并行,,,,,,,需要掩膜或第二张图，单张切片不够。未测混合精度。,,,,,,,,未测
-不能做混合精度,55,235,Filtering/ImageIntensity,NaryFunctorImageFilter,并行,,,,,,,需要掩膜或第二张图，单张切片不够。未测混合精度。,,,,,,,,未测
-不能做混合精度,56,258,Filtering/ImageIntensity,TernaryOperatorImageFilter,并行,,,,,,,需要掩膜或第二张图，单张切片不够。未测混合精度。,,,,,,,,未测
-不能做混合精度,57,269,Filtering/ImageNoise,NoiseBaseImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,58,275,Filtering/ImageSources,GenerateImageSource,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,59,277,Filtering/ImageSources,ParametricImageSource,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,60,290,Filtering/ImageStatistics,ProjectionImageFilter,并行,,,,,,,结果往往是一个统计量，或把整张图压成一条/一列，不是整张逐像素灰度图。混合精度要比两张同尺寸亮度图的差，这里对不上。,,,,,,,,未测
-不能做混合精度,61,295,Filtering/LabelMap,AttributeKeepNObjectsLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,62,296,Filtering/LabelMap,AttributeOpeningLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,63,297,Filtering/LabelMap,AttributePositionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,64,298,Filtering/LabelMap,AttributeRelabelLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,65,299,Filtering/LabelMap,AttributeSelectionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,66,300,Filtering/LabelMap,AttributeUniqueLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,67,310,Filtering/LabelMap,BinaryReconstructionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,68,319,Filtering/LabelMap,InPlaceLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,69,323,Filtering/LabelMap,LabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,70,333,Filtering/LabelMap,LabelUniqueLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,71,335,Filtering/LabelMap,ObjectByObjectLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,72,337,Filtering/LabelMap,RegionFromReferenceLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,73,342,Filtering/LabelMap,ShapePositionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,74,350,Filtering/LabelMap,StatisticsPositionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,75,353,Filtering/LabelMap,StatisticsUniqueLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
-不能做混合精度,76,356,Filtering/MathematicalMorphology,AnchorErodeDilateImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
-不能做混合精度,77,358,Filtering/MathematicalMorphology,AnchorOpenCloseImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
-不能做混合精度,78,384,Filtering/MathematicalMorphology,MorphologyImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,79,388,Filtering/MathematicalMorphology,MovingHistogramMorphologyImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
-不能做混合精度,80,393,Filtering/MathematicalMorphology,ReconstructionImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
-不能做混合精度,81,396,Filtering/MathematicalMorphology,ValuedRegionalExtremaImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
-不能做混合精度,82,400,Filtering/MathematicalMorphology,VanHerkGilWermanErodeDilateImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
-不能做混合精度,83,406,Filtering/Path,ImageAndPathToImageFilter,并行,,,,,,,处理的是曲线/折线，不是一张图片。没有逐像素亮度可对比，故不能做混合精度。,,,,,,,,未测
-不能做混合精度,84,407,Filtering/Path,ImageToPathFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,85,409,Filtering/Path,PathAndImageToPathFilter,并行,,,,,,,处理的是曲线/折线，不是一张图片。没有逐像素亮度可对比，故不能做混合精度。,,,,,,,,未测
-不能做混合精度,86,412,Filtering/Path,PathToPathFilter,并行,,,,,,,处理的是曲线/折线，不是一张图片。没有逐像素亮度可对比，故不能做混合精度。,,,,,,,,未测
-不能做混合精度,87,415,Filtering/QuadEdgeMeshFiltering,DecimationQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,88,417,Filtering/QuadEdgeMeshFiltering,DiscreteCurvatureQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,89,423,Filtering/QuadEdgeMeshFiltering,DiscretePrincipalCurvaturesQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,90,424,Filtering/QuadEdgeMeshFiltering,EdgeDecimationQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,91,425,Filtering/QuadEdgeMeshFiltering,LaplacianDeformationQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,92,463,Registration/Common,CompareHistogramImageToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,93,467,Registration/Common,HistogramImageToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,94,469,Registration/Common,ImageToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,95,470,Registration/Common,ImageToSpatialObjectMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,96,488,Registration/Common,PointSetToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,97,490,Registration/Common,PointSetToPointSetMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,98,493,Registration/FEM,FEMRegistrationFilter,并行,,,,,,,需要力学网格和材料参数，不是对一张亮度图滤波。不能做混合精度。,,,,,,,,未测
-不能做混合精度,99,494,Registration/FEM,PhysicsBasedNonRigidRegistrationMethod,并行,,,,,,,需要力学网格和材料参数，不是对一张亮度图滤波。不能做混合精度。,,,,,,,,未测
-不能做混合精度,100,495,Registration/GPUPDEDeformable,GPUDemonsRegistrationFilter,并行,,,,,,,这是给显卡用的函数。鲲鹏这次没开显卡，跑不了，所以没有混合精度时间。,,,,,,,,未测
-不能做混合精度,101,496,Registration/GPUPDEDeformable,GPUPDEDeformableRegistrationFilter,并行,,,,,,,这是给显卡用的函数。鲲鹏这次没开显卡，跑不了，所以没有混合精度时间。,,,,,,,,未测
-不能做混合精度,102,502,Registration/Metricsv4,ImageToImageMetricv4,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,103,509,Registration/Metricsv4,PointSetToPointSetMetricWithIndexv4,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,104,510,Registration/Metricsv4,PointSetToPointSetMetricv4,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,105,511,Registration/PDEDeformable,CurvatureRegistrationFilter,并行,,,,,,,需要两张图反复对齐，不是单张图滤波。本次未按这套输入测混合精度。 灵昇 592 核复测没有有效对比：needs_FFTW。 灵昇 592 核补测没有有效对比：needs_FFTW。当前 ITK 编译 ITK_USE_FFTWD/F 均为 OFF，机器上也没有 libfftw。,,,,,,,,失败
-不能做混合精度,106,516,Registration/PDEDeformable,PDEDeformableRegistrationFilter,并行,,,,,,,需要两张图反复对齐，不是单张图滤波。本次未按这套输入测混合精度。,,,,,,,,未测
-不能做混合精度,107,518,Registration/RegistrationMethodsv4,BSplineSyNImageRegistrationMethod,并行,,,,,,,需要固定图+移动图+变换，不是单张灰度滤波。未单独测混合精度。 灵昇 592 核补测没有有效对比：段错误 rc=139。 灵昇 592 核补测没有有效对比：段错误 rc=139。已设控制点网格和位移场仍崩溃。,,,,,,,,失败
-不能做混合精度,108,521,Registration/RegistrationMethodsv4,TimeVaryingBSplineVelocityFieldImageRegistrationMethod,并行,,,,,,,每个像素不是一个亮度，而是彩色、箭头（位移）或多个数。混合精度对比需要一张灰度亮度图，套不上。 灵昇 592 核补测没有有效对比：段错误 rc=139。 灵昇 592 核补测没有有效对比：段错误 rc=139。B 样条速度场网格未在 ITK 里走通。,,,,,,,,失败
-不能做混合精度,109,526,Segmentation/ConnectedComponents,ConnectedComponentFunctorImageFilter,并行,,,,,,,输出是整数标签或分区编号，不是连续亮度。换成单精度/双精度没有「更亮一点」可对比，故不填混合精度。,,,,,,,,未测
-不能做混合精度,110,537,Segmentation/KLMRegionGrowing,RegionGrowImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,111,556,Segmentation/LevelSets,NarrowBandLevelSetImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,112,558,Segmentation/LevelSets,ParallelSparseFieldLevelSetImageFilter,并行,,,,,,,缺完整输入（速度场、形状模型或差分函数），不能单独当一张灰度滤波来比混合精度。,,,,,,,,未测
-不能做混合精度,113,560,Segmentation/LevelSets,SegmentationLevelSetImageFilter,并行,,,,,,,缺完整输入（速度场、形状模型或差分函数），不能单独当一张灰度滤波来比混合精度。,,,,,,,,未测
-不能做混合精度,114,562,Segmentation/LevelSets,ShapePriorSegmentationLevelSetImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,115,563,Segmentation/LevelSets,SparseFieldFourthOrderLevelSetImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
-不能做混合精度,116,564,Segmentation/LevelSets,SparseFieldLevelSetImageFilter,并行,,,,,,,缺完整输入（速度场、形状模型或差分函数），不能单独当一张灰度滤波来比混合精度。,,,,,,,,未测
-不能做混合精度,117,579,Segmentation/Voronoi,VoronoiSegmentationImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,47,165,Filtering/ImageGrid,BSplineCenteredL2ResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,48,166,Filtering/ImageGrid,BSplineCenteredResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,49,169,Filtering/ImageGrid,BSplineL2ResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,50,170,Filtering/ImageGrid,BSplineResampleImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,51,185,Filtering/ImageGrid,PadImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,52,200,Filtering/ImageIntensity,AdaptImageFilter,并行,,,,,,,需要掩膜或第二张图，单张切片不够。未测混合精度。,,,,,,,,未测
+不能做混合精度,53,235,Filtering/ImageIntensity,NaryFunctorImageFilter,并行,,,,,,,需要掩膜或第二张图，单张切片不够。未测混合精度。,,,,,,,,未测
+不能做混合精度,54,258,Filtering/ImageIntensity,TernaryOperatorImageFilter,并行,,,,,,,需要掩膜或第二张图，单张切片不够。未测混合精度。,,,,,,,,未测
+不能做混合精度,55,269,Filtering/ImageNoise,NoiseBaseImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,56,275,Filtering/ImageSources,GenerateImageSource,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,57,277,Filtering/ImageSources,ParametricImageSource,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,58,290,Filtering/ImageStatistics,ProjectionImageFilter,并行,,,,,,,结果往往是一个统计量，或把整张图压成一条/一列，不是整张逐像素灰度图。混合精度要比两张同尺寸亮度图的差，这里对不上。,,,,,,,,未测
+不能做混合精度,59,295,Filtering/LabelMap,AttributeKeepNObjectsLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,60,296,Filtering/LabelMap,AttributeOpeningLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,61,297,Filtering/LabelMap,AttributePositionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,62,298,Filtering/LabelMap,AttributeRelabelLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,63,299,Filtering/LabelMap,AttributeSelectionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,64,300,Filtering/LabelMap,AttributeUniqueLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,65,310,Filtering/LabelMap,BinaryReconstructionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,66,319,Filtering/LabelMap,InPlaceLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,67,323,Filtering/LabelMap,LabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,68,333,Filtering/LabelMap,LabelUniqueLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,69,335,Filtering/LabelMap,ObjectByObjectLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,70,337,Filtering/LabelMap,RegionFromReferenceLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,71,342,Filtering/LabelMap,ShapePositionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,72,350,Filtering/LabelMap,StatisticsPositionLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,73,353,Filtering/LabelMap,StatisticsUniqueLabelMapFilter,并行,,,,,,,输出是编号表（这块是 1、那块是 2），不是亮度图。混合精度要比的是同一套亮度用单精度和双精度各算一遍；门牌号不必算到小数，所以不填。,,,,,,,,未测
+不能做混合精度,74,356,Filtering/MathematicalMorphology,AnchorErodeDilateImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
+不能做混合精度,75,358,Filtering/MathematicalMorphology,AnchorOpenCloseImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
+不能做混合精度,76,384,Filtering/MathematicalMorphology,MorphologyImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,77,388,Filtering/MathematicalMorphology,MovingHistogramMorphologyImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
+不能做混合精度,78,393,Filtering/MathematicalMorphology,ReconstructionImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
+不能做混合精度,79,396,Filtering/MathematicalMorphology,ValuedRegionalExtremaImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
+不能做混合精度,80,400,Filtering/MathematicalMorphology,VanHerkGilWermanErodeDilateImageFilter,并行,,,,,,,需要特定形状的结构元素；同类灰度形态学已测一批，本函数未纳入同一套混合精度对比。,,,,,,,,未测
+不能做混合精度,81,406,Filtering/Path,ImageAndPathToImageFilter,并行,,,,,,,处理的是曲线/折线，不是一张图片。没有逐像素亮度可对比，故不能做混合精度。,,,,,,,,未测
+不能做混合精度,82,407,Filtering/Path,ImageToPathFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,83,409,Filtering/Path,PathAndImageToPathFilter,并行,,,,,,,处理的是曲线/折线，不是一张图片。没有逐像素亮度可对比，故不能做混合精度。,,,,,,,,未测
+不能做混合精度,84,412,Filtering/Path,PathToPathFilter,并行,,,,,,,处理的是曲线/折线，不是一张图片。没有逐像素亮度可对比，故不能做混合精度。,,,,,,,,未测
+不能做混合精度,85,415,Filtering/QuadEdgeMeshFiltering,DecimationQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,86,417,Filtering/QuadEdgeMeshFiltering,DiscreteCurvatureQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,87,423,Filtering/QuadEdgeMeshFiltering,DiscretePrincipalCurvaturesQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,88,424,Filtering/QuadEdgeMeshFiltering,EdgeDecimationQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,89,425,Filtering/QuadEdgeMeshFiltering,LaplacianDeformationQuadEdgeMeshFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,90,463,Registration/Common,CompareHistogramImageToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,91,467,Registration/Common,HistogramImageToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,92,469,Registration/Common,ImageToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,93,470,Registration/Common,ImageToSpatialObjectMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,94,488,Registration/Common,PointSetToImageMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,95,490,Registration/Common,PointSetToPointSetMetric,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,96,493,Registration/FEM,FEMRegistrationFilter,并行,,,,,,,需要力学网格和材料参数，不是对一张亮度图滤波。不能做混合精度。,,,,,,,,未测
+不能做混合精度,97,494,Registration/FEM,PhysicsBasedNonRigidRegistrationMethod,并行,,,,,,,需要力学网格和材料参数，不是对一张亮度图滤波。不能做混合精度。,,,,,,,,未测
+不能做混合精度,98,495,Registration/GPUPDEDeformable,GPUDemonsRegistrationFilter,并行,,,,,,,这是给显卡用的函数。鲲鹏这次没开显卡，跑不了，所以没有混合精度时间。,,,,,,,,未测
+不能做混合精度,99,496,Registration/GPUPDEDeformable,GPUPDEDeformableRegistrationFilter,并行,,,,,,,这是给显卡用的函数。鲲鹏这次没开显卡，跑不了，所以没有混合精度时间。,,,,,,,,未测
+不能做混合精度,100,502,Registration/Metricsv4,ImageToImageMetricv4,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,101,509,Registration/Metricsv4,PointSetToPointSetMetricWithIndexv4,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,102,510,Registration/Metricsv4,PointSetToPointSetMetricv4,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,103,511,Registration/PDEDeformable,CurvatureRegistrationFilter,并行,,,,,,,需要两张图反复对齐，不是单张图滤波。本次未按这套输入测混合精度。 灵昇 592 核复测没有有效对比：needs_FFTW。 灵昇 592 核补测没有有效对比：needs_FFTW。当前 ITK 编译 ITK_USE_FFTWD/F 均为 OFF，机器上也没有 libfftw。,,,,,,,,失败
+不能做混合精度,104,516,Registration/PDEDeformable,PDEDeformableRegistrationFilter,并行,,,,,,,需要两张图反复对齐，不是单张图滤波。本次未按这套输入测混合精度。,,,,,,,,未测
+不能做混合精度,105,526,Segmentation/ConnectedComponents,ConnectedComponentFunctorImageFilter,并行,,,,,,,输出是整数标签或分区编号，不是连续亮度。换成单精度/双精度没有「更亮一点」可对比，故不填混合精度。,,,,,,,,未测
+不能做混合精度,106,537,Segmentation/KLMRegionGrowing,RegionGrowImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,107,556,Segmentation/LevelSets,NarrowBandLevelSetImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,108,558,Segmentation/LevelSets,ParallelSparseFieldLevelSetImageFilter,并行,,,,,,,缺完整输入（速度场、形状模型或差分函数），不能单独当一张灰度滤波来比混合精度。,,,,,,,,未测
+不能做混合精度,109,560,Segmentation/LevelSets,SegmentationLevelSetImageFilter,并行,,,,,,,缺完整输入（速度场、形状模型或差分函数），不能单独当一张灰度滤波来比混合精度。,,,,,,,,未测
+不能做混合精度,110,562,Segmentation/LevelSets,ShapePriorSegmentationLevelSetImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,111,563,Segmentation/LevelSets,SparseFieldFourthOrderLevelSetImageFilter,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测
+不能做混合精度,112,564,Segmentation/LevelSets,SparseFieldLevelSetImageFilter,并行,,,,,,,缺完整输入（速度场、形状模型或差分函数），不能单独当一张灰度滤波来比混合精度。,,,,,,,,未测
+不能做混合精度,113,579,Segmentation/Voronoi,VoronoiSegmentationImageFilterBase,并行,,,,,,,这是空壳接口，不能单独拿一张图计时。没有可比较的输入输出，所以不能做混合精度。,,,,,,,,未测

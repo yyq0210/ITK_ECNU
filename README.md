@@ -17,6 +17,8 @@ bash build_pinpreload.sh
 bash compile_itk.sh
 bash compile_benches.sh
 bash submit_592.sh
+# 四个遗留接口（向量/频谱/B样条）另交：
+bash submit_four_retry.sh
 ```
 
 合格标准、数据集、排除节点、作业日志见 `lingsheng592/README.md`。不要在登录节点执行 `run_qualified.sh`。不要把 SSH 密码写进仓库。

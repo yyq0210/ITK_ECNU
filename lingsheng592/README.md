@@ -6,16 +6,18 @@
 
 ## 合格标准
 
-只重测同时满足下面两条的函数（名单 `qualified_functions.tsv`，**302** 个）：
+只重测同时满足下面两条的函数（名单 `qualified_functions.tsv`，**304** 个）：
 
 - 可判定的 `max_abs < 1e-5`（流水线里只打到 4 位小数的 `0.0000` 不算）
 - `speedup = double_ms / float_ms > 1`
 
 当前库打开 float 像素累加开关。Bilateral 复测误差约 4e-4～5e-4，不在名单里。`Mean(radius=15)`、`BoxMean(radius=15)` 仍合格。CAD / GAD 误差合格但 float 不更快，不测。pipeline / diffusion / bilateral 套件里没有同时满足两条的用例，脚本不会启动它们。
 
-补测进名单的 3 个：`HoughTransform2DLinesImageFilter`（64×64 合成线）、`ImageRegistrationMethodv4`、`MultiResolutionImageRegistrationMethod`。细化、MRF、RGBGibbs 能跑但 float 不快。`CurvatureRegistrationFilter` 需要 FFTW；`BSplineSyN` 与 `TimeVaryingBSpline` 仍段错误。
+补测进名单的 3 个：`HoughTransform2DLinesImageFilter`（64×64 合成线）、`ImageRegistrationMethodv4`、`MultiResolutionImageRegistrationMethod`。细化、MRF、RGBGibbs 能跑但 float 不快。`CurvatureRegistrationFilter` 需要 FFTW。
 
-全表 584 行见 `mixed_precision_lingsheng592.csv`：467 已测，3 失败，114 未测（基类 / GPU / FFTW / FEM）。
+另 4 个已在作业 1803853（cn23174，592 核）按官方用法补测：`BSplineSyNImageRegistrationMethod` 与 `TimeVaryingBSplineVelocityFieldImageRegistrationMethod` 同时满足误差和速度，已进名单；`VectorNeighborhoodOperatorImageFilter` 误差为 0 但 float 不快；`UnaryFrequencyDomainFilter` float 更快但复数 `max_abs` 约 7.7e-3，大于 1e-5。`CurvatureRegistrationFilter` 仍需要 FFTW。
+
+全表 584 行见 `mixed_precision_lingsheng592.csv`：471 已测，1 失败（FFTW），112 未测（基类 / GPU / FFTW / FEM）。
 
 ## 灵昇环境
 
@@ -68,6 +70,15 @@ bash compile_benches.sh
 bash submit_592.sh
 ```
 
+四个遗留接口（向量邻域、频率一元滤波、两个 B 样条配准）单独提交，同样必须在计算节点 592 核上跑：
+
+```bash
+bash compile_benches.sh
+bash submit_four_retry.sh
+```
+
+结果在 `lingsheng592/results/four_retry_<时间戳>/four_retry.csv`。
+
 查看作业：
 
 ```bash
@@ -91,11 +102,14 @@ dqueue
 | `build_pinpreload.sh` / `pinpreload.c` | 每线程绑到 592 个计算核之一 |
 | `run_qualified.sh` | **计算节点**只跑名单。由 `submit_592.sh` 调用 |
 | `submit_592.sh` | `dsub` 提交到 `q_hpcapp`，`cpu=592`，排除坏节点 |
+| `run_four_retry.sh` | **计算节点**逐个跑 4 个遗留接口 |
+| `submit_four_retry.sh` | 提交上述 4 个补测 |
 | `src/precision_fail_retry_bench.cxx` | 细化、Hough、MRF、Gibbs 小图 |
 | `src/precision_remainder_instantiable_bench.cxx` | v4 / MultiResolution / SyN 等 |
-| `qualified_functions.tsv` | 302 个合格函数 |
+| `src/precision_four_retry_bench.cxx` | 向量邻域、频率滤波、B 样条配准（官方 adaptor） |
+| `qualified_functions.tsv` | 304 个合格函数 |
 | `mixed_precision_lingsheng592.csv` | 584 行灵昇复测表 |
 
 列表类 bench 接受单个算子名。套件类 bench 先写 `ITK_BENCH_ONLY_FILE` 再启动。
 
-各程序数量：`fill_missing` 197，`remain` 49，`levelset` 14，`metric` 13，`extra35` 10，`path_mesh` 8，`cat3` 5，`conv` 3，`fail_retry` 1，`remainder_instantiable` 2。
+各程序数量：`fill_missing` 197，`remain` 49，`levelset` 14，`metric` 13，`extra35` 10，`path_mesh` 8，`cat3` 5，`conv` 3，`fail_retry` 1，`remainder_instantiable` 2，`four_retry` 2。
