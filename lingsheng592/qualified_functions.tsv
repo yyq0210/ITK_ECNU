@@ -298,3 +298,6 @@ precision_remain_bench	list	VnlInverse1DFFTImageFilter	3	9.180200	9.279000	1.010
 precision_remain_bench	list	VnlRealToHalfHermitianForwardFFTImageFilter	3	105.146300	124.579600	1.184822	0	remain
 precision_remain_bench	list	VoronoiPartitioningImageFilter	3	2.973000	2.984700	1.003935	0	remain
 precision_remain_bench	list	VoronoiSegmentationImageFilter	3	2.517900	2.560500	1.016919	0	remain
+precision_fail_retry_bench	list	HoughTransform2DLinesImageFilter	1	2.880841	3.954186	1.372580	0	failretry-1803449
+precision_remainder_instantiable_bench	list	ImageRegistrationMethodv4	1	55.912045	61.305709	1.096467	0	remainder-1803421
+precision_remainder_instantiable_bench	list	MultiResolutionImageRegistrationMethod	1	222.312132	234.613308	1.055333	0	remainder-1803421

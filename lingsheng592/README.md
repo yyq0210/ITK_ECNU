@@ -5,7 +5,11 @@
 - 可判定的 `max_abs < 1e-5`（流水线里只打到 4 位小数的 `0.0000` 不算）
 - `speedup = double_ms / float_ms > 1`
 
-名单共 **299** 个，写在 `qualified_functions.tsv`。基准是计算节点作业 1799867 的 592 核全量结果。当前库打开累加开关之后，作业 1800229 复测过的 Bilateral 误差升到约 4e-4～5e-4，已从名单去掉。`Mean(radius=15)` 和 `BoxMean(radius=15)` 复测后仍满足两条，保留。CAD / GAD 误差下来了，但 float 不比 double 快，不在名单里。配准不是逐像素 `max_abs`，也不在名单里。pipeline、diffusion、bilateral 这三个套件里没有同时满足两条的用例，测试脚本不会启动它们。
+名单共 **302** 个，写在 `qualified_functions.tsv`。基准是计算节点作业 1799867 的 592 核全量结果。当前库打开累加开关之后，作业 1800229 复测过的 Bilateral 误差升到约 4e-4～5e-4，已从名单去掉。`Mean(radius=15)` 和 `BoxMean(radius=15)` 复测后仍满足两条，保留。CAD / GAD 误差下来了，但 float 不比 double 快，不在名单里。pipeline、diffusion、bilateral 这三个套件里没有同时满足两条的用例，测试脚本不会启动它们。
+
+补测后新进名单的 3 个：`HoughTransform2DLinesImageFilter`（64×64 合成线，作业 1803449）、`ImageRegistrationMethodv4` 和 `MultiResolutionImageRegistrationMethod`（作业 1803421）。细化、MRF、RGBGibbs 已经能跑，但 float 没有更快，不进名单。`CurvatureRegistrationFilter` 需要 FFTW，两个 B 样条配准仍段错误。
+
+全表 584 行的灵昇复测结果在 `mixed_precision_lingsheng592.csv`：467 已测，3 失败，114 未测（基类/GPU/FFTW/FEM）。
 
 各程序数量：
 
@@ -17,6 +21,8 @@
 - `precision_metric_bench`：13
 - `precision_path_mesh_bench`：8
 - `precision_remain_bench`：49
+- `precision_fail_retry_bench`：1
+- `precision_remainder_instantiable_bench`：2
 
 ## 脚本
 
@@ -30,6 +36,9 @@
 | `run_qualified.sh` | 只跑名单里的函数。必须在计算节点上执行（`nproc --all` 为 608）。 |
 | `submit_592.sh` | `dsub` 提交到 `q_hpcapp`，`cpu=592`，排除 `cn22976` 和 `cn23018`。 |
 | `pinpreload.c` | 绑核预加载库源码。 |
+| `src/precision_fail_retry_bench.cxx` | 细化、Hough、MRF、Gibbs 的小图补测。Hough 走这份，不要用 1024 脑图。 |
+| `src/precision_remainder_instantiable_bench.cxx` | v4 / MultiResolution / SyN 等还能单独建出来的配准。 |
+| `mixed_precision_lingsheng592.csv` | 584 行接口的灵昇 592 核复测表。 |
 
 列表类 bench 本来就接受单个算子名。套件类 bench 一次会跑内部全部用例，所以测试脚本先写成 `ITK_BENCH_ONLY_FILE`，再启动对应程序。
 
