@@ -21,7 +21,7 @@ bash submit_592.sh
 bash submit_four_retry.sh
 ```
 
-合格标准、数据集、排除节点、作业日志见 `lingsheng592/README.md`。不要在登录节点执行 `run_qualified.sh`。不要把 SSH 密码写进仓库。
+合格标准、数据集、排除节点、作业日志见 `lingsheng592/README.md`。584 个接口逐条结果见 [`lingsheng592/interface_status_584.md`](lingsheng592/interface_status_584.md)。不要在登录节点执行 `run_qualified.sh`。不要把 SSH 密码写进仓库。
 
 主测图：`test/data/BrainProtonDensity1024.png`。
 

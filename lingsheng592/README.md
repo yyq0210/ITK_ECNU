@@ -109,6 +109,7 @@ dqueue
 | `src/precision_four_retry_bench.cxx` | 向量邻域、频率滤波、B 样条配准（官方 adaptor） |
 | `qualified_functions.tsv` | 304 个合格函数 |
 | `mixed_precision_lingsheng592.csv` | 584 行灵昇复测表 |
+| `interface_status_584.md` | 584 个接口的合格 / 能做不合格 / 不能做说明 |
 
 列表类 bench 接受单个算子名。套件类 bench 先写 `ITK_BENCH_ONLY_FILE` 再启动。
 
