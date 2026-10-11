@@ -1,1 +1,4 @@
 results/
+_*
+*.bak*
+qualified_functions.tsv.bak_before_upper_bound

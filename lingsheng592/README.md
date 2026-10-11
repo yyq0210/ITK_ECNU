@@ -8,16 +8,27 @@
 
 ## 合格标准
 
-只重测同时满足下面两条的函数（名单 `qualified_functions.tsv`，**304** 个）：
+合格口径（两条同时满足）：
 
 - 可判定的 `max_abs < 1e-5`（流水线里只打到 4 位小数的 `0.0000` 不算）
 - `speedup = double_ms / float_ms > 1`
 
+对「能做混合精度且误差已 `<1e-5`」的接口（约 442 个）在计算节点 592 核上连跑多轮后，「误差且更快」数量会在区间内浮动。  
+**送测 / `qualified_functions.tsv` 取浮动区间的上界**：合格数最多的那一轮对应的函数集合（不是中位数，也不是每轮都合格的交集）。
+
+作业 **1859213**（cn22968，`err_ok_repeat_20261011_205128`，REPEATS=5）结果：
+
+| 项 | 值 |
+| --- | --- |
+| 各轮合格数 | 300, 280, 286, 284, 281 |
+| 浮动区间 | **[280, 300]** |
+| 每轮都合格 | 217 |
+| 至少一轮合格 | 350 |
+| **送测名单** | **300**（第 1 轮上界，见 `qualified_functions.tsv` / `upper_bound_delivery.txt`） |
+
 当前库打开 float 像素累加开关。Bilateral 复测误差约 4e-4～5e-4，不在名单里。`Mean(radius=15)`、`BoxMean(radius=15)` 仍合格。CAD / GAD 误差合格但 float 不更快，不测。pipeline / diffusion / bilateral 套件里没有同时满足两条的用例，脚本不会启动它们。
 
-补测进名单的 3 个：`HoughTransform2DLinesImageFilter`（64×64 合成线）、`ImageRegistrationMethodv4`、`MultiResolutionImageRegistrationMethod`。细化、MRF、RGBGibbs 能跑但 float 不快。`CurvatureRegistrationFilter` 需要 FFTW。
-
-另 4 个已在作业 1803853（cn23174，592 核）按官方用法补测：`BSplineSyNImageRegistrationMethod` 与 `TimeVaryingBSplineVelocityFieldImageRegistrationMethod` 同时满足误差和速度，已进名单；`VectorNeighborhoodOperatorImageFilter` 误差为 0 但 float 不快；`UnaryFrequencyDomainFilter` float 更快但复数 `max_abs` 约 7.7e-3，大于 1e-5。`CurvatureRegistrationFilter` 仍需要 FFTW。
+补测进名单的：`HoughTransform2DLinesImageFilter`（64×64 合成线）、`ImageRegistrationMethodv4`、`MultiResolutionImageRegistrationMethod`，以及作业 1803853 补测进名单的 `BSplineSyNImageRegistrationMethod`、`TimeVaryingBSplineVelocityFieldImageRegistrationMethod`。`VectorNeighborhoodOperatorImageFilter` 误差为 0 但 float 不快；`UnaryFrequencyDomainFilter` float 更快但复数 `max_abs` 约 7.7e-3。细化、MRF、RGBGibbs 能跑但 float 不快。`CurvatureRegistrationFilter` 需要 FFTW。
 
 全表 584 行见 `mixed_precision_lingsheng592.csv`：471 已测，1 失败（FFTW），112 未测（基类 / GPU / FFTW / FEM）。
 
@@ -81,6 +92,15 @@ bash submit_four_retry.sh
 
 结果在 `lingsheng592/results/four_retry_<时间戳>/four_retry.csv`。
 
+**误差已 `<1e-5` 的能做混合精度接口**（约 442 个，不只合格名单）连跑多轮、统计「误差且更快」数量区间：
+
+```bash
+bash submit_err_ok_repeat.sh   # 默认 REPEATS=5
+```
+
+结果在 `results/err_ok_repeat_<时间戳>/stability_summary.txt`。  
+用上界轮生成送测名单：`python3 finalize_upper_bound.py results/err_ok_repeat_<时间戳>`。
+
 查看作业：
 
 ```bash
@@ -109,10 +129,14 @@ dqueue
 | `src/precision_fail_retry_bench.cxx` | 细化、Hough、MRF、Gibbs 小图 |
 | `src/precision_remainder_instantiable_bench.cxx` | v4 / MultiResolution / SyN 等 |
 | `src/precision_four_retry_bench.cxx` | 向量邻域、频率滤波、B 样条配准（官方 adaptor） |
-| `qualified_functions.tsv` | 304 个合格函数 |
+| `err_ok_candidates.tsv` | 误差已 `<1e-5` 的能做混合精度候选（多轮复测用） |
+| `run_err_ok_repeat.sh` / `submit_err_ok_repeat.sh` | 计算节点多轮复测，产出合格数区间 |
+| `finalize_upper_bound.py` | 从上界轮写回 `qualified_functions.tsv` |
+| `upper_bound_delivery.txt` | 最近一次上界固化摘要 |
+| `qualified_functions.tsv` | **送测 300**（区间上界轮） |
 | `mixed_precision_lingsheng592.csv` | 584 行灵昇复测表 |
 | `interface_status_584.md` | 584 个接口的合格 / 能做不合格 / 不能做说明 |
 
 列表类 bench 接受单个算子名。套件类 bench 先写 `ITK_BENCH_ONLY_FILE` 再启动。
 
-各程序数量：`fill_missing` 197，`remain` 49，`levelset` 14，`metric` 13，`extra35` 10，`path_mesh` 8，`cat3` 5，`conv` 3，`fail_retry` 1，`remainder_instantiable` 2，`four_retry` 2。
+送测名单各程序数量：`fill_missing` 190，`remain` 52，`extra35` 14，`levelset` 12，`metric` 12，`cat3` 7，`path_mesh` 5，`remainder_instantiable` 4，`four_retry` 3，`fail_retry` 1。

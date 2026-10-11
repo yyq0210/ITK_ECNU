@@ -1,0 +1,19 @@
+source=D:\ECNU_HPC\ITK_ECNU\lingsheng592\results\err_ok_repeat_20261011_205128
+round_qualify_counts=[300, 280, 286, 284, 281]
+round_min=280
+round_max=300
+upper_bound_round=1
+upper_bound_count=300
+delivery_tsv=D:\ECNU_HPC\ITK_ECNU\lingsheng592\qualified_functions.tsv
+delivery_rows=300
+missing_candidate_meta=0
+policy=delivery_list_is_floating_interval_upper_bound
+--- stability_summary.txt ---
+repeats=5
+round_qualify_counts=[300, 280, 286, 284, 281]
+round_min=280
+round_max=300
+round_median=284
+operators_qualify_at_least_once=350
+operators_qualify_every_round=217
+ERR_OK_REPEAT_DONE
