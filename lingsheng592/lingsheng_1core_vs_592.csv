@@ -1,0 +1,475 @@
+﻿函数名,模块,有效单核_float_ms,有效单核_double_ms,16核_float_ms,16核_double_ms,592核_float_ms,592核_double_ms,float加速比_单核除以592,double加速比_单核除以592,float加速比_16核除以592,double加速比_16核除以592,592比单核更快_float,说明
+AbsImageFilter,ImageIntensity,5.9461,16.2644,1.4156,10.4995,8.3682,18.7214,0.7106,0.8688,0.1692,0.5608,否,592核float不更快，小算子线程开销常见
+AbsoluteValueDifferenceImageFilter,ImageCompare,8.4657,17.7684,1.4026,9.6411,7.4346,18.2302,1.1387,0.9747,0.1887,0.5289,是,
+AccumulateImageFilter,ImageStatistics,25.1511,31.0828,15.8212,29.8601,26.9755,39.4028,0.9324,0.7888,0.5865,0.7578,否,592核float不更快，小算子线程开销常见
+AcosImageFilter,ImageIntensity,40.4508,52.106,4.9473,15.8745,8.0437,19.223,5.0289,2.7106,0.6151,0.8258,是,
+AdaptiveHistogramEqualizationImageFilter,ImageStatistics,924.9938,1073.8183,46.6444,58.6145,20.1254,34.002,45.9615,31.581,2.3177,1.7239,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+AddImageFilter,ImageIntensity,6.1706,17.1922,1.2901,9.9084,8.1375,19.0878,0.7583,0.9007,0.1585,0.5191,否,592核float不更快，小算子线程开销常见
+AdditiveGaussianNoiseImageFilter,ImageNoise,26.2903,37.1139,2.0903,9.5266,8.477,20.7103,3.1014,1.7921,0.2466,0.46,是,
+AggregateLabelMapFilter,LabelMap,,,0.0221,0.0197,0.0367,0.0318,,,0.6022,0.6195,,有效单核那次没有这条（缺 extra35/cat3 等）
+AnchorCloseImageFilter,MathematicalMorphology,932.2004,980.8761,35.1786,32.4346,27.9482,19.0432,33.3546,51.5079,1.2587,1.7032,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+AnchorDilateImageFilter,MathematicalMorphology,885.5479,906.7323,29.8732,32.3079,27.7843,18.4431,31.8722,49.1638,1.0752,1.7518,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+AnchorErodeImageFilter,MathematicalMorphology,891.6266,933.8054,32.1627,30.3288,20.1624,17.2946,44.2222,53.994,1.5952,1.7537,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+AnchorOpenImageFilter,MathematicalMorphology,935.14,988.4355,32.4216,30.7594,19.933,19.3866,46.9142,50.9855,1.6265,1.5866,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+AndImageFilter,ImageIntensity,12.7006,12.6458,1.6414,1.9275,8.4276,8.26,1.507,1.531,0.1948,0.2334,是,
+AnisotropicFourthOrderLevelSetImageFilter,LevelSets,4493.9436,4483.4532,2313.9474,2417.1208,8714.2455,8848.1583,0.5157,0.5067,0.2655,0.2732,否,592核float不更快，小算子线程开销常见
+AntiAliasBinaryImageFilter,AntiAlias,235.4186,245.0834,195.1851,218.6968,227.8046,255.6941,1.0334,0.9585,0.8568,0.8553,是,
+ANTSNeighborhoodCorrelationImageToImageMetricv4,Metricsv4,1233.1259,1185.6922,123.6918,104.3759,1422.0842,99.6296,0.8671,11.901,0.087,1.0476,否,592核float不更快，小算子线程开销常见
+ApproximateSignedDistanceMapImageFilter,DistanceMap,307.8334,317.5841,143.2785,148.6738,230.2142,276.2816,1.3372,1.1495,0.6224,0.5381,是,
+AsinImageFilter,ImageIntensity,40.097,51.3277,5.4816,11.4332,8.0426,18.5228,4.9856,2.7711,0.6816,0.6173,是,
+Atan2ImageFilter,ImageIntensity,73.8613,84.433,4.9037,12.2272,7.5138,17.9489,9.8301,4.7041,0.6526,0.6812,是,
+AtanImageFilter,ImageIntensity,55.9943,65.5358,5.7349,15.6188,8.1553,19.3107,6.866,3.3938,0.7032,0.8088,是,
+AutoCropLabelMapFilter,LabelMap,,,0.1164,0.1172,0.1445,0.1365,,,0.8055,0.8586,,有效单核那次没有这条（缺 extra35/cat3 等）
+BasicDilateImageFilter,MathematicalMorphology,96.8233,95.1192,6.9118,7.2002,9.0052,8.8843,10.7519,10.7064,0.7675,0.8104,是,
+BasicErodeImageFilter,MathematicalMorphology,93.6326,93.7021,5.482,5.5053,9.325,9.2241,10.041,10.1584,0.5879,0.5968,是,
+BayesianClassifierImageFilter,Classifiers,,,6.7556,6.848,12.9299,12.6031,,,0.5225,0.5434,,有效单核那次没有这条（缺 extra35/cat3 等）
+BayesianClassifierInitializationImageFilter,Classifiers,,,4048.4551,5160.185,5154.8585,6441.5151,,,0.7854,0.8011,,有效单核那次没有这条（缺 extra35/cat3 等）
+"Bilateral(domain=4,range=50)",suite,6995.9699,6730.7631,391.9613,428.9521,66.0706,74.3076,105.8863,90.5797,5.9325,5.7727,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+BinaryClosingByReconstructionImageFilter,BinaryMathematicalMorphology,127.076,125.3249,82.4919,113.9636,172.4956,187.1849,0.7367,0.6695,0.4782,0.6088,否,592核float不更快，小算子线程开销常见
+BinaryContourImageFilter,ImageLabel,18.1387,18.445,6.3173,6.3007,19.6836,19.7709,0.9215,0.9329,0.3209,0.3187,否,592核float不更快，小算子线程开销常见
+BinaryDilateImageFilter,BinaryMathematicalMorphology,80.1129,79.3551,50.9583,63.6923,81.8121,100.5649,0.9792,0.7891,0.6229,0.6333,否,592核float不更快，小算子线程开销常见
+BinaryErodeImageFilter,BinaryMathematicalMorphology,104.9791,105.0601,71.399,77.7524,109.9556,129.8992,0.9547,0.8088,0.6493,0.5986,否,592核float不更快，小算子线程开销常见
+BinaryFillholeImageFilter,BinaryMathematicalMorphology,46.4162,42.4315,39.7718,42.5994,72.6172,72.9064,0.6392,0.582,0.5477,0.5843,否,592核float不更快，小算子线程开销常见
+BinaryGrindPeakImageFilter,LabelMap,43.7224,44.2367,30.324,27.0024,71.7226,71.8701,0.6096,0.6155,0.4228,0.3757,否,592核float不更快，小算子线程开销常见
+BinaryImageToLabelMapFilter,LabelMap,15.4733,15.5696,34.1877,33.7082,44.6171,45.871,0.3468,0.3394,0.7662,0.7348,否,592核float不更快，小算子线程开销常见
+BinaryImageToShapeLabelMapFilter,LabelMap,24.4733,24.6252,33.9331,32.6246,65.8939,66.9205,0.3714,0.368,0.515,0.4875,否,592核float不更快，小算子线程开销常见
+BinaryImageToStatisticsLabelMapFilter,LabelMap,,,10.4001,15.7115,42.9732,52.6277,,,0.242,0.2985,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryMagnitudeImageFilter,ImageIntensity,,,2.5745,1.898,9.1687,9.0135,,,0.2808,0.2106,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryMaskToNarrowBandPointSetFilter,LevelSets,141.2069,137.5797,97.6645,107.9623,165.3743,169.1982,0.8539,0.8131,0.5906,0.6381,否,592核float不更快，小算子线程开销常见
+BinaryMedianImageFilter,LabelVoting,74.9524,72.2311,6.3403,5.2222,8.5734,8.6852,8.7424,8.3166,0.7395,0.6013,是,
+BinaryMinMaxCurvatureFlowImageFilter,CurvatureFlow,497.5135,472.4812,52.5344,50.267,89.9686,99.6556,5.5299,4.7411,0.5839,0.5044,是,
+BinaryMorphologicalClosingImageFilter,BinaryMathematicalMorphology,214.4152,215.9995,139.1604,142.5901,229.3171,238.3607,0.935,0.9062,0.6068,0.5982,否,592核float不更快，小算子线程开销常见
+BinaryMorphologicalOpeningImageFilter,BinaryMathematicalMorphology,189.0933,188.9028,120.0588,134.4586,190.6664,210.585,0.9917,0.897,0.6297,0.6385,否,592核float不更快，小算子线程开销常见
+BinaryNotImageFilter,ImageIntensity,12.5248,12.3867,1.7745,1.8531,8.5764,8.3678,1.4604,1.4803,0.2069,0.2215,是,
+BinaryOpeningByReconstructionImageFilter,BinaryMathematicalMorphology,151.9671,145.2951,96.8644,117.6106,197.231,211.8666,0.7705,0.6858,0.4911,0.5551,否,592核float不更快，小算子线程开销常见
+BinaryProjectionImageFilter,ImageStatistics,10.9459,11.4906,2.8641,3.7967,8.5466,8.2172,1.2807,1.3984,0.3351,0.462,是,
+BinaryPruningImageFilter,BinaryMathematicalMorphology,164.7667,166.8342,106.82,105.1917,174.5283,189.5027,0.9441,0.8804,0.612,0.5551,否,592核float不更快，小算子线程开销常见
+BinaryReconstructionByDilationImageFilter,LabelMap,,,8.2483,9.5759,49.2615,50.0462,,,0.1674,0.1913,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryReconstructionByErosionImageFilter,LabelMap,,,23.9638,22.7323,69.0219,70.2604,,,0.3472,0.3235,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryShapeKeepNObjectsImageFilter,LabelMap,39.8115,39.215,33.2693,38.5917,70.6169,70.7558,0.5638,0.5542,0.4711,0.5454,否,592核float不更快，小算子线程开销常见
+BinaryShapeOpeningImageFilter,LabelMap,,,7.8218,8.313,51.7778,51.7031,,,0.1511,0.1608,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryStatisticsKeepNObjectsImageFilter,LabelMap,,,13.5412,20.9817,62.3374,68.0881,,,0.2172,0.3082,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryStatisticsOpeningImageFilter,LabelMap,,,19.2855,27.9199,62.2346,72.4117,,,0.3099,0.3856,,有效单核那次没有这条（缺 extra35/cat3 等）
+BinaryThreshold,suite,8.3108,19.3898,1.5845,10.3108,8.4349,20.0308,0.9853,0.968,0.1879,0.5147,否,592核float不更快，小算子线程开销常见
+BinaryThresholdImageFilter,Thresholding,8.459,18.4297,1.7255,9.637,7.4313,17.8721,1.1383,1.0312,0.2322,0.5392,是,
+BinaryThresholdProjectionImageFilter,Thresholding,11.3093,17.4946,1.0507,2.5436,9.0626,18.9337,1.2479,0.924,0.1159,0.1343,是,
+BinomialBlurImageFilter,Smoothing,126.7001,147.454,83.5539,84.1502,131.2427,160.9334,0.9654,0.9162,0.6366,0.5229,否,592核float不更快，小算子线程开销常见
+BinShrinkImageFilter,ImageGrid,7.5369,14.3537,2.0216,4.4301,8.747,18.0664,0.8617,0.7945,0.2311,0.2452,否,592核float不更快，小算子线程开销常见
+BlackTopHatImageFilter,MathematicalMorphology,274.6911,280.1676,22.4109,41.173,40.2532,54.7019,6.8241,5.1217,0.5567,0.7527,是,
+BlockMatchingImageFilter,Common,,,1.6849,1.9371,9.3957,9.273,,,0.1793,0.2089,,有效单核那次没有这条（缺 extra35/cat3 等）
+BorderQuadEdgeMeshFilter,QuadEdgeMeshFiltering,2.8546,2.8261,1.501,1.5646,2.7441,2.5319,1.0403,1.1162,0.547,0.618,是,
+BoundedReciprocalImageFilter,ImageIntensity,13.3145,23.864,2.1831,12.7154,7.295,18.0952,1.8252,1.3188,0.2993,0.7027,是,
+BoxMean(radius=15),suite,485.9778,506.3711,15.5048,26.0473,57.3746,63.4172,8.4703,7.9848,0.2702,0.4107,是,
+BoxMeanImageFilter,Smoothing,179.1714,187.9244,22.2713,28.1287,10.7576,23.447,16.6553,8.0149,2.0703,1.1997,是,
+BoxSigmaImageFilter,Smoothing,200.6877,210.3674,24.6254,20.4997,11.4658,20.0018,17.5032,10.5174,2.1477,1.0249,是,
+BSplineControlPointImageFilter,ImageGrid,,,0.5765,0.5739,0.8381,0.8906,,,0.6879,0.6444,,有效单核那次没有这条（缺 extra35/cat3 等）
+BSplineDownsampleImageFilter,ImageGrid,17.4161,23.9213,12.9268,25.8924,18.7473,54.2236,0.929,0.4412,0.6895,0.4775,否,592核float不更快，小算子线程开销常见
+BSplineScatteredDataPointSetToImageFilter,ImageGrid,232.1213,238.7805,19.5423,20.9119,38.0584,38.9488,6.0991,6.1306,0.5135,0.5369,是,
+BSplineUpsampleImageFilter,ImageGrid,58.772,94.7584,48.5828,70.5621,345.2311,365.6145,0.1702,0.2592,0.1407,0.193,否,592核float不更快，小算子线程开销常见
+CAD(iter=50),suite,22386.734,20446.2192,5359.3952,4643.738,5841.9049,5721.8907,3.8321,3.5733,0.9174,0.8116,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+CannyEdgeDetectionImageFilter,ImageFeature,494.5174,470.6511,48.8551,57.739,71.8348,95.4221,6.8841,4.9323,0.6801,0.6051,是,
+CannySegmentationLevelSetImageFilter,LevelSets,2000.7787,2020.9702,878.0961,799.2196,1354.2689,1388.2924,1.4774,1.4557,0.6484,0.5757,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+CastImageFilter,ImageFilterBase,,,1.0402,1.1364,1.299,0.8179,,,0.8008,1.3894,,有效单核那次没有这条（缺 extra35/cat3 等）
+ChainCodeToFourierSeriesPathFilter,Path,0.2366,0.227,0.1466,0.138,0.2403,0.2298,0.9846,0.9878,0.6101,0.6005,否,592核float不更快，小算子线程开销常见
+ChangeInformationImageFilter,ImageGrid,0.0437,6.5579,0.0283,1.6882,0.045,8.5694,0.9711,0.7653,0.6289,0.197,否,592核float不更快，小算子线程开销常见
+ChangeLabelImageFilter,ImageLabel,11.7221,9.4751,1.4947,1.4093,8.6402,8.3584,1.3567,1.1336,0.173,0.1686,是,
+ChangeLabelLabelMapFilter,LabelMap,19.7735,19.6661,16.9299,16.9955,46.2888,46.5087,0.4272,0.4228,0.3657,0.3654,否,592核float不更快，小算子线程开销常见
+ChangeRegionLabelMapFilter,LabelMap,,,0.12,0.1234,0.0376,0.0324,,,3.1915,3.8086,,有效单核那次没有这条（缺 extra35/cat3 等）
+CheckerBoardImageFilter,ImageCompare,33.6502,44.7961,2.733,12.2705,8.0038,20.8702,4.2043,2.1464,0.3415,0.5879,是,
+ClampImageFilter,ImageIntensity,7.1994,18.1304,2.9868,14.4518,7.4014,19.2578,0.9727,0.9415,0.4035,0.7504,否,592核float不更快，小算子线程开销常见
+CleanQuadEdgeMeshFilter,QuadEdgeMeshFiltering,69.939,70.2548,55.3863,54.7674,82.0696,79.4581,0.8522,0.8842,0.6749,0.6893,否,592核float不更快，小算子线程开销常见
+ClosingByReconstructionImageFilter,MathematicalMorphology,300.0383,365.7002,137.6861,190.009,215.4166,328.3235,1.3928,1.1138,0.6392,0.5787,是,
+CollidingFrontsImageFilter,LevelSets,3797.9684,3814.8551,2474.4621,2604.8797,4047.9856,4234.7684,0.9382,0.9008,0.6113,0.6151,否,592核float不更快，小算子线程开销常见
+ComplexToImaginaryImageFilter,FFT,,,1.3172,1.7037,8.9714,8.9859,,,0.1468,0.1896,,有效单核那次没有这条（缺 extra35/cat3 等）
+ComplexToModulusImageFilter,FFT,,,2.9363,3.4281,8.8746,8.9593,,,0.3309,0.3826,,有效单核那次没有这条（缺 extra35/cat3 等）
+ComplexToPhaseImageFilter,FFT,,,5.4071,5.0288,8.6891,8.702,,,0.6223,0.5779,,有效单核那次没有这条（缺 extra35/cat3 等）
+ComplexToRealImageFilter,FFT,,,1.4986,1.7315,9.0451,9.0286,,,0.1657,0.1918,,有效单核那次没有这条（缺 extra35/cat3 等）
+ComposeDisplacementFieldsImageFilter,DisplacementField,174.5959,145.4482,11.2503,10.4427,10.4277,11.0878,16.7435,13.1179,1.0789,0.9418,是,
+ComposeImageFilter,ImageCompose,62.8263,40.268,4.6494,4.77,8.6741,17.4328,7.243,2.3099,0.536,0.2736,是,
+ConfidenceConnectedImageFilter,RegionGrowing,5.7997,17.7353,4.3728,16.9679,6.3123,23.3247,0.9188,0.7604,0.6927,0.7275,否,592核float不更快，小算子线程开销常见
+ConnectedComponentImageFilter,ConnectedComponents,19.9119,19.0542,21.8538,20.9634,45.0717,44.9351,0.4418,0.424,0.4849,0.4665,否,592核float不更快，小算子线程开销常见
+ConnectedThresholdImageFilter,RegionGrowing,1.654,14.6021,0.7403,8.3178,1.4942,13.7897,1.1069,1.0589,0.4954,0.6032,是,
+ConstantPadImageFilter,ImageGrid,5.274,12.7446,1.866,4.1062,8.6668,17.5972,0.6085,0.7242,0.2153,0.2333,否,592核float不更快，小算子线程开销常见
+ConstrainedValueAdditionImageFilter,ImageIntensity,9.412,20.8275,1.3986,11.1586,8.1912,19.8509,1.149,1.0492,0.1707,0.5621,是,
+ConstrainedValueDifferenceImageFilter,ImageIntensity,8.1573,12.6372,1.0093,3.6672,9.0345,17.7279,0.9029,0.7128,0.1117,0.2069,否,592核float不更快，小算子线程开销常见
+ContourDirectedMeanDistanceImageFilter,DistanceMap,289.2028,291.7411,31.6276,31.5158,69.757,70.0787,4.1459,4.163,0.4534,0.4497,是,
+ContourExtractor2DImageFilter,Path,132.8101,156.387,81.5538,98.1258,136.9034,168.6611,0.9701,0.9272,0.5957,0.5818,否,592核float不更快，小算子线程开销常见
+ContourMeanDistanceImageFilter,DistanceMap,561.5656,566.863,69.7739,77.0459,141.0003,144.5602,3.9827,3.9213,0.4948,0.533,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+ConvertLabelMapFilter,LabelMap,,,0.0202,0.0171,0.0352,0.0309,,,0.5739,0.5534,,有效单核那次没有这条（缺 extra35/cat3 等）
+ConvolutionImageFilter,Convolution,172.7746,180.7123,17.813,19.8865,10.4936,21.8223,16.4648,8.2811,1.6975,0.9113,是,
+CorrelationCoefficientHistogramImageToImageMetric,Common,635.0796,618.6601,301.3183,1547.3147,3028.7069,451.861,0.2097,1.3691,0.0995,3.4243,否,592核float不更快，小算子线程开销常见
+CorrelationImageToImageMetricv4,Metricsv4,557.5119,541.7664,124.6756,93.6982,788.8065,1154.4573,0.7068,0.4693,0.1581,0.0812,否,592核float不更快，小算子线程开销常见
+CosImageFilter,ImageIntensity,63.1517,70.707,4.0943,16.0055,7.9765,31.9278,7.9172,2.2146,0.5133,0.5013,是,
+CropImageFilter,ImageGrid,4.8894,16.1633,1.5294,11.9724,9.3905,21.669,0.5207,0.7459,0.1629,0.5525,否,592核float不更快，小算子线程开销常见
+CropLabelMapFilter,LabelMap,,,0.0595,0.0588,0.0364,0.0342,,,1.6346,1.7193,,有效单核那次没有这条（缺 extra35/cat3 等）
+CurvatureFlow,suite,1303.1688,1252.92,99.1226,130.3601,156.6581,176.5148,8.3186,7.0981,0.6327,0.7385,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+CurvesLevelSetImageFilter,LevelSets,503.0479,501.5105,183.9746,171.5864,275.1857,279.3746,1.828,1.7951,0.6685,0.6142,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+CyclicShiftImageFilter,ImageGrid,46.8006,57.1796,4.6326,10.4295,8.8503,21.1452,5.288,2.7041,0.5234,0.4932,是,
+DanielssonDistanceMapImageFilter,DistanceMap,387.9876,390.7591,241.3145,251.4302,392.2594,430.012,0.9891,0.9087,0.6152,0.5847,否,592核float不更快，小算子线程开销常见
+DeformableSimplexMesh3DBalloonForceFilter,DeformableMesh,,,17.5011,18.2656,20.7756,22.9768,,,0.8424,0.795,,有效单核那次没有这条（缺 extra35/cat3 等）
+DeformableSimplexMesh3DFilter,DeformableMesh,,,20.9305,22.1304,63.578,62.5379,,,0.3292,0.3539,,有效单核那次没有这条（缺 extra35/cat3 等）
+DeformableSimplexMesh3DGradientConstraintForceFilter,DeformableMesh,,,14.7938,17.3503,18.3695,20.072,,,0.8053,0.8644,,有效单核那次没有这条（缺 extra35/cat3 等）
+DelaunayConformingQuadEdgeMeshFilter,QuadEdgeMeshFiltering,21.2375,20.9726,20.2009,27.745,27.8147,28.6729,0.7635,0.7314,0.7263,0.9676,否,592核float不更快，小算子线程开销常见
+DemonsImageToImageMetricv4,Metricsv4,561.5146,528.8799,187.738,152.0251,1365.4372,112.7249,0.4112,4.6918,0.1375,1.3486,否,592核float不更快，小算子线程开销常见
+DemonsRegistrationFilter,PDEDeformable,1145.7587,1129.0369,139.381,105.3145,164.4006,192.0458,6.9693,5.879,0.8478,0.5484,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+DerivativeImageFilter,ImageFeature,34.6073,44.4357,2.7661,9.7743,7.8958,19.4418,4.383,2.2856,0.3503,0.5027,是,
+DiffeomorphicDemonsRegistrationFilter,PDEDeformable,,,274.5485,374.2234,390.3208,430.197,,,0.7034,0.8699,,有效单核那次没有这条（缺 extra35/cat3 等）
+DifferenceOfGaussiansGradientImageFilter,ImageGradient,19.1997,25.0121,12.7776,14.0429,23.6543,57.1255,0.8117,0.4378,0.5402,0.2458,否,592核float不更快，小算子线程开销常见
+DiffusionTensor3DReconstructionImageFilter,DiffusionTensorImage,,,88.0616,87.9598,147.6131,147.6536,,,0.5966,0.5957,,有效单核那次没有这条（缺 extra35/cat3 等）
+DilateObjectMorphologyImageFilter,BinaryMathematicalMorphology,92.3689,88.1007,8.216,8.0106,12.5951,12.0231,7.3337,7.3276,0.6523,0.6663,是,
+DirectedHausdorffDistanceImageFilter,DistanceMap,247.3131,253.5638,39.5853,39.1811,72.7373,72.0422,3.4001,3.5197,0.5442,0.5439,是,
+DiscreteGaussian,suite,150.5596,156.585,10.5091,25.3998,17.4964,32.063,8.6052,4.8837,0.6006,0.7922,是,
+DiscreteGaussian(sigma=4),suite,270.0637,278.1237,17.0456,28.9106,18.7031,32.0394,14.4395,8.6807,0.9114,0.9023,是,
+DiscreteGaussianCurvatureQuadEdgeMeshFilter,QuadEdgeMeshFiltering,28.1214,27.7531,27.2985,34.5403,34.3402,34.6637,0.8189,0.8006,0.7949,0.9964,否,592核float不更快，小算子线程开销常见
+DiscreteGaussianDerivativeImageFilter,ImageFeature,155.8545,167.1518,14.7844,28.2891,40.7438,64.0212,3.8252,2.6109,0.3629,0.4419,是,
+DiscreteGaussianImageFilter,Smoothing,160.252,158.8445,15.1976,18.1026,15.979,25.5077,10.0289,6.2273,0.9511,0.7097,是,
+DiscreteMaximumCurvatureQuadEdgeMeshFilter,QuadEdgeMeshFiltering,34.7438,34.8171,28.7861,36.2222,43.498,43.9011,0.7987,0.7931,0.6618,0.8251,否,592核float不更快，小算子线程开销常见
+DiscreteMeanCurvatureQuadEdgeMeshFilter,QuadEdgeMeshFiltering,33.674,33.6136,29.2072,37.1968,41.8896,42.2882,0.8039,0.7949,0.6972,0.8796,否,592核float不更快，小算子线程开销常见
+DiscreteMinimumCurvatureQuadEdgeMeshFilter,QuadEdgeMeshFiltering,34.8696,35.0591,33.0489,33.1755,44.2798,41.8767,0.7875,0.8372,0.7464,0.7922,否,592核float不更快，小算子线程开销常见
+DisplacementFieldJacobianDeterminantFilter,DisplacementField,109.9775,105.5067,8.6968,8.0052,18.6545,19.9939,5.8955,5.2769,0.4662,0.4004,是,
+DisplacementFieldToBSplineImageFilter,DisplacementField,,,8.1021,8.7312,36.9383,37.3177,,,0.2193,0.234,,有效单核那次没有这条（缺 extra35/cat3 等）
+DivideImageFilter,ImageIntensity,10.5944,24.1749,1.6343,9.3749,7.3571,17.6598,1.44,1.3689,0.2221,0.5309,是,
+DivideOrZeroOutImageFilter,ImageIntensity,10.5087,23.6438,2.8893,10.613,7.3454,17.4836,1.4307,1.3523,0.3933,0.607,是,
+DoubleThresholdImageFilter,MathematicalMorphology,136.6253,221.833,110.8417,176.3514,198.2277,291.2158,0.6892,0.7617,0.5592,0.6056,否,592核float不更快，小算子线程开销常见
+EdgePotentialImageFilter,ImageIntensity,,,13.7864,6.4661,18.8083,18.8685,,,0.733,0.3427,,有效单核那次没有这条（缺 extra35/cat3 等）
+ErodeObjectMorphologyImageFilter,BinaryMathematicalMorphology,91.5653,88.2322,9.1452,10.7754,12.0276,11.7084,7.6129,7.5358,0.7604,0.9203,是,
+EuclideanDistancePointMetric,Common,3443.52,3444.722,2070.2794,2075.8246,3444.3746,3445.7992,0.9998,0.9997,0.6011,0.6024,否,592核float不更快，小算子线程开销常见
+EuclideanDistancePointSetToPointSetMetricv4,Metricsv4,66.1666,66.0102,26.0585,26.8389,39.7069,40.564,1.6664,1.6273,0.6563,0.6616,是,
+ExpandImageFilter,ImageGrid,86.5517,90.9624,5.6145,12.8132,9.1716,25.2189,9.4369,3.6069,0.6122,0.5081,是,
+ExpectationBasedPointSetToPointSetMetricv4,Metricsv4,28.7157,28.6747,2.616,2.5811,10.4755,10.4693,2.7412,2.7389,0.2497,0.2465,是,
+ExpImageFilter,ImageIntensity,18.5955,27.9949,14.0886,13.6977,7.8331,19.0334,2.374,1.4708,1.7986,0.7197,是,
+ExpNegativeImageFilter,ImageIntensity,19.6702,28.4847,12.9482,11.3903,7.2813,17.922,2.7015,1.5894,1.7783,0.6355,是,
+ExponentialDisplacementFieldImageFilter,DisplacementField,9.4927,9.8466,5.0074,5.3389,13.7599,13.1006,0.6899,0.7516,0.3639,0.4075,否,592核float不更快，小算子线程开销常见
+ExtensionVelocitiesImageFilter,LevelSets,1336.7112,1389.8282,937.8358,921.5924,1438.7623,1538.9544,0.9291,0.9031,0.6518,0.5988,否,592核float不更快，小算子线程开销常见
+ExtractImageFilter,ImageGrid,4.635,15.7757,1.6202,10.3316,8.691,20.0268,0.5333,0.7877,0.1864,0.5159,否,592核float不更快，小算子线程开销常见
+ExtractOrthogonalSwath2DImageFilter,Path,0.4476,6.6738,0.2745,2.3216,0.4419,8.6829,1.0129,0.7686,0.6212,0.2674,是,
+FastChamferDistanceImageFilter,DistanceMap,136.58,154.2037,85.6347,116.5818,141.4137,163.9733,0.9658,0.9404,0.6056,0.711,否,592核float不更快，小算子线程开销常见
+FastIncrementalBinaryDilateImageFilter,BinaryMathematicalMorphology,79.2994,78.014,54.1689,77.8947,85.4781,98.0968,0.9277,0.7953,0.6337,0.7941,否,592核float不更快，小算子线程开销常见
+FastMarchingExtensionImageFilter,FastMarching,1234.9111,1225.2316,758.2902,766.1524,1313.5657,1389.2008,0.9401,0.882,0.5773,0.5515,否,592核float不更快，小算子线程开销常见
+FastMarchingImageFilter,FastMarching,1127.3741,1104.5099,684.658,781.0848,1145.1448,1154.3712,0.9845,0.9568,0.5979,0.6766,否,592核float不更快，小算子线程开销常见
+FastMarchingUpwindGradientImageFilter,FastMarching,1135.467,1113.1464,680.0818,684.8234,1146.7602,1167.4117,0.9902,0.9535,0.593,0.5866,否,592核float不更快，小算子线程开销常见
+FastSymmetricForcesDemonsRegistrationFilter,PDEDeformable,1729.472,1683.4682,153.7948,149.0815,203.3162,241.7921,8.5063,6.9625,0.7564,0.6166,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+"FFTConvolution(kernel=31,sigma=4)",suite,475.956,467.7513,318.0121,273.0641,433.6686,437.6057,1.0975,1.0689,0.7333,0.624,是,
+FFTDiscreteGaussianImageFilter,Smoothing,470.6209,487.678,259.2872,271.2869,641.6498,657.3299,0.7335,0.7419,0.4041,0.4127,否,592核float不更快，小算子线程开销常见
+FFTNormalizedCorrelationImageFilter,Convolution,7204.2007,8502.9698,7044.4941,7606.2165,17769.9829,21400.5706,0.4054,0.3973,0.3964,0.3554,否,592核float不更快，小算子线程开销常见
+FFTPadImageFilter,FFT,4.7196,15.7457,1.6317,11.5882,7.3658,17.828,0.6407,0.8832,0.2215,0.65,否,592核float不更快，小算子线程开销常见
+FFTShiftImageFilter,FFT,46.6116,57.1533,4.7096,11.6648,7.577,18.3491,6.1517,3.1148,0.6216,0.6357,是,
+FlipImageFilter,ImageGrid,6.682,17.4123,1.607,7.0776,9.1125,21.1197,0.7333,0.8245,0.1764,0.3351,否,592核float不更快，小算子线程开销常见
+FrequencyBandImageFilter,ImageFrequency,,,4.3683,4.4093,9.8075,10.0541,,,0.4454,0.4386,,有效单核那次没有这条（缺 extra35/cat3 等）
+FullToHalfHermitianImageFilter,FFT,,,1.675,1.7425,9.146,9.4221,,,0.1831,0.1849,,有效单核那次没有这条（缺 extra35/cat3 等）
+GaborImageSource,ImageSources,98.0452,97.2395,59.5078,58.9315,98.4082,97.1485,0.9963,1.0009,0.6047,0.6066,否,592核float不更快，小算子线程开销常见
+GAD(iter=50),suite,17507.4035,16553.1805,4129.4198,4177.6817,5855.248,6252.9595,2.99,2.6473,0.7053,0.6681,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+GaussianImageSource,ImageSources,62.4578,60.4434,37.8165,36.7327,62.3841,60.5524,1.0012,0.9982,0.6062,0.6066,是,
+GeodesicActiveContourLevelSetImageFilter,LevelSets,502.0171,505.3351,175.3745,176.2615,274.2113,277.232,1.8308,1.8228,0.6396,0.6358,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+GeodesicActiveContourShapePriorLevelSetImageFilter,LevelSets,,,10.7085,11.203,20.5099,16.4425,,,0.5221,0.6813,,有效单核那次没有这条（缺 extra35/cat3 等）
+GetAverageSliceImageFilter,ImageStatistics,,,0.2318,0.244,0.4358,0.3733,,,0.5319,0.6536,,有效单核那次没有这条（缺 extra35/cat3 等）
+GradientDifferenceImageToImageMetric,Common,733.5892,726.863,329.0233,312.5462,2914.1278,4233.745,0.2517,0.1717,0.1129,0.0738,否,592核float不更快，小算子线程开销常见
+GradientImageFilter,ImageGradient,75.1126,87.624,7.4448,14.2061,8.9578,21.5569,8.3852,4.0648,0.8311,0.659,是,
+GradientMagnitude,suite,67.6135,71.6153,4.9554,13.0904,8.9162,20.4136,7.5832,3.5082,0.5558,0.6413,是,
+GradientMagnitudeImageFilter,ImageGradient,69.0627,77.1319,6.9168,20.2579,7.9659,19.1736,8.6698,4.0228,0.8683,1.0566,是,
+GradientMagnitudeRecursiveGaussianImageFilter,ImageGradient,292.7567,311.1295,88.7582,134.7526,1982.2408,2636.1558,0.1477,0.118,0.0448,0.0511,否,592核float不更快，小算子线程开销常见
+GradientRecursiveGaussianImageFilter,ImageGradient,304.6282,327.3862,61.9941,172.3748,91.8006,3407.5553,3.3184,0.0961,0.6753,0.0506,是,
+GradientVectorFlowImageFilter,ImageFeature,,,9.4168,9.5759,9.4031,9.7968,,,1.0015,0.9775,,有效单核那次没有这条（缺 extra35/cat3 等）
+GrayscaleConnectedClosingImageFilter,MathematicalMorphology,,,510.3401,528.0933,780.5797,921.1825,,,0.6538,0.5733,,有效单核那次没有这条（缺 extra35/cat3 等）
+GrayscaleConnectedOpeningImageFilter,MathematicalMorphology,,,690.2533,873.9177,1114.2579,1362.6894,,,0.6195,0.6413,,有效单核那次没有这条（缺 extra35/cat3 等）
+GrayscaleDilate,suite,100.8403,116.9357,7.3563,16.53,9.3487,21.0843,10.7866,5.5461,0.7869,0.784,是,
+GrayscaleDilateImageFilter,MathematicalMorphology,129.7077,132.6964,8.2976,9.9535,8.2555,19.0481,15.7117,6.9664,1.0051,0.5225,是,
+GrayscaleErodeImageFilter,MathematicalMorphology,123.0695,132.4728,7.7283,8.8322,8.1376,19.1019,15.1236,6.9351,0.9497,0.4624,是,
+GrayscaleFillholeImageFilter,MathematicalMorphology,423.1388,510.7208,355.8805,550.1303,580.8256,728.0557,0.7285,0.7015,0.6127,0.7556,否,592核float不更快，小算子线程开销常见
+GrayscaleFunctionDilateImageFilter,MathematicalMorphology,102.605,101.2526,6.1476,5.6143,9.3711,9.0641,10.9491,11.1707,0.656,0.6194,是,
+GrayscaleFunctionErodeImageFilter,MathematicalMorphology,97.2327,98.5721,6.7619,5.7966,9.3304,9.3039,10.4211,10.5947,0.7247,0.623,是,
+GrayscaleGeodesicDilateImageFilter,MathematicalMorphology,,,33.4487,23.8751,53.1374,55.9961,,,0.6295,0.4264,,有效单核那次没有这条（缺 extra35/cat3 等）
+GrayscaleGeodesicErodeImageFilter,MathematicalMorphology,,,55.294,61.7031,55.721,57.5508,,,0.9923,1.0722,,有效单核那次没有这条（缺 extra35/cat3 等）
+GrayscaleGrindPeakImageFilter,MathematicalMorphology,240.0132,340.5814,191.3478,289.6782,315.1434,450.8954,0.7616,0.7553,0.6072,0.6425,否,592核float不更快，小算子线程开销常见
+GrayscaleMorphologicalClosingImageFilter,MathematicalMorphology,266.0995,275.2216,19.6751,29.2013,33.9758,49.0631,7.832,5.6095,0.5791,0.5952,是,
+GrayscaleMorphologicalOpeningImageFilter,MathematicalMorphology,265.5388,274.1654,19.5294,30.1996,33.7075,49.1357,7.8777,5.5798,0.5794,0.6146,是,
+GridImageSource,ImageSources,,,69.0844,69.5487,24.8646,24.8564,,,2.7784,2.798,,有效单核那次没有这条（缺 extra35/cat3 等）
+HalfToFullHermitianImageFilter,FFT,,,6.1559,7.3233,9.8998,10.4431,,,0.6218,0.7013,,有效单核那次没有这条（缺 extra35/cat3 等）
+HardConnectedComponentImageFilter,ConnectedComponents,39.3158,38.9346,26.4452,28.8618,39.9148,44.2998,0.985,0.8789,0.6625,0.6515,否,592核float不更快，小算子线程开销常见
+HausdorffDistanceImageFilter,DistanceMap,530.9373,534.7307,68.2069,226.0244,138.943,141.9539,3.8213,3.7669,0.4909,1.5922,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+HConcaveImageFilter,MathematicalMorphology,193.086,273.9822,137.9428,219.9329,237.872,352.5932,0.8117,0.777,0.5799,0.6238,否,592核float不更快，小算子线程开销常见
+HConvexImageFilter,MathematicalMorphology,210.0242,294.0683,166.9163,218.015,274.2719,382.8168,0.7658,0.7682,0.6086,0.5695,否,592核float不更快，小算子线程开销常见
+Hessian3DToVesselnessMeasureImageFilter,ImageFeature,,,9.423,9.5477,14.4884,13.8649,,,0.6504,0.6886,,有效单核那次没有这条（缺 extra35/cat3 等）
+HessianRecursiveGaussianImageFilter,ImageFeature,442.4526,442.2258,90.363,88.0011,132.7647,135.4944,3.3326,3.2638,0.6806,0.6495,是,
+HessianToObjectnessMeasureImageFilter,ImageFeature,,,113.3061,115.3078,154.6919,160.6145,,,0.7325,0.7179,,有效单核那次没有这条（缺 extra35/cat3 等）
+HistogramMatchingImageFilter,ImageIntensity,226.4603,245.3668,252.6896,168.8829,233.5931,267.2526,0.9695,0.9181,1.0818,0.6319,否,592核float不更快，小算子线程开销常见
+HistogramThresholdImageFilter,Thresholding,155.8687,179.025,16.9652,19.2094,29.8196,28.9556,5.2271,6.1827,0.5689,0.6634,是,
+HMaximaImageFilter,MathematicalMorphology,203.1763,285.4642,164.3106,241.3025,260.3618,370.2247,0.7804,0.7711,0.6311,0.6518,否,592核float不更快，小算子线程开销常见
+HMinimaImageFilter,MathematicalMorphology,182.241,262.167,137.066,203.7852,237.2226,337.1781,0.7682,0.7775,0.5778,0.6044,否,592核float不更快，小算子线程开销常见
+HoughTransform2DCirclesImageFilter,ImageFeature,739.0633,521.4448,515.6436,344.0445,792.8947,678.2274,0.9321,0.7688,0.6503,0.5073,否,592核float不更快，小算子线程开销常见
+HoughTransform2DLinesImageFilter,ImageFeature,,,0.4445,0.3236,0.5599,0.4529,,,0.7939,0.7145,,有效单核那次没有这条（缺 extra35/cat3 等）
+HuangThresholdImageFilter,Thresholding,156.3486,170.859,24.3734,36.4138,26.2161,48.7965,5.9638,3.5015,0.9297,0.7462,是,
+ImageRegistrationMethod,Common,,,511.4763,481.5411,347.7772,298.0812,,,1.4707,1.6155,,有效单核那次没有这条（缺 extra35/cat3 等）
+ImageRegistrationMethodv4,Registration,27102.935,25510.39,4761.1006,6166.4077,9211.2645,1485.1922,2.9424,17.1765,0.5169,4.1519,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+ImageToSpatialObjectRegistrationMethod,Common,,,2.6807,3.2319,3.8127,3.3018,,,0.7031,0.9788,,有效单核那次没有这条（缺 extra35/cat3 等）
+ImplicitManifoldNormalVectorFilter,LevelSets,,,10.3578,10.4883,102.9445,105.8714,,,0.1006,0.0991,,有效单核那次没有这条（缺 extra35/cat3 等）
+IntensityWindowingImageFilter,ImageIntensity,8.7154,18.2829,1.6927,16.7321,7.2992,18.8207,1.194,0.9714,0.2319,0.889,是,
+IntermodesThresholdImageFilter,Thresholding,155.4146,169.1494,20.2565,25.5594,24.615,36.8513,6.3138,4.5901,0.8229,0.6936,是,
+InterpolateImageFilter,ImageGrid,,,50.3627,57.1616,48.6846,51.2839,,,1.0345,1.1146,,有效单核那次没有这条（缺 extra35/cat3 等）
+InterpolateImagePointsFilter,ImageGrid,,,1.2908,1.2775,1.7629,1.2765,,,0.7322,1.0008,,有效单核那次没有这条（缺 extra35/cat3 等）
+InverseDeconvolutionImageFilter,Deconvolution,466.0393,496.2705,354.0868,270.5462,630.4134,675.3815,0.7393,0.7348,0.5617,0.4006,否,592核float不更快，小算子线程开销常见
+InverseDisplacementFieldImageFilter,DisplacementField,0.7582,0.7296,0.5185,0.4614,0.8091,0.7703,0.9371,0.9472,0.6408,0.599,否,592核float不更快，小算子线程开销常见
+InvertDisplacementFieldImageFilter,DisplacementField,812.9042,685.2859,68.6684,76.1764,117.7038,157.7151,6.9064,4.3451,0.5834,0.483,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+InvertIntensityImageFilter,ImageIntensity,6.1045,16.7522,1.8501,12.2449,7.2207,17.5264,0.8454,0.9558,0.2562,0.6987,否,592核float不更快，小算子线程开销常见
+IsoContourDistanceImageFilter,DistanceMap,158.8319,151.5001,26.3757,24.768,69.448,71.0106,2.2871,2.1335,0.3798,0.3488,是,
+IsoDataThresholdImageFilter,Thresholding,156.5953,170.52,19.8591,22.4295,25.3673,37.3288,6.1731,4.5681,0.7829,0.6009,是,
+IsolatedConnectedImageFilter,RegionGrowing,17.8582,23.7757,11.0737,16.4107,17.8442,24.0244,1.0008,0.9896,0.6206,0.6831,是,
+IsolatedWatershedImageFilter,Watersheds,4114.8908,4045.6245,5438.0951,7907.7776,5857.0213,5600.4278,0.7026,0.7224,0.9285,1.412,否,592核float不更快，小算子线程开销常见
+IsotropicFourthOrderLevelSetImageFilter,LevelSets,4540.1562,4571.0722,2105.9018,2043.4293,9394.8342,9142.8048,0.4833,0.5,0.2242,0.2235,否,592核float不更快，小算子线程开销常见
+IterativeInverseDisplacementFieldImageFilter,DisplacementField,,,1246.4561,12421.5808,2039.414,2059.9331,,,0.6112,6.0301,,有效单核那次没有这条（缺 extra35/cat3 等）
+JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4,Metricsv4,35.3211,35.8178,12.3667,14.4049,32.4604,32.8881,1.0881,1.0891,0.381,0.438,是,
+JoinImageFilter,ImageCompose,8.4981,14.6513,2.1133,5.4815,9.5584,18.8556,0.8891,0.777,0.2211,0.2907,否,592核float不更快，小算子线程开销常见
+JoinSeriesImageFilter,ImageCompose,4.3192,11.2326,3.1176,9.6668,2.9115,14.7034,1.4835,0.7639,1.0708,0.6575,是,
+JointHistogramMutualInformationImageToImageMetricv4,Metricsv4,517.2718,500.4108,166.7061,178.8863,830.3902,221.4213,0.6229,2.26,0.2008,0.8079,否,592核float不更快，小算子线程开销常见
+KappaSigmaThresholdImageFilter,Thresholding,44.4737,52.3941,34.1241,70.6943,49.7379,94.8087,0.8942,0.5526,0.6861,0.7457,否,592核float不更快，小算子线程开销常见
+KappaStatisticImageToImageMetric,Common,181.6955,179.4963,133.1748,140.2437,205.0903,227.5513,0.8859,0.7888,0.6493,0.6163,否,592核float不更快，小算子线程开销常见
+KittlerIllingworthThresholdImageFilter,Thresholding,156.0842,170.887,19.243,22.681,24.276,37.6775,6.4296,4.5355,0.7927,0.602,是,
+KLMRegionGrowImageFilter,KLMRegionGrowing,,,0.8423,0.9003,1.4254,1.413,,,0.5909,0.6372,,有效单核那次没有这条（缺 extra35/cat3 等）
+KullbackLeiblerCompareHistogramImageToImageMetric,Common,955.5458,947.1943,1769.948,505.2376,2878.2035,781.7674,0.332,1.2116,0.6149,0.6463,否,592核float不更快，小算子线程开销常见
+LabelContourImageFilter,ImageLabel,13.665,12.6451,4.4768,4.7416,18.9164,19.1588,0.7224,0.66,0.2367,0.2475,否,592核float不更快，小算子线程开销常见
+LabeledPointSetToPointSetMetricv4,Metricsv4,,,0.2184,0.1982,0.3602,2.3471,,,0.6063,0.0844,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelImageToLabelMapFilter,LabelMap,14.5682,14.2831,3.7129,3.7655,15.1163,15.3149,0.9637,0.9326,0.2456,0.2459,否,592核float不更快，小算子线程开销常见
+LabelImageToShapeLabelMapFilter,LabelMap,,,4.4134,4.2102,22.7938,22.8706,,,0.1936,0.1841,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelImageToStatisticsLabelMapFilter,LabelMap,,,139.4247,180.5693,278.7996,195.825,,,0.5001,0.9221,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelMapContourOverlayImageFilter,ImageFusion,,,0.4266,0.3948,0.8675,0.8325,,,0.4918,0.4742,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelMapMaskImageFilter,LabelMap,,,5.3128,11.2078,9.6202,16.4468,,,0.5523,0.6815,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelMapOverlayImageFilter,ImageFusion,,,0.1103,0.1013,0.096,0.0877,,,1.149,1.1551,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelMapToAttributeImageFilter,LabelMap,,,0.0586,0.0539,0.0393,0.0362,,,1.4911,1.489,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelMapToBinaryImageFilter,LabelMap,26.573,26.3608,20.8657,25.7498,80.7331,79.7473,0.3291,0.3306,0.2585,0.3229,否,592核float不更快，小算子线程开销常见
+LabelMapToLabelImageFilter,LabelMap,23.0117,22.6106,40.5206,43.29,56.3464,55.4455,0.4084,0.4078,0.7191,0.7808,否,592核float不更快，小算子线程开销常见
+LabelMapToRGBImageFilter,ImageFusion,,,0.0265,0.0226,0.0439,0.0399,,,0.6036,0.5664,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelOverlapMeasuresImageFilter,ImageStatistics,,,2.862,2.4151,9.1718,9.0989,,,0.312,0.2654,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelOverlayImageFilter,ImageFusion,,,8.9472,8.9898,19.9764,19.7209,,,0.4479,0.4559,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelSelectionLabelMapFilter,LabelMap,,,0.0509,0.0486,0.0437,0.0386,,,1.1648,1.2591,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelShapeKeepNObjectsImageFilter,LabelMap,,,6.5098,7.9804,48.698,55.3932,,,0.1337,0.1441,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelShapeOpeningImageFilter,LabelMap,,,7.9652,6.4803,1665.9048,35.7107,,,0.0048,0.1815,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelStatisticsImageFilter,ImageStatistics,,,3.0808,3.3942,10.6719,10.7244,,,0.2887,0.3165,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelStatisticsKeepNObjectsImageFilter,LabelMap,,,238.5619,391.5665,202.1349,214.6782,,,1.1802,1.824,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelStatisticsOpeningImageFilter,LabelMap,,,303.4394,136.3782,193.6011,218.852,,,1.5673,0.6232,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelToRGBImageFilter,ImageFusion,,,9.4668,8.9909,19.249,18.9022,,,0.4918,0.4757,,有效单核那次没有这条（缺 extra35/cat3 等）
+LabelVotingImageFilter,LabelVoting,101.1052,101.0437,36.3297,36.6801,59.6722,59.2538,1.6943,1.7053,0.6088,0.619,是,
+LandweberDeconvolutionImageFilter,Deconvolution,1167.3006,1118.653,824.6737,1000.4224,1566.5649,1657.8845,0.7451,0.6747,0.5264,0.6034,否,592核float不更快，小算子线程开销常见
+LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints,QuadEdgeMeshFiltering,,,13.8422,13.7986,23.2626,23.0654,,,0.595,0.5982,,有效单核那次没有这条（缺 extra35/cat3 等）
+LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints,QuadEdgeMeshFiltering,,,39.0342,39.4319,70.2938,66.6338,,,0.5553,0.5918,,有效单核那次没有这条（缺 extra35/cat3 等）
+LaplacianImageFilter,ImageFeature,69.6086,72.1338,5.4523,12.7985,7.8373,18.6396,8.8817,3.8699,0.6957,0.6866,是,
+LaplacianRecursiveGaussianImageFilter,ImageFeature,270.6247,282.7085,28.2256,41.6862,58.4374,74.256,4.631,3.8072,0.483,0.5614,是,
+LaplacianSegmentationLevelSetImageFilter,LevelSets,197.0143,203.1833,57.9689,58.6386,99.763,108.7787,1.9748,1.8679,0.5811,0.5391,是,
+LaplacianSharpeningImageFilter,ImageFeature,143.9264,155.8312,12.8527,19.9487,45.3554,58.1203,3.1733,2.6812,0.2834,0.3432,是,
+LevelSetDomainMapImageFilter,LevelSetsv4,,,0.0939,0.0696,0.1287,0.1152,,,0.7296,0.6042,,有效单核那次没有这条（缺 extra35/cat3 等）
+LevelSetMotionRegistrationFilter,PDEDeformable,,,125.4719,260.6607,168.1427,202.9626,,,0.7462,1.2843,,有效单核那次没有这条（缺 extra35/cat3 等）
+LiThresholdImageFilter,Thresholding,155.5211,170.4888,15.6369,22.9691,24.5241,38.7595,6.3416,4.3986,0.6376,0.5926,是,
+Log10ImageFilter,ImageIntensity,38.9243,47.3701,4.3986,12.6276,7.2581,19.4663,5.3629,2.4334,0.606,0.6487,是,
+LogImageFilter,ImageIntensity,24.1426,32.8148,1.6675,10.3604,8.366,21.2357,2.8858,1.5453,0.1993,0.4879,是,
+MagnitudeAndPhaseToComplexImageFilter,ImageIntensity,,,8.9168,8.1975,10.0964,10.6903,,,0.8832,0.7668,,有效单核那次没有这条（缺 extra35/cat3 等）
+MaskedFFTNormalizedCorrelationImageFilter,Convolution,7670.3102,8330.7539,8471.5874,8542.4309,17825.8805,21333.407,0.4303,0.3905,0.4752,0.4004,否,592核float不更快，小算子线程开销常见
+MaskedMovingHistogramImageFilter,MathematicalMorphology,,,1.3212,1.2939,1.3348,3.0527,,,0.9898,0.4239,,有效单核那次没有这条（缺 extra35/cat3 等）
+MaskedRankImageFilter,MathematicalMorphology,,,5.3371,5.9696,9.0616,8.9114,,,0.589,0.6699,,有效单核那次没有这条（缺 extra35/cat3 等）
+MaskFeaturePointSelectionFilter,ImageFeature,,,10.6813,10.6745,18.1158,18.0978,,,0.5896,0.5898,,有效单核那次没有这条（缺 extra35/cat3 等）
+MaskImageFilter,ImageIntensity,8.4298,21.817,2.5277,12.9027,9.1173,22.4769,0.9246,0.9706,0.2772,0.574,否,592核float不更快，小算子线程开销常见
+MaskNegatedImageFilter,ImageIntensity,7.2204,17.5782,1.3201,10.7094,8.9512,22.2792,0.8066,0.789,0.1475,0.4807,否,592核float不更快，小算子线程开销常见
+MatchCardinalityImageToImageMetric,Common,63.7136,65.7826,13.7287,21.1306,9.3484,9.9536,6.8155,6.6089,1.4686,2.1229,是,
+MatrixIndexSelectionImageFilter,ImageIntensity,,,0.9701,1.0035,1.2473,0.8215,,,0.7778,1.2215,,有效单核那次没有这条（缺 extra35/cat3 等）
+MattesMutualInformationImageToImageMetric,Common,52.4099,52.7288,28.9118,37.7884,77.0138,91.5868,0.6805,0.5757,0.3754,0.4126,否,592核float不更快，小算子线程开销常见
+MattesMutualInformationImageToImageMetricv4,Metricsv4,539.3436,529.398,151.4189,121.0411,157.0261,162.834,3.4347,3.2512,0.9643,0.7433,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+MaximumEntropyThresholdImageFilter,Thresholding,158.8838,174.0227,20.1277,29.1199,26.954,40.4248,5.8946,4.3048,0.7467,0.7203,是,
+MaximumImageFilter,ImageIntensity,6.5364,17.1948,1.5124,10.0283,7.4402,17.8321,0.8785,0.9643,0.2033,0.5624,否,592核float不更快，小算子线程开销常见
+MaximumProjectionImageFilter,ImageStatistics,11.1664,18.0956,0.9592,4.2796,8.668,18.0243,1.2882,1.004,0.1107,0.2374,是,
+Mean(radius=15),suite,2760.9543,2737.2071,282.0972,380.699,21.1482,87.2747,130.5527,31.3631,13.3391,4.3621,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+MeanImageFilter,Smoothing,69.2613,72.9314,5.0164,17.5087,8.3036,19.6141,8.3411,3.7183,0.6041,0.8927,是,
+MeanProjectionImageFilter,ImageStatistics,12.0836,19.7883,3.1282,5.1154,8.7733,18.2993,1.3773,1.0814,0.3566,0.2795,是,
+MeanReciprocalSquareDifferenceImageToImageMetric,Common,365.5129,351.4675,115.9435,99.9712,2063.1428,151.2955,0.1772,2.3231,0.0562,0.6608,否,592核float不更快，小算子线程开销常见
+MeanReciprocalSquareDifferencePointSetToImageMetric,Common,293.9789,289.0353,131.1708,56.2626,1333.3539,94.827,0.2205,3.048,0.0984,0.5933,否,592核float不更快，小算子线程开销常见
+MeanSquaresHistogramImageToImageMetric,Common,620.3949,611.1326,311.402,255.7292,1685.2272,449.5485,0.3681,1.3594,0.1848,0.5689,否,592核float不更快，小算子线程开销常见
+MeanSquaresImageToImageMetric,Common,391.299,384.1029,155.3193,107.585,803.9038,182.8998,0.4867,2.1001,0.1932,0.5882,否,592核float不更快，小算子线程开销常见
+MeanSquaresImageToImageMetricv4,Metricsv4,450.3066,433.0531,148.6772,82.4465,2662.8567,99.3655,0.1691,4.3582,0.0558,0.8297,否,592核float不更快，小算子线程开销常见
+MeanSquaresPointSetToImageMetric,Common,309.7021,294.5898,94.4563,76.8603,1999.7983,93.0553,0.1549,3.1657,0.0472,0.826,否,592核float不更快，小算子线程开销常见
+Median+RecursiveGaussian,suite,322.6071,334.4757,21.286,110.5595,26.5333,1957.7339,12.1586,0.1708,0.8022,0.0565,是,
+MedianImageFilter,Smoothing,188.6388,197.9861,13.5616,19.188,8.0778,18.7894,23.3527,10.5371,1.6789,1.0212,是,
+MedianProjectionImageFilter,ImageStatistics,27.1014,33.3362,6.1877,6.9398,9.0085,19.1636,3.0084,1.7396,0.6869,0.3621,是,
+MergeLabelMapFilter,LabelMap,,,0.062,0.0649,0.041,0.0377,,,1.5122,1.7215,,有效单核那次没有这条（缺 extra35/cat3 等）
+MinimumImageFilter,ImageIntensity,6.936,18.0596,1.819,11.9259,7.364,17.4135,0.9419,1.0371,0.247,0.6849,否,592核float不更快，小算子线程开销常见
+MinimumMaximumImageFilter,ImageStatistics,7.7065,12.7991,2.0529,2.9542,8.5332,16.9176,0.9031,0.7566,0.2406,0.1746,否,592核float不更快，小算子线程开销常见
+MinimumProjectionImageFilter,ImageStatistics,11.3025,18.4767,1.2273,3.4731,8.5881,17.9676,1.3161,1.0283,0.1429,0.1933,是,
+MinMaxCurvatureFlowImageFilter,CurvatureFlow,1827.8781,1740.7216,143.3304,120.1641,144.4754,156.7361,12.6518,11.1061,0.9921,0.7667,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+MirrorPadImageFilter,ImageGrid,5.3134,12.0378,1.5446,3.4692,9.1169,18.2265,0.5828,0.6605,0.1694,0.1903,否,592核float不更快，小算子线程开销常见
+ModulusImageFilter,ImageIntensity,12.6715,12.6444,0.8103,0.7482,8.6851,8.6872,1.459,1.4555,0.0933,0.0861,是,
+MomentsThresholdImageFilter,Thresholding,155.5668,170.7613,19.2521,31.8543,24.285,38.0722,6.4059,4.4852,0.7928,0.8367,是,
+MorphologicalGradientImageFilter,MathematicalMorphology,260.3413,265.7611,19.3496,27.8547,24.0113,38.3034,10.8424,6.9383,0.8059,0.7272,是,
+MorphologicalWatershedFromMarkersImageFilter,Watersheds,300.9182,314.5664,253.4591,299.5571,361.8832,420.7696,0.8315,0.7476,0.7004,0.7119,否,592核float不更快，小算子线程开销常见
+MorphologicalWatershedImageFilter,Watersheds,872.6698,976.5512,817.6714,961.6128,1144.9824,1317.821,0.7622,0.741,0.7141,0.7297,否,592核float不更快，小算子线程开销常见
+MovingHistogramDilateImageFilter,MathematicalMorphology,744.9979,739.5848,36.0049,32.9053,11.033,15.6033,67.5245,47.3993,3.2634,2.1089,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+MovingHistogramErodeImageFilter,MathematicalMorphology,,,36.5253,38.9526,15.0561,15.3907,,,2.4259,2.5309,,有效单核那次没有这条（缺 extra35/cat3 等）
+MovingHistogramMorphologicalGradientImageFilter,MathematicalMorphology,,,43.9173,34.455,10.4762,14.154,,,4.1921,2.4343,,有效单核那次没有这条（缺 extra35/cat3 等）
+MRIBiasFieldCorrectionFilter,BiasCorrection,,,36.9525,35.5225,63.978,64.254,,,0.5776,0.5528,,有效单核那次没有这条（缺 extra35/cat3 等）
+MultiLabelSTAPLEImageFilter,LabelVoting,,,140.5221,141.8051,394.0115,217.3532,,,0.3566,0.6524,,有效单核那次没有这条（缺 extra35/cat3 等）
+MultiplyImageFilter,ImageIntensity,6.2137,16.4487,2.211,15.0696,7.4597,17.7185,0.833,0.9283,0.2964,0.8505,否,592核float不更快，小算子线程开销常见
+MultiResolutionPyramidImageFilter,Registration,243.2765,240.0397,19.7944,33.5562,69.4316,84.388,3.5038,2.8445,0.2851,0.3976,是,
+MultiScaleHessianBasedMeasureImageFilter,ImageFeature,,,22.67,22.1734,23.417,26.2356,,,0.9681,0.8452,,有效单核那次没有这条（缺 extra35/cat3 等）
+MutualInformationHistogramImageToImageMetric,Common,627.9599,616.3477,620.781,1355.2106,3026.7212,454.5267,0.2075,1.356,0.2051,2.9816,否,592核float不更快，小算子线程开销常见
+MutualInformationImageToImageMetric,Common,24987.5539,24978.0727,15994.5102,16725.6236,24936.0921,24956.3895,1.0021,1.0009,0.6414,0.6702,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+N4BiasFieldCorrectionImageFilter,BiasCorrection,7316.792,7319.7534,716.4444,846.2749,868.6874,1006.4008,8.4228,7.2732,0.8247,0.8409,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+NarrowBandCurvesLevelSetImageFilter,LevelSets,765.4419,766.5552,272.6689,304.5133,516.7547,519.3602,1.4812,1.476,0.5277,0.5863,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+NarrowBandThresholdSegmentationLevelSetImageFilter,LevelSets,392.8739,400.7747,128.3469,127.6875,331.0552,352.9609,1.1867,1.1355,0.3877,0.3618,是,
+NaryAddImageFilter,ImageIntensity,17.0011,20.8405,2.7277,4.9044,8.7524,17.2341,1.9425,1.2093,0.3117,0.2846,是,
+NaryMaximumImageFilter,ImageIntensity,41.9806,47.9765,2.7442,4.4268,8.729,17.3953,4.8093,2.758,0.3144,0.2545,是,
+NeighborhoodConnectedImageFilter,RegionGrowing,3.0578,14.181,1.6676,11.5556,3.0239,14.5993,1.0112,0.9713,0.5515,0.7915,是,
+NoiseImageFilter,ImageFilterBase,88.5234,89.9571,6.3614,18.0168,8.9045,21.6545,9.9414,4.1542,0.7144,0.832,是,
+Normalize,suite,30.1789,40.8704,2.6643,13.4718,17.0457,29.3558,1.7705,1.3922,0.1563,0.4589,是,
+NormalizedCorrelationImageFilter,Convolution,56.5646,64.6715,4.4135,13.0285,8.6988,21.9182,6.5026,2.9506,0.5074,0.5944,是,
+NormalizedCorrelationImageToImageMetric,Common,357.758,344.0729,400.3591,121.9787,1397.5041,150.1957,0.256,2.2908,0.2865,0.8121,否,592核float不更快，小算子线程开销常见
+NormalizedCorrelationPointSetToImageMetric,Common,307.3793,294.722,126.7238,67.6227,1356.45,87.5187,0.2266,3.3675,0.0934,0.7727,否,592核float不更快，小算子线程开销常见
+NormalizedMutualInformationHistogramImageToImageMetric,Common,628.5372,614.0295,308.3475,347.6932,2964.8902,447.7036,0.212,1.3715,0.104,0.7766,否,592核float不更快，小算子线程开销常见
+NormalizeImageFilter,ImageIntensity,31.8517,43.4468,5.0708,8.0783,14.8045,25.0844,2.1515,1.732,0.3425,0.322,是,
+NormalizeToConstantImageFilter,ImageIntensity,34.7863,51.7268,8.0197,17.4223,14.6494,25.2819,2.3746,2.046,0.5474,0.6891,是,
+NormalQuadEdgeMeshFilter,QuadEdgeMeshFiltering,,,7.6094,7.3871,12.9288,12.7256,,,0.5886,0.5805,,有效单核那次没有这条（缺 extra35/cat3 等）
+NotImageFilter,ImageIntensity,12.1797,12.1984,2.2328,2.1183,8.6821,8.6913,1.4029,1.4035,0.2572,0.2437,是,
+ObjectToObjectMultiMetricv4,Metricsv4,1020.0249,995.0585,352.3458,360.3158,4911.9207,8092.1017,0.2077,0.123,0.0717,0.0445,否,592核float不更快，小算子线程开销常见
+OpeningByReconstructionImageFilter,MathematicalMorphology,296.9962,373.8144,132.1108,207.6028,208.2563,324.2597,1.4261,1.1528,0.6344,0.6402,是,
+OrientImageFilter,ImageGrid,,,0.3584,0.4107,0.5196,0.4866,,,0.6898,0.844,,有效单核那次没有这条（缺 extra35/cat3 等）
+OrImageFilter,ImageIntensity,12.822,12.7924,2.9523,1.8182,8.7054,8.64,1.4729,1.4806,0.3391,0.2104,是,
+OrthogonalSwath2DPathFilter,Path,,,18.1967,17.8553,33.3044,33.2787,,,0.5464,0.5365,,有效单核那次没有这条（缺 extra35/cat3 等）
+OtsuMultipleThresholdsImageFilter,Thresholding,135.8125,154.9647,77.0662,115.6458,133.239,172.8929,1.0193,0.8963,0.5784,0.6689,是,
+OtsuThreshold,suite,152.0814,166.6302,17.1851,26.2005,26.3548,38.8156,5.7705,4.2929,0.6521,0.675,是,
+OtsuThresholdImageFilter,Thresholding,155.0663,169.2294,19.5703,22.6544,24.3005,36.9622,6.3812,4.5784,0.8053,0.6129,是,
+PadImageFilter,ImageGrid,,,1.3887,1.6193,7.8592,7.8421,,,0.1767,0.2065,,有效单核那次没有这条（缺 extra35/cat3 等）
+PadLabelMapFilter,LabelMap,,,0.1332,0.0932,0.1512,0.1523,,,0.881,0.612,,有效单核那次没有这条（缺 extra35/cat3 等）
+ParameterizationQuadEdgeMeshFilter,QuadEdgeMeshFiltering,,,3.0319,3.0406,5.2549,5.0129,,,0.577,0.6066,,有效单核那次没有这条（缺 extra35/cat3 等）
+ParametricBlindLeastSquaresDeconvolutionImageFilter,Deconvolution,,,14.3251,11.6396,15.9709,14.4017,,,0.897,0.8082,,有效单核那次没有这条（缺 extra35/cat3 等）
+PasteImageFilter,ImageGrid,8.3904,21.0854,1.8654,12.629,8.3405,20.798,1.006,1.0138,0.2237,0.6072,是,
+PatchBasedDenoisingImageFilter,Denoising,,,2092.1772,1448.6626,2889.179,2299.0726,,,0.7241,0.6301,,有效单核那次没有这条（缺 extra35/cat3 等）
+PathToChainCodePathFilter,Path,0.0706,0.0621,0.0468,0.0375,0.069,0.0593,1.0232,1.0472,0.6783,0.6324,是,
+PathToImageFilter,Path,0.8863,0.919,0.617,0.5388,0.8676,0.9832,1.0216,0.9347,0.7112,0.548,是,
+PermuteAxesImageFilter,ImageGrid,52.158,68.4446,7.5587,15.2703,8.2315,22.7487,6.3364,3.0087,0.9183,0.6713,是,
+PhysicalPointImageSource,ImageSources,,,3.1529,4.2818,8.7933,8.7859,,,0.3586,0.4873,,有效单核那次没有这条（缺 extra35/cat3 等）
+PointSetToImageRegistrationMethod,Common,308.1591,295.0528,106.8615,68.106,1989.2741,96.9736,0.1549,3.0426,0.0537,0.7023,否,592核float不更快，小算子线程开销常见
+PointSetToPointSetRegistrationMethod,Common,130.6362,131.387,79.0235,79.2207,130.9153,131.5314,0.9979,0.9989,0.6036,0.6023,否,592核float不更快，小算子线程开销常见
+PolylineMask2DImageFilter,ImageIntensity,,,0.0775,0.0728,0.1203,0.1157,,,0.6442,0.6292,,有效单核那次没有这条（缺 extra35/cat3 等）
+PolylineMaskImageFilter,ImageIntensity,,,0.4043,0.413,0.666,0.6615,,,0.6071,0.6243,,有效单核那次没有这条（缺 extra35/cat3 等）
+PowImageFilter,ImageIntensity,61.5016,68.0643,4.366,12.7785,8.6203,19.8579,7.1345,3.4276,0.5065,0.6435,是,
+ProjectedIterativeDeconvolutionImageFilter,Deconvolution,,,10.5753,7.3408,9.8634,8.6506,,,1.0722,0.8486,,有效单核那次没有这条（缺 extra35/cat3 等）
+ProjectedLandweberDeconvolutionImageFilter,Deconvolution,1067.5609,1144.9066,764.941,2151.7571,1477.8455,1563.7859,0.7224,0.7321,0.5176,1.376,否,592核float不更快，小算子线程开销常见
+QuadricDecimationQuadEdgeMeshFilter,QuadEdgeMeshFiltering,,,78.1509,77.8895,128.2714,128.4147,,,0.6093,0.6065,,有效单核那次没有这条（缺 extra35/cat3 等）
+RankImageFilter,MathematicalMorphology,890.1009,901.9241,36.7196,45.1083,10.9251,24.6886,81.473,36.532,3.361,1.8271,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+ReconstructionByDilationImageFilter,MathematicalMorphology,,,136.4917,127.4954,239.0032,274.8895,,,0.5711,0.4638,,有效单核那次没有这条（缺 extra35/cat3 等）
+ReconstructionByErosionImageFilter,MathematicalMorphology,,,133.8132,128.1923,229.3285,256.6733,,,0.5835,0.4994,,有效单核那次没有这条（缺 extra35/cat3 等）
+RecursiveGaussian,suite,128.5094,144.7666,39.1636,95.6206,632.1199,1964.4759,0.2033,0.0737,0.062,0.0487,否,592核float不更快，小算子线程开销常见
+RecursiveGaussianImageFilter,Smoothing,62.2991,74.9047,3.7199,15.7716,8.875,20.5673,7.0196,3.6419,0.4191,0.7668,是,
+RecursiveMultiResolutionPyramidImageFilter,Registration,105.4928,110.3322,13.2324,24.0391,40.6553,57.3018,2.5948,1.9255,0.3255,0.4195,是,
+RegionalMaximaImageFilter,MathematicalMorphology,172.6824,184.1811,103.2589,122.3625,180.4216,207.3117,0.9571,0.8884,0.5723,0.5902,否,592核float不更快，小算子线程开销常见
+RegionalMinimaImageFilter,MathematicalMorphology,169.0895,180.3816,109.2725,122.2185,180.3918,212.6674,0.9373,0.8482,0.6058,0.5747,否,592核float不更快，小算子线程开销常见
+RegionOfInterestImageFilter,ImageGrid,5.6221,16.4265,1.6863,10.4405,8.5773,19.6349,0.6555,0.8366,0.1966,0.5317,否,592核float不更快，小算子线程开销常见
+ReinitializeLevelSetImageFilter,LevelSets,1250.9589,1230.7842,812.9824,793.8546,1267.7648,1315.8042,0.9867,0.9354,0.6413,0.6033,否,592核float不更快，小算子线程开销常见
+RelabelComponentImageFilter,ConnectedComponents,20.487,18.6334,4.3556,3.9047,16.8299,16.8445,1.2173,1.1062,0.2588,0.2318,是,
+RelabelLabelMapFilter,LabelMap,16.0268,16.1401,35.3196,31.6349,57.8726,56.6521,0.2769,0.2849,0.6103,0.5584,否,592核float不更快，小算子线程开销常见
+RenyiEntropyThresholdImageFilter,Thresholding,160.6202,175.4242,19.9343,24.3214,28.6875,42.7383,5.599,4.1046,0.6949,0.5691,是,
+ResampleIdentity,suite,56.8741,58.904,4.001,11.9178,8.4368,19.8296,6.7412,2.9705,0.4742,0.601,是,
+RescaleIntensityImageFilter,ImageIntensity,16.3558,27.111,9.8572,19.5295,15.9219,34.7073,1.0273,0.7811,0.6191,0.5627,是,
+RGBToLuminanceImageFilter,ImageIntensity,,,13.2,14.0541,27.7237,28.0683,,,0.4761,0.5007,,有效单核那次没有这条（缺 extra35/cat3 等）
+RichardsonLucyDeconvolutionImageFilter,Deconvolution,1734.7185,1842.9938,1875.1247,1126.6314,2870.7802,2886.0829,0.6043,0.6386,0.6532,0.3904,否,592核float不更快，小算子线程开销常见
+RoundImageFilter,ImageIntensity,7.6019,17.3896,1.2644,10.8673,7.4174,17.6608,1.0249,0.9846,0.1705,0.6153,是,
+SaltAndPepperNoiseImageFilter,ImageNoise,21.7541,32.2683,1.7422,8.8443,8.0725,20.5733,2.6948,1.5685,0.2158,0.4299,是,
+ScalarConnectedComponentImageFilter,ConnectedComponents,2050.81,2036.1801,1259.0677,1254.7674,2651.513,2711.352,0.7734,0.751,0.4748,0.4628,否,592核float不更快，小算子线程开销常见
+ScalarImageKmeansImageFilter,Classifiers,3989.7354,4386.9921,3851.6484,4085.0019,4382.6583,5363.9316,0.9103,0.8179,0.8788,0.7616,否,592核float不更快，小算子线程开销常见
+ScalarToRGBColormapImageFilter,Colormap,60.8449,73.5147,14.8736,13.2605,24.5792,33.5728,2.4755,2.1897,0.6051,0.395,是,
+ShanbhagThresholdImageFilter,Thresholding,157.8765,173.282,19.1941,24.734,25.6424,39.1602,6.1569,4.425,0.7485,0.6316,是,
+ShapeDetectionLevelSetImageFilter,LevelSets,122.2004,123.228,48.3361,49.1868,85.7215,85.8752,1.4256,1.435,0.5639,0.5728,是,
+ShapeKeepNObjectsLabelMapFilter,LabelMap,28.7244,29.3947,23.5554,20.7153,66.8227,66.1002,0.4299,0.4447,0.3525,0.3134,否,592核float不更快，小算子线程开销常见
+ShapeLabelMapFilter,LabelMap,,,0.1023,0.0771,0.0373,0.0325,,,2.7426,2.3723,,有效单核那次没有这条（缺 extra35/cat3 等）
+ShapeOpeningLabelMapFilter,LabelMap,,,0.0276,0.0569,0.0412,0.0373,,,0.6699,1.5255,,有效单核那次没有这条（缺 extra35/cat3 等）
+ShapeRelabelImageFilter,LabelMap,54.8774,51.3443,22.6985,22.7482,79.6035,80.3075,0.6894,0.6393,0.2851,0.2833,否,592核float不更快，小算子线程开销常见
+ShapeRelabelLabelMapFilter,LabelMap,,,0.0218,0.0188,0.0358,0.0318,,,0.6089,0.5912,,有效单核那次没有这条（缺 extra35/cat3 等）
+ShapeUniqueLabelMapFilter,LabelMap,,,0.0225,0.0169,0.0368,0.0318,,,0.6114,0.5314,,有效单核那次没有这条（缺 extra35/cat3 等）
+ShiftScaleImageFilter,ImageIntensity,8.1759,18.3822,1.521,12.8024,7.3253,17.7304,1.1161,1.0368,0.2076,0.7221,是,
+ShiftScaleLabelMapFilter,LabelMap,,,0.0565,0.056,0.0367,0.0343,,,1.5395,1.6327,,有效单核那次没有这条（缺 extra35/cat3 等）
+ShotNoiseImageFilter,ImageNoise,93.1249,103.379,6.708,12.8796,8.4521,21.7286,11.018,4.7577,0.7936,0.5927,是,
+ShrinkImageFilter,ImageGrid,10.6973,17.7363,0.966,3.4254,8.5085,17.4329,1.2572,1.0174,0.1135,0.1965,是,
+SigmoidImageFilter,ImageIntensity,31.5665,40.2406,2.4255,18.0438,7.4409,18.6796,4.2423,2.1543,0.326,0.966,是,
+SignedDanielssonDistanceMapImageFilter,DistanceMap,779.7954,766.6735,387.7095,396.3647,791.148,805.7206,0.9857,0.9515,0.4901,0.4919,否,592核float不更快，小算子线程开销常见
+SignedMaurerDistance,suite,395.0245,410.7466,50.3147,65.2904,93.1287,107.6315,4.2417,3.8162,0.5403,0.6066,是,
+SignedMaurerDistanceMapImageFilter,DistanceMap,256.6425,236.9683,39.2237,26.5703,65.725,59.0155,3.9048,4.0154,0.5968,0.4502,是,
+SimilarityIndexImageFilter,ImageCompare,12.5643,12.4106,35.4283,34.6848,18.3475,16.1626,0.6848,0.7679,1.931,2.146,否,592核float不更快，小算子线程开销常见
+SimpleContourExtractorImageFilter,ImageFeature,34.6606,49.7566,4.9113,11.2213,8.1355,20.3427,4.2604,2.4459,0.6037,0.5516,是,
+SinImageFilter,ImageIntensity,62.0186,69.2117,4.5067,12.9291,8.2551,19.7692,7.5128,3.501,0.5459,0.654,是,
+SliceBySliceImageFilter,ImageGrid,,,3.6441,3.7301,4.3444,4.7751,,,0.8388,0.7812,,有效单核那次没有这条（缺 extra35/cat3 等）
+SliceImageFilter,ImageGrid,,,1.3786,1.6451,8.6327,8.381,,,0.1597,0.1963,,有效单核那次没有这条（缺 extra35/cat3 等）
+SLICImageFilter,SuperPixel,2715.4604,2715.566,328.7507,515.8665,2273.7936,2388.0833,1.1942,1.1371,0.1446,0.216,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+SmoothingQuadEdgeMeshFilter,QuadEdgeMeshFiltering,27.0564,27.287,18.9026,19.2,35.5484,35.4992,0.7611,0.7687,0.5317,0.5409,否,592核float不更快，小算子线程开销常见
+SmoothingRecursiveGaussianImageFilter,Smoothing,128.6398,148.6703,26.4541,85.0351,648.1212,1982.3302,0.1985,0.075,0.0408,0.0429,否,592核float不更快，小算子线程开销常见
+SobelEdge,suite,183.328,232.1659,19.5837,41.9436,59.0152,72.7418,3.1065,3.1916,0.3318,0.5766,是,
+SobelEdgeDetectionImageFilter,ImageFeature,190.9378,187.9793,15.8019,37.905,46.5266,63.7472,4.1038,2.9488,0.3396,0.5946,是,
+SpatialFunctionImageEvaluatorFilter,SpatialFunction,,,0.0662,0.0677,0.1112,0.1134,,,0.5953,0.597,,有效单核那次没有这条（缺 extra35/cat3 等）
+SpeckleNoiseImageFilter,ImageNoise,4501.7443,4514.2492,184.3236,223.9645,21.4203,33.7828,210.1625,133.6257,8.6051,6.6295,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+SqrtImageFilter,ImageIntensity,13.8065,32.1602,2.9251,8.3196,7.8557,18.4758,1.7575,1.7407,0.3724,0.4503,是,
+SquaredDifferenceImageFilter,ImageCompare,7.2456,16.8009,1.5599,11.6028,7.5413,18.0295,0.9608,0.9319,0.2068,0.6435,否,592核float不更快，小算子线程开销常见
+SquaredEdgeLengthDecimationQuadEdgeMeshFilter,QuadEdgeMeshFiltering,,,10.888,10.794,17.8739,17.8928,,,0.6092,0.6033,,有效单核那次没有这条（缺 extra35/cat3 等）
+SquareImageFilter,ImageIntensity,5.5009,13.3489,1.9308,12.2537,7.3078,17.5473,0.7527,0.7607,0.2642,0.6983,否,592核float不更快，小算子线程开销常见
+StandardDeviationProjectionImageFilter,ImageStatistics,24.0313,29.8816,2.2489,4.6735,8.8569,18.64,2.7133,1.6031,0.2539,0.2507,是,
+STAPLEImageFilter,ImageCompare,66.834,60.6326,57.8359,48.9434,82.2631,71.1567,0.8124,0.8521,0.7031,0.6878,否,592核float不更快，小算子线程开销常见
+StatisticsImageFilter,ImageStatistics,23.1412,28.3069,2.97,4.3643,8.3897,17.0302,2.7583,1.6622,0.354,0.2563,是,
+StatisticsKeepNObjectsLabelMapFilter,LabelMap,,,0.0903,0.0866,0.0483,0.0435,,,1.8696,1.9908,,有效单核那次没有这条（缺 extra35/cat3 等）
+StatisticsLabelMapFilter,LabelMap,,,0.1097,0.1056,0.0557,0.0504,,,1.9695,2.0952,,有效单核那次没有这条（缺 extra35/cat3 等）
+StatisticsOpeningLabelMapFilter,LabelMap,,,0.0327,0.0275,0.0483,0.045,,,0.677,0.6111,,有效单核那次没有这条（缺 extra35/cat3 等）
+StatisticsRelabelImageFilter,LabelMap,,,222.6944,160.0866,415.7889,213.2864,,,0.5356,0.7506,,有效单核那次没有这条（缺 extra35/cat3 等）
+StatisticsRelabelLabelMapFilter,LabelMap,,,0.0208,0.0181,0.037,0.0318,,,0.5622,0.5692,,有效单核那次没有这条（缺 extra35/cat3 等）
+SubtractImageFilter,ImageIntensity,7.7158,26.7191,1.8935,8.9501,7.4791,18.0608,1.0316,1.4794,0.2532,0.4956,是,
+SumProjectionImageFilter,ImageStatistics,10.7992,17.6251,1.2592,4.4914,8.5962,18.2167,1.2563,0.9675,0.1465,0.2466,是,
+SymmetricEigenAnalysisImageFilter,ImageIntensity,,,1.016,0.9296,1.2861,0.813,,,0.79,1.1434,,有效单核那次没有这条（缺 extra35/cat3 等）
+SymmetricForcesDemonsRegistrationFilter,PDEDeformable,2737.3699,2633.2818,176.195,258.6563,226.6369,264.3947,12.0782,9.9597,0.7774,0.9783,是,绑核失败：线程挤在约1个核，大算子慢一个数量级
+TanImageFilter,ImageIntensity,72.9765,82.6435,4.0519,13.5299,8.3424,19.5682,8.7477,4.2234,0.4857,0.6914,是,
+TensorFractionalAnisotropyImageFilter,DiffusionTensorImage,,,0.2736,0.2282,0.2379,0.2005,,,1.1501,1.1382,,有效单核那次没有这条（缺 extra35/cat3 等）
+TensorRelativeAnisotropyImageFilter,DiffusionTensorImage,,,0.2697,0.3265,0.2348,0.1993,,,1.1486,1.6382,,有效单核那次没有这条（缺 extra35/cat3 等）
+TernaryAddImageFilter,ImageIntensity,12.8454,18.647,1.4829,3.6113,8.6677,17.0858,1.482,1.0914,0.1711,0.2114,是,
+TernaryMagnitudeImageFilter,ImageIntensity,,,2.5567,3.7654,8.7653,8.7654,,,0.2917,0.4296,,有效单核那次没有这条（缺 extra35/cat3 等）
+TernaryMagnitudeSquaredImageFilter,ImageIntensity,,,2.4477,3.4848,8.892,8.4438,,,0.2753,0.4127,,有效单核那次没有这条（缺 extra35/cat3 等）
+ThresholdImageFilter,Thresholding,7.968,18.6085,2.7842,14.4772,8.8152,20.9739,0.9039,0.8872,0.3158,0.6902,否,592核float不更快，小算子线程开销常见
+ThresholdLabelerImageFilter,Thresholding,10.2288,21.1879,1.7302,11.3083,8.8734,22.929,1.1527,0.9241,0.195,0.4932,是,
+ThresholdMaximumConnectedComponentsImageFilter,ConnectedComponents,738.4897,750.2065,535.6647,547.6092,1248.4535,1268.2009,0.5915,0.5916,0.4291,0.4318,否,592核float不更快，小算子线程开销常见
+ThresholdSegmentationLevelSetImageFilter,LevelSets,128.5711,136.077,63.2449,68.1001,92.1627,113.3062,1.395,1.201,0.6862,0.601,是,
+TikhonovDeconvolutionImageFilter,Deconvolution,458.0046,469.8471,246.2879,258.2995,655.3495,634.437,0.6989,0.7406,0.3758,0.4071,否,592核float不更快，小算子线程开销常见
+TileImageFilter,ImageGrid,12.6192,17.704,4.6353,6.216,21.5309,30.1458,0.5861,0.5873,0.2153,0.2062,否,592核float不更快，小算子线程开销常见
+TimeVaryingVelocityFieldIntegrationImageFilter,DisplacementField,,,0.6777,0.5113,1.8713,0.6979,,,0.3622,0.7326,,有效单核那次没有这条（缺 extra35/cat3 等）
+TobogganImageFilter,Watersheds,206.5399,216.8431,133.0445,145.1167,234.2334,265.1431,0.8818,0.8178,0.568,0.5473,否,592核float不更快，小算子线程开销常见
+TransformToDisplacementFieldFilter,DisplacementField,,,2.9401,3.4207,8.5391,8.5345,,,0.3443,0.4008,,有效单核那次没有这条（缺 extra35/cat3 等）
+TriangleThresholdImageFilter,Thresholding,153.8639,169.5834,16.7225,22.3465,24.3923,39.2896,6.3079,4.3162,0.6856,0.5688,是,
+UnsharpMaskImageFilter,ImageFeature,156.7025,171.9168,42.1936,23.6473,652.4449,39.8447,0.2402,4.3147,0.0647,0.5935,否,592核float不更快，小算子线程开销常见
+UnsharpMaskLevelSetImageFilter,LevelSets,549.8216,548.7181,253.0191,259.7016,973.4904,992.5286,0.5648,0.5528,0.2599,0.2617,否,592核float不更快，小算子线程开销常见
+ValuedRegionalMaximaImageFilter,MathematicalMorphology,227.6775,239.5249,104.2899,124.0596,174.9765,201.5951,1.3012,1.1881,0.596,0.6154,是,
+ValuedRegionalMinimaImageFilter,MathematicalMorphology,161.3148,176.9613,99.529,122.4038,166.884,212.5533,0.9666,0.8326,0.5964,0.5759,否,592核float不更快，小算子线程开销常见
+VanHerkGilWermanDilateImageFilter,MathematicalMorphology,,,5.3026,4.0048,9.5294,9.3903,,,0.5564,0.4265,,有效单核那次没有这条（缺 extra35/cat3 等）
+VanHerkGilWermanErodeImageFilter,MathematicalMorphology,,,3.9507,5.0161,9.4311,9.6257,,,0.4189,0.5211,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorConfidenceConnectedImageFilter,RegionGrowing,15.394,29.9448,10.2959,29.0929,19.5894,36.6753,0.7858,0.8165,0.5256,0.7933,否,592核float不更快，小算子线程开销常见
+VectorConnectedComponentImageFilter,ConnectedComponents,,,0.1291,0.1138,0.2108,0.1897,,,0.6124,0.5999,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorCurvatureAnisotropicDiffusionImageFilter,AnisotropicSmoothing,,,391.3023,342.6068,446.9178,528.8479,,,0.8756,0.6478,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorExpandImageFilter,ImageIntensity,,,0.9095,0.9011,1.299,0.9048,,,0.7002,0.9959,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorGradientAnisotropicDiffusionImageFilter,AnisotropicSmoothing,,,373.1033,333.6107,447.0003,542.045,,,0.8347,0.6155,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorGradientMagnitudeImageFilter,ImageGradient,,,1085.1365,1086.6692,1899.2526,1893.8403,,,0.5713,0.5738,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorIndexSelectionCastImageFilter,ImageIntensity,,,1.9211,3.294,8.8648,8.9805,,,0.2167,0.3668,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorMagnitudeImageFilter,ImageIntensity,90.7323,92.3354,6.8831,21.4836,17.9442,27.9276,5.0564,3.3062,0.3836,0.7693,是,
+VectorRescaleIntensityImageFilter,ImageIntensity,,,10.2271,11.4398,14.0578,13.2485,,,0.7275,0.8635,,有效单核那次没有这条（缺 extra35/cat3 等）
+VectorThresholdSegmentationLevelSetImageFilter,LevelSets,,,3.0985,2.4941,2.7548,3.2306,,,1.1248,0.772,,有效单核那次没有这条（缺 extra35/cat3 等）
+VnlComplexToComplex1DFFTImageFilter,FFT,,,0.9278,0.8352,1.2372,0.8359,,,0.7499,0.9992,,有效单核那次没有这条（缺 extra35/cat3 等）
+VnlComplexToComplexFFTImageFilter,FFT,,,1.1296,1.1513,1.4481,1.0504,,,0.7801,1.0961,,有效单核那次没有这条（缺 extra35/cat3 等）
+VnlForward1DFFTImageFilter,FFT,,,6.4568,6.355,10.3774,10.7697,,,0.6222,0.5901,,有效单核那次没有这条（缺 extra35/cat3 等）
+VnlForwardFFTImageFilter,FFT,113.3015,133.3814,70.5287,84.0166,123.7489,185.756,0.9156,0.718,0.5699,0.4523,否,592核float不更快，小算子线程开销常见
+VnlHalfHermitianToRealInverseFFTImageFilter,FFT,,,73.7208,88.5245,115.0195,140.1699,,,0.6409,0.6316,,有效单核那次没有这条（缺 extra35/cat3 等）
+VnlInverse1DFFTImageFilter,FFT,,,3.6164,3.923,9.1802,9.279,,,0.3939,0.4228,,有效单核那次没有这条（缺 extra35/cat3 等）
+VnlInverseFFTImageFilter,FFT,198.4233,233.6946,122.0926,156.5577,215.7476,314.8236,0.9197,0.7423,0.5659,0.4973,否,592核float不更快，小算子线程开销常见
+VnlRealToHalfHermitianForwardFFTImageFilter,FFT,,,62.0516,73.8471,105.1463,124.5796,,,0.5901,0.5928,,有效单核那次没有这条（缺 extra35/cat3 等）
+VoronoiPartitioningImageFilter,Voronoi,,,1.7911,1.8063,2.973,2.9847,,,0.6025,0.6052,,有效单核那次没有这条（缺 extra35/cat3 等）
+VoronoiSegmentationImageFilter,Voronoi,,,1.6369,1.5602,2.5179,2.5605,,,0.6501,0.6093,,有效单核那次没有这条（缺 extra35/cat3 等）
+VoronoiSegmentationRGBImageFilter,Voronoi,,,3.5205,3.5953,5.5239,5.1159,,,0.6373,0.7028,,有效单核那次没有这条（缺 extra35/cat3 等）
+VotingBinaryHoleFillingImageFilter,LabelVoting,53.4472,51.9817,3.4275,3.4591,7.8343,7.751,6.8222,6.7065,0.4375,0.4463,是,
+VotingBinaryImageFilter,LabelVoting,65.5404,63.0017,5.4096,4.5021,9.1785,9.2185,7.1406,6.8343,0.5894,0.4884,是,
+VotingBinaryIterativeHoleFillingImageFilter,LabelVoting,112.3518,111.5939,10.4782,15.0296,20.66,19.0256,5.4381,5.8655,0.5072,0.79,是,
+WarpImageFilter,ImageGrid,61.6864,69.9797,3.9022,11.7608,9.5662,23.7943,6.4484,2.941,0.4079,0.4943,是,
+WarpVectorImageFilter,ImageGrid,,,9.3637,8.1353,8.975,8.9342,,,1.0433,0.9106,,有效单核那次没有这条（缺 extra35/cat3 等）
+WatershedImageFilter,Watersheds,784.2603,781.4818,528.6248,507.3492,927.1819,943.2518,0.8459,0.8285,0.5701,0.5379,否,592核float不更快，小算子线程开销常见
+WeightedAddImageFilter,ImageIntensity,8.3116,21.8789,1.5089,8.6961,8.5839,20.9657,0.9683,1.0436,0.1758,0.4148,否,592核float不更快，小算子线程开销常见
+WhiteTopHatImageFilter,MathematicalMorphology,274.0996,281.9472,23.5451,35.3281,40.9018,58.823,6.7014,4.7931,0.5756,0.6006,是,
+WienerDeconvolutionImageFilter,Deconvolution,483.4579,504.0299,381.7296,396.6786,672.7202,670.5117,0.7187,0.7517,0.5674,0.5916,否,592核float不更快，小算子线程开销常见
+WrapPadImageFilter,ImageGrid,5.2182,12.0284,1.7241,4.4609,9.3833,18.2912,0.5561,0.6576,0.1837,0.2439,否,592核float不更快，小算子线程开销常见
+XorImageFilter,ImageIntensity,13.4262,13.2377,2.1281,2.1415,8.9022,8.6937,1.5082,1.5227,0.2391,0.2463,是,
+YenThresholdImageFilter,Thresholding,155.9486,170.7236,14.9184,26.9383,24.3923,38.5529,6.3934,4.4283,0.6116,0.6987,是,
+ZeroCrossingBasedEdgeDetectionImageFilter,ImageFeature,274.0068,272.0411,24.6972,37.5221,40.9003,56.0092,6.6994,4.8571,0.6038,0.6699,是,
+ZeroCrossingImageFilter,ImageFeature,57.6903,63.1593,4.3173,12.4578,7.6271,18.8983,7.5639,3.3421,0.566,0.6592,是,
+ZeroFluxNeumannPadImageFilter,ImageGrid,4.9194,11.6161,2.0657,4.1498,9.6765,19.2186,0.5084,0.6044,0.2135,0.2159,否,592核float不更快，小算子线程开销常见
