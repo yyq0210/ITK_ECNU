@@ -22,7 +22,7 @@
 | --- | --- |
 | 各轮合格数 | 300, 280, 286, 284, 281 |
 | 浮动区间 | **[280, 300]** |
-| 每轮都合格 | 217 |
+| 每轮都合格 | **217**（见 `stable_every_round_217.md` / `.txt`） |
 | 至少一轮合格 | 350 |
 | **送测名单** | **300**（第 1 轮上界，见 `qualified_functions.tsv` / `upper_bound_delivery.txt`） |
 
@@ -134,6 +134,7 @@ dqueue
 | `finalize_upper_bound.py` | 从上界轮写回 `qualified_functions.tsv` |
 | `upper_bound_delivery.txt` | 最近一次上界固化摘要 |
 | `qualified_functions.tsv` | **送测 300**（区间上界轮） |
+| `stable_every_round_217.md` / `.txt` | **五轮都达标 217**（按模块整理 / 纯名单） |
 | `mixed_precision_lingsheng592.csv` | 584 行灵昇复测表 |
 | `interface_status_584.md` | 584 个接口的合格 / 能做不合格 / 不能做说明 |
 
