@@ -1,0 +1,3 @@
+FastMarchingExtensionImageFilter	no_bench_list_entry
+FastMarchingImageFilter	no_bench_list_entry
+FastMarchingUpwindGradientImageFilter	no_bench_list_entry

@@ -92,7 +92,16 @@ bash submit_four_retry.sh
 
 结果在 `lingsheng592/results/four_retry_<时间戳>/four_retry.csv`。
 
-**误差已 `<1e-5` 的能做混合精度接口**（约 442 个，不只合格名单）连跑多轮、统计「误差且更快」数量区间：
+**全部已做混合精度的接口**（CSV 中「已测」471 个；可跑名单 468，见 `mixable_candidates.tsv`）**一轮**、每个函数内层计时 **100 次**：
+
+```bash
+bash submit_mixable_100.sh   # REPEATS=1 RUNS=100，墙钟约 72h
+```
+
+结果在 `results/mixable100_<时间戳>/`（`run_1/measurements.csv`、`stability_summary.txt`）。  
+3 个 FastMarching* 当前 bench 无独立 `--list` 入口，见 `mixable_candidates_skipped.txt`，未进本轮。
+
+旧的「误差已 `<1e-5`」多轮复测（默认 5 轮、内层约 1～3 次）仍可用：
 
 ```bash
 bash submit_err_ok_repeat.sh   # 默认 REPEATS=5
@@ -129,6 +138,8 @@ dqueue
 | `src/precision_fail_retry_bench.cxx` | 细化、Hough、MRF、Gibbs 小图 |
 | `src/precision_remainder_instantiable_bench.cxx` | v4 / MultiResolution / SyN 等 |
 | `src/precision_four_retry_bench.cxx` | 向量邻域、频率滤波、B 样条配准（官方 adaptor） |
+| `mixable_candidates.tsv` | 已测混精全量可跑候选（468；`RUNS=100`） |
+| `run_mixable_100.sh` / `submit_mixable_100.sh` | **一轮**、每函数 **100** 次内层计时 |
 | `err_ok_candidates.tsv` | 误差已 `<1e-5` 的能做混合精度候选（多轮复测用） |
 | `run_err_ok_repeat.sh` / `submit_err_ok_repeat.sh` | 计算节点多轮复测，产出合格数区间 |
 | `finalize_upper_bound.py` | 从上界轮写回 `qualified_functions.tsv` |
