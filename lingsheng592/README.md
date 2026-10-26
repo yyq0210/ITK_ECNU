@@ -101,6 +101,12 @@ bash submit_mixable_100.sh   # REPEATS=1 RUNS=100，墙钟约 72h
 结果在 `results/mixable100_<时间戳>/`（`run_1/measurements.csv`、`stability_summary.txt`）。  
 3 个 FastMarching* 当前 bench 无独立 `--list` 入口，见 `mixable_candidates_skipped.txt`，未进本轮。
 
+作业 **1960127** 一轮 100 次复测后，双标合格 **343** 个（见 `qualified_mix100_343.md` / `.tsv`）。只重测这 343 个：
+
+```bash
+bash submit_mix100_343.sh   # 默认 RUNS=1
+```
+
 旧的「误差已 `<1e-5`」多轮复测（默认 5 轮、内层约 1～3 次）仍可用：
 
 ```bash
@@ -140,6 +146,8 @@ dqueue
 | `src/precision_four_retry_bench.cxx` | 向量邻域、频率滤波、B 样条配准（官方 adaptor） |
 | `mixable_candidates.tsv` | 已测混精全量可跑候选（468；`RUNS=100`） |
 | `run_mixable_100.sh` / `submit_mixable_100.sh` | **一轮**、每函数 **100** 次内层计时 |
+| `qualified_mix100_343.tsv` / `.md` | mixable100 双标合格 **343**（按模块表） |
+| `run_mix100_343.sh` / `submit_mix100_343.sh` | 只测上述 343 个 |
 | `err_ok_candidates.tsv` | 误差已 `<1e-5` 的能做混合精度候选（多轮复测用） |
 | `run_err_ok_repeat.sh` / `submit_err_ok_repeat.sh` | 计算节点多轮复测，产出合格数区间 |
 | `finalize_upper_bound.py` | 从上界轮写回 `qualified_functions.tsv` |
