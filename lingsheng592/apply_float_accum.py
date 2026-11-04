@@ -211,6 +211,29 @@ def patch_filters(root: Path):
         path.write_text(text, encoding="utf-8")
         print("patched", name)
 
+    # Distance metrics: float images were accumulating / mapping in double RealType.
+    dist = root / "Modules/Filtering/DistanceMap/include"
+    for name in (
+        "itkDirectedHausdorffDistanceImageFilter.h",
+        "itkHausdorffDistanceImageFilter.h",
+    ):
+        path = dist / name
+        if not path.exists():
+            print("skip missing", name)
+            continue
+        ensure_type_traits(path)
+        text = path.read_text(encoding="utf-8")
+        old = "using RealType = typename NumericTraits<InputImage1PixelType>::RealType;"
+        new = "using RealType = ITK_ACCUMULATION_TYPE(InputImage1PixelType);"
+        if new in text:
+            print("already", name)
+            continue
+        if old not in text:
+            print("pattern miss", name)
+            continue
+        path.write_text(text.replace(old, new, 1), encoding="utf-8")
+        print("patched", name)
+
 
 def patch_switch():
     cmake = SRC / "CMakeLists.txt"
@@ -270,6 +293,8 @@ def install_headers():
         SRC / "Modules/Filtering/Smoothing/include/itkBoxUtilities.h": INC / "itkBoxUtilities.h",
         SRC / "Modules/Filtering/AnisotropicSmoothing/include/itkCurvatureAnisotropicDiffusionImageFilter.h": INC / "itkCurvatureAnisotropicDiffusionImageFilter.h",
         SRC / "Modules/Filtering/AnisotropicSmoothing/include/itkGradientAnisotropicDiffusionImageFilter.h": INC / "itkGradientAnisotropicDiffusionImageFilter.h",
+        SRC / "Modules/Filtering/DistanceMap/include/itkDirectedHausdorffDistanceImageFilter.h": INC / "itkDirectedHausdorffDistanceImageFilter.h",
+        SRC / "Modules/Filtering/DistanceMap/include/itkHausdorffDistanceImageFilter.h": INC / "itkHausdorffDistanceImageFilter.h",
     }
     for src, dst in mapping.items():
         dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
