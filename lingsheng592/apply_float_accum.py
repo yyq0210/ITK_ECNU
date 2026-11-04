@@ -4,9 +4,9 @@
 import os
 from pathlib import Path
 
-SRC = Path(os.environ.get("ITK_SRC", "/tmp/itk-src/InsightToolkit-5.4.0"))
+SRC = Path(os.environ.get("ITK_SRC", "/home/share/nsls_yyq/yyq/itk-src/InsightToolkit-5.4.0"))
 INC = Path(os.environ.get("ITK_INC", "/home/share/nsls_yyq/yyq/ITK-5.4.0-static/install/include/ITK-5.4"))
-BUILD = Path(os.environ.get("ITK_BUILD", "/tmp/itk-static"))
+BUILD = Path(os.environ.get("ITK_BUILD", "/home/share/nsls_yyq/yyq/itk-static-build"))
 BUILD_CONF = BUILD / "Modules/Core/Common/itkConfigure.h"
 
 ACCUM_MACRO = r"""

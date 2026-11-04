@@ -5,8 +5,9 @@ ROOT="${ROOT:-$YYQ/ITK_ECNU}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 ITK_TARBALL="${ITK_TARBALL:-$YYQ/InsightToolkit-5.4.0.tar.gz}"
-ITK_SRC="${ITK_SRC:-/tmp/itk-src/InsightToolkit-5.4.0}"
-ITK_BUILD="${ITK_BUILD:-/tmp/itk-static}"
+# Prefer shared disk; /tmp is wiped between sessions and breaks header-only patches.
+ITK_SRC="${ITK_SRC:-$YYQ/itk-src/InsightToolkit-5.4.0}"
+ITK_BUILD="${ITK_BUILD:-$YYQ/itk-static-build}"
 ITK_INSTALL="${ITK_INSTALL:-$YYQ/ITK-5.4.0-static/install}"
 ITK_INC="${ITK_INC:-$ITK_INSTALL/include/ITK-5.4}"
 ITK_DIR="${ITK_DIR:-$ITK_INSTALL/lib/cmake/ITK-5.4}"
