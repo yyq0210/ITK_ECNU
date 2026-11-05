@@ -4,7 +4,7 @@
 
 - 分支：[`lingsheng-592-qualified`](https://github.com/yyq0210/ITK_ECNU/tree/lingsheng-592-qualified)
 - 改源码 ITK 5.4.0：[`lingsheng-itk-5.4-592`](https://github.com/yyq0210/ITK_ECNU/tree/lingsheng-itk-5.4-592)
-- **当前送测主口径：343 个函数**（`qualified_mix100_343.tsv` / `qualified_mix100_343.md`）
+- **当前送测主口径：355 个函数**（`qualified_mix100_355.tsv` / `qualified_mix100_355.md`）
 
 不要用鲲鹏脚本当本分支验收流程。不要在登录节点直接跑计算节点脚本。
 
@@ -17,17 +17,18 @@
 
 | 口径 | 数量 | 说明 |
 | --- | ---: | --- |
-| **当前送测（主）** | **343** | 作业 1960127：已测混精可跑接口 **一轮 × 每函数 100 次**内层计时后，双标合格集合 |
-| 名单文件 | — | `qualified_mix100_343.tsv`（跑测用）、`qualified_mix100_343.md`（按模块表） |
-| 重测入口 | — | `bash submit_mix100_343.sh` |
+| **当前送测（主）** | **355** | mixable100 双标 343 + Hausdorff float 累加复测净增 12（作业 2026986；该波双标 13，其中 `HausdorffDistanceImageFilter` 已在 343）。**不含** opt94 噪声翻盘的 19 个 |
+| 名单文件 | — | `qualified_mix100_355.tsv`（跑测用）、`qualified_mix100_355.md`（按模块表） |
+| 重测入口 | — | `bash submit_mix100_355.sh` |
+| 基线 343 | 343 | 作业 1960127（`qualified_mix100_343.*` / `submit_mix100_343.sh`，备查） |
 
 全表 584 行见 `mixed_precision_lingsheng592.csv`（471 已测混精，113 不能做）。盘点说明见 `interface_status_584.md`。
 
-历史多轮浮动结果（作业 1859213，五轮、内层约 1～3 次）见文末「历史口径」；**新验收以 343 为准**。
+历史多轮浮动结果（作业 1859213，五轮、内层约 1～3 次）见文末「历史口径」；**新验收以 355 为准**。
 
 ## 其他使用者：推荐测试流程
 
-目标：在灵昇上只验证当前送测的 **343** 个函数。
+目标：在灵昇上只验证当前送测的 **355** 个函数。
 
 ### 0. 前置
 
@@ -47,9 +48,10 @@ cd lingsheng592
 
 若目录不是 git 仓库，从 GitHub 同步本目录文件即可，重点保证存在：
 
-- `qualified_mix100_343.tsv`
-- `run_mix100_343.sh` / `submit_mix100_343.sh`
+- `qualified_mix100_355.tsv`
+- `run_mix100_355.sh` / `submit_mix100_355.sh`
 - `env.sh`（按本机路径改 `YYQ` / `ROOT`）
+- 需含 Hausdorff float 累加补丁的 ITK 安装树（见 `apply_float_accum.py`）
 
 ### 2. 确认数据与安装树
 
@@ -87,35 +89,35 @@ bash compile_benches.sh     # 编译 precision_*_bench，套件支持 ITK_BENCH_
 - 链接用 `$YYQ/ld-gold`，不要乱加 `-static-libstdc++`
 - 线程默认 592；绑核列表在 `env.sh` 的 `COMPUTE_CPUS`
 
-### 4. 提交：只测 343（正式送测复测）
+### 4. 提交：只测 355（正式送测复测）
 
 ```bash
-bash submit_mix100_343.sh          # 默认 RUNS=1
-# 若要加内层次数：RUNS=3 bash submit_mix100_343.sh
+bash submit_mix100_355.sh          # 默认 RUNS=1
+# 若要加内层次数：RUNS=3 bash submit_mix100_355.sh
 ```
 
-- 作业名：`itk-mix343`
-- 结果：`lingsheng592/results/mix100_343_<时间戳>/`
+- 作业名：`itk-mix355`
+- 结果：`lingsheng592/results/mix100_355_<时间戳>/`
   - `measurements.csv`：每个函数的 float/double 时间、加速比、max_abs
   - `summary.txt`：`qualify_err_and_faster=...`
   - `logs/`：各 bench 日志
-- 提交日志：`results/mix100_343.out` / `mix100_343.err`
+- 提交日志：`results/mix100_355.out` / `mix100_355.err`
 
 ### 5. 看作业与结果
 
 ```bash
 djob                 # 或 djob -J <作业号>
 # 成功后：
-ls results/mix100_343_*/
-cat results/mix100_343_*/summary.txt
-head results/mix100_343_*/measurements.csv
+ls results/mix100_355_*/
+cat results/mix100_355_*/summary.txt
+head results/mix100_355_*/measurements.csv
 ```
 
 判断是否仍双标合格：与当初相同——`max_abs < 1e-5` 且 `speedup > 1`（套件不可判定的 `0.0000` 不计入）。
 
 ### 6. 不要做的事
 
-- 不要在登录节点跑 `run_mix100_343.sh` / `run_qualified.sh`（会检查 `nproc --all >= 600`）
+- 不要在登录节点跑 `run_mix100_355.sh` / `run_qualified.sh`（会检查 `nproc --all >= 600`）
 - 不要用 `dsub -I` 做长任务（CLI 断开作业就死）
 - 不要对 `/opt`、`/home/share` 做全盘 `find`
 - 不要堆多个 592 核作业；排除节点 `cn22976`、`cn23018` 已写在 submit 脚本里
@@ -133,17 +135,13 @@ head results/mix100_343_*/measurements.csv
 
 计算核（592 = 16×37）：`0-36,38-74,76-112,114-150,152-188,190-226,228-264,266-302,304-340,342-378,380-416,418-454,456-492,494-530,532-568,570-606`。
 
-## 继续优化：误差够但不加速（94）
+## 继续优化：误差够但不加速
 
-双标 343 之外，还有 **94** 个误差已 `<1e-5` 但 `speedup ≤ 1`（见 `optimize_err_ok_slow_94.md`）。其中 **59** 个 near_miss（加速比 ≥ 0.95）。
+相对原 343，曾有 **94** 个误差已 `<1e-5` 但 `speedup ≤ 1`（见 `optimize_err_ok_slow_94.md`）。
 
-第一波：不改库，对这 94 个再跑一轮×100，看有多少噪声翻过线：
-
-```bash
-bash submit_optimize_slow94.sh
-```
-
-第二波：扩展 `apply_float_accum.py`（如 Hausdorff 距离图用 float 累加）后 `compile_itk.sh` + `compile_benches.sh`，再针对性复测。
+- 第一波（opt94，不改库）：噪声翻过线 19 个——**不纳入送测**。
+- 第二波（Hausdorff float 累加，作业 2026986）：该波双标 13 个；净增 **12** 已并入当前 **355**（`HausdorffDistanceImageFilter` 本就在 343）。脚本：`deploy_hausdorff_accum.py` / `merge_hausdorff_qualify.py`。
+- 仍 slow 约 64，可继续针对性优化。
 
 ## 可选：复现 / 扩测（非日常送测）
 
@@ -159,10 +157,11 @@ bash submit_mixable_100.sh
 bash submit_err_ok_repeat.sh    # 默认 REPEATS=5
 ```
 
-旧版上界 300 名单复测（已被 343 主口径替代，仅兼容）：
+旧版上界 300 / 343 名单复测（已被 355 主口径替代，仅兼容）：
 
 ```bash
-bash submit_592.sh              # 读 qualified_functions.tsv
+bash submit_mix100_343.sh       # 读 qualified_mix100_343.tsv
+bash submit_592.sh              # 读 qualified_functions.tsv（历史上界 300）
 ```
 
 ## 历史口径（备查，非当前送测）
@@ -175,8 +174,9 @@ bash submit_592.sh              # 读 qualified_functions.tsv
 | 浮动区间 | [280, 300] |
 | 每轮都合格 | 217（`stable_every_round_217.md`） |
 | 当时上界送测 | 300（`qualified_functions.tsv`） |
+| mixable100 双标 | 343（`qualified_mix100_343.*`） |
 
-当前库打开 float 像素累加。Bilateral 等误差不够或 float 不快的不在 343 里。`CurvatureRegistrationFilter` 仍缺 FFTW。
+当前库打开 float 像素累加（含 Hausdorff）。Bilateral 等误差不够或 float 不快的不在 355 里。`CurvatureRegistrationFilter` 仍缺 FFTW。
 
 ## 脚本一览
 
@@ -184,10 +184,13 @@ bash submit_592.sh              # 读 qualified_functions.tsv
 | --- | --- |
 | `env.sh` | 路径与线程；换机器只改这里 |
 | `build_pinpreload.sh` / `pinpreload.c` | 每线程绑到 592 计算核 |
-| `compile_itk.sh` / `apply_float_accum.py` | 编译安装当前混精库 |
+| `compile_itk.sh` / `apply_float_accum.py` | 编译安装当前混精库（含 Hausdorff float 累加） |
 | `compile_benches.sh` / `apply_bench_filter.py` | 编译 bench；套件可读 `ITK_BENCH_ONLY_FILE` |
-| **`qualified_mix100_343.tsv` / `.md`** | **当前送测 343** |
-| **`run_mix100_343.sh` / `submit_mix100_343.sh`** | **只测 343（推荐）** |
+| **`qualified_mix100_355.tsv` / `.md`** | **当前送测 355** |
+| **`run_mix100_355.sh` / `submit_mix100_355.sh`** | **只测 355（推荐）** |
+| `merge_hausdorff_qualify.py` | 343 + Hausdorff 波净增 → 355 |
+| `qualified_mix100_343.tsv` / `.md` | 基线 343（备查） |
+| `run_mix100_343.sh` / `submit_mix100_343.sh` | 只测 343（备查） |
 | `mixable_candidates.tsv` | 已测混精可跑 468 |
 | `run_mixable_100.sh` / `submit_mixable_100.sh` | 全量 468，一轮×100 |
 | `qualified_functions.tsv` | 历史上界 300 |
@@ -195,4 +198,4 @@ bash submit_592.sh              # 读 qualified_functions.tsv
 | `stable_every_round_217.*` | 历史五轮交集 217 |
 | `mixed_precision_lingsheng592.csv` / `interface_status_584.md` | 584 接口盘点 |
 
-343 名单各 bench 数量：`fill_missing` 200，`remain` 65，`extra35` 26，`metric` 14，`levelset` 13，`cat3` 9，`path_mesh` 7，`remainder_instantiable` 4，`fail_retry` 2，`four_retry` 2，`pipeline` 1。
+355 名单各 bench 数量：`fill_missing` 206，`remain` 67，`extra35` 28，`metric` 14，`levelset` 14，`cat3` 9，`path_mesh` 8，`remainder_instantiable` 4，`fail_retry` 2，`four_retry` 2，`pipeline` 1。
