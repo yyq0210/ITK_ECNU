@@ -1,10 +1,13 @@
 build/
 **/build/
-送测/results/*
-!送测/results/.gitkeep
+test/results/*
+!test/results/.gitkeep
 *.o
 *.obj
 __pycache__/
 .DS_Store
 *.user
 *.swp
+release/_itk_bake/
+release/*.tar.gz.bak
+release/*.tar.gz.new

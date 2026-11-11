@@ -1,0 +1,4 @@
+bench	kind	operator	csv_name	runs
+precision_fill_missing_bench	list	DirectedHausdorffDistanceImageFilter	DirectedHausdorffDistanceImageFilter	3
+precision_fill_missing_bench	list	HausdorffDistanceImageFilter	HausdorffDistanceImageFilter	3
+precision_remain_bench	list	MeanImageFilter	MeanImageFilter	3

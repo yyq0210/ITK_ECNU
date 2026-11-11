@@ -69,17 +69,19 @@ python3 test/scripts/prepare_data.py
 
 同目录另有 `BrainProtonDensity1024_fixed.png` / `_moving.png`（配准套件单独跑时用）。Hough / 细化等用 bench 内 64×64 合成图；网格、路径等运行时造数。
 
-确认 ITK 安装与 tarball（`compile_itk.sh` 在现成安装树匹配时会直接退出）：
+确认 ITK 安装与源码包（`compile_itk.sh` 在现成安装树匹配时会直接退出）：
 
-- `$YYQ/ITK-5.4.0-static/install`
-- `$YYQ/InsightToolkit-5.4.0.tar.gz`（需要重编时）
+- 安装树：`$YYQ/ITK-5.4.0-static/install`
+- **推荐源码包**：仓库 `release/ITK-5.4.0-Huawei-Kunpeng.tar.gz`（混精改动已烘焙进源码；编译时打开 `-DITK_USE_FLOAT_ACCUMULATION_FOR_FLOAT_PIXELS=ON`）
+- 也可把该包拷到 `$YYQ/ITK-5.4.0-Huawei-Kunpeng.tar.gz`
+- 旧版上游包 `$YYQ/InsightToolkit-5.4.0.tar.gz` 仍可用：`compile_itk.sh` 会回退调用 `apply_float_accum.py`
 
 ### 3. 登录节点准备（只做一次或库/脚本变更后）
 
 ```bash
 cd .../lingsheng592
 bash build_pinpreload.sh    # 生成 $YYQ/pinpreload.so
-bash compile_itk.sh         # 已安装则很快退出
+bash compile_itk.sh         # 解压烘焙源码包 + CMake 开混精开关；已安装则很快退出
 bash compile_benches.sh     # 编译 precision_*_bench，套件支持 ITK_BENCH_ONLY_FILE
 ```
 
@@ -88,6 +90,7 @@ bash compile_benches.sh     # 编译 precision_*_bench，套件支持 ITK_BENCH_
 - CMake 只用 `/usr/bin/cmake`
 - 链接用 `$YYQ/ld-gold`，不要乱加 `-static-libstdc++`
 - 线程默认 592；绑核列表在 `env.sh` 的 `COMPUTE_CPUS`
+- 强制重编：`ITK_FORCE_REBUILD=1 bash compile_itk.sh`
 
 ### 4. 提交：只测 355（正式送测复测）
 
@@ -184,7 +187,8 @@ bash submit_592.sh              # 读 qualified_functions.tsv（历史上界 300
 | --- | --- |
 | `env.sh` | 路径与线程；换机器只改这里 |
 | `build_pinpreload.sh` / `pinpreload.c` | 每线程绑到 592 计算核 |
-| `compile_itk.sh` / `apply_float_accum.py` | 编译安装当前混精库（含 Hausdorff float 累加） |
+| `compile_itk.sh` | 编译安装混精 ITK（优先烘焙源码包 + CMake 开关） |
+| `apply_float_accum.py` / `bake_release_itk.py` | 旧包回退补丁；维护 `release/ITK-5.4.0-Huawei-Kunpeng.tar.gz` |
 | `compile_benches.sh` / `apply_bench_filter.py` | 编译 bench；套件可读 `ITK_BENCH_ONLY_FILE` |
 | **`qualified_mix100_355.tsv` / `.md`** | **当前送测 355** |
 | **`run_mix100_355.sh` / `submit_mix100_355.sh`** | **只测 355（推荐）** |

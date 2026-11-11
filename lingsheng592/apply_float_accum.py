@@ -99,6 +99,19 @@ def must_replace(path: Path, old: str, new: str, count=1):
     print(f"replaced x{found if count != 1 else 1}: {path.name}")
 
 
+def replace_any(path: Path, olds: list[str], new: str, count=1):
+    """Replace the first matching old pattern (Huawei tree may already use FloatType)."""
+    text = path.read_text(encoding="utf-8")
+    if new in text and all(o not in text for o in olds):
+        print(f"already: {path.name}")
+        return
+    for old in olds:
+        if old in text:
+            must_replace(path, old, new, count=count)
+            return
+    raise SystemExit(f"{path}: none of {olds!r} found")
+
+
 def ensure_type_traits(path: Path):
     text = path.read_text(encoding="utf-8")
     if "#include <type_traits>" in text:
@@ -120,28 +133,32 @@ def patch_filters(root: Path):
 
     b_h = feat / "itkBilateralImageFilter.h"
     ensure_type_traits(b_h)
-    must_replace(
+    replace_any(
         b_h,
-        "using OutputPixelRealType = typename NumericTraits<OutputPixelType>::RealType;",
+        [
+            "using OutputPixelRealType = typename NumericTraits<OutputPixelType>::RealType;",
+            "using OutputPixelRealType = typename NumericTraits<OutputPixelType>::FloatType;",
+        ],
         "using OutputPixelRealType = ITK_ACCUMULATION_TYPE(OutputPixelType);",
     )
-    must_replace(
-        b_h,
-        "using KernelType = Neighborhood<double, Self::ImageDimension>;",
-        "using KernelType = Neighborhood<OutputPixelRealType, Self::ImageDimension>;",
-    )
-    must_replace(
-        b_h,
-        "using GaussianImageType = Image<double, Self::ImageDimension>;",
-        "using GaussianImageType = Image<OutputPixelRealType, Self::ImageDimension>;",
-    )
-    must_replace(b_h, "  double              m_DynamicRange{};", "  OutputPixelRealType m_DynamicRange{};")
-    must_replace(b_h, "  double              m_DynamicRangeUsed{};", "  OutputPixelRealType m_DynamicRangeUsed{};")
-    must_replace(
-        b_h,
-        "  std::vector<double> m_RangeGaussianTable{};",
-        "  std::vector<OutputPixelRealType> m_RangeGaussianTable{};",
-    )
+    # Remaining Bilateral typedefs may already use OutputPixelRealType in Huawei trees.
+    for old, new in (
+        (
+            "using KernelType = Neighborhood<double, Self::ImageDimension>;",
+            "using KernelType = Neighborhood<OutputPixelRealType, Self::ImageDimension>;",
+        ),
+        (
+            "using GaussianImageType = Image<double, Self::ImageDimension>;",
+            "using GaussianImageType = Image<OutputPixelRealType, Self::ImageDimension>;",
+        ),
+        ("  double              m_DynamicRange{};", "  OutputPixelRealType m_DynamicRange{};"),
+        ("  double              m_DynamicRangeUsed{};", "  OutputPixelRealType m_DynamicRangeUsed{};"),
+        (
+            "  std::vector<double> m_RangeGaussianTable{};",
+            "  std::vector<OutputPixelRealType> m_RangeGaussianTable{};",
+        ),
+    ):
+        must_replace(b_h, old, new)
 
     b_hxx = feat / "itkBilateralImageFilter.hxx"
     pairs = [
@@ -169,23 +186,32 @@ def patch_filters(root: Path):
 
     mean = smooth / "itkMeanImageFilter.h"
     ensure_type_traits(mean)
-    must_replace(
+    replace_any(
         mean,
-        "using InputRealType = typename NumericTraits<InputPixelType>::RealType;",
+        [
+            "using InputRealType = typename NumericTraits<InputPixelType>::RealType;",
+            "using InputRealType = typename NumericTraits<InputPixelType>::FloatType;",
+        ],
         "using InputRealType = ITK_ACCUMULATION_TYPE(InputPixelType);",
     )
     dg = smooth / "itkDiscreteGaussianImageFilter.h"
     ensure_type_traits(dg)
-    must_replace(
+    replace_any(
         dg,
-        "using RealOutputPixelType = typename NumericTraits<OutputPixelType>::RealType;",
+        [
+            "using RealOutputPixelType = typename NumericTraits<OutputPixelType>::RealType;",
+            "using RealOutputPixelType = typename NumericTraits<OutputPixelType>::FloatType;",
+        ],
         "using RealOutputPixelType = ITK_ACCUMULATION_TYPE(OutputPixelType);",
     )
     box = smooth / "itkBoxUtilities.h"
     ensure_type_traits(box)
-    must_replace(
+    replace_any(
         box,
-        "using AccPixType = typename NumericTraits<OutputPixelType>::RealType;",
+        [
+            "using AccPixType = typename NumericTraits<OutputPixelType>::RealType;",
+            "using AccPixType = typename NumericTraits<OutputPixelType>::FloatType;",
+        ],
         "using AccPixType = ITK_ACCUMULATION_TYPE(OutputPixelType);",
         count=2,
     )

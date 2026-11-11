@@ -4,9 +4,25 @@ YYQ="${YYQ:-/home/share/nsls_yyq/yyq}"
 ROOT="${ROOT:-$YYQ/ITK_ECNU}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-ITK_TARBALL="${ITK_TARBALL:-$YYQ/InsightToolkit-5.4.0.tar.gz}"
-# Prefer shared disk; /tmp is wiped between sessions and breaks header-only patches.
-ITK_SRC="${ITK_SRC:-$YYQ/itk-src/InsightToolkit-5.4.0}"
+# Preferred: baked mixed-precision source package from release/.
+# Fallback: upstream InsightToolkit-5.4.0.tar.gz (compile_itk will apply apply_float_accum.py).
+if [[ -z "${ITK_TARBALL:-}" ]]; then
+  if [[ -f "$HERE/../release/ITK-5.4.0-Huawei-Kunpeng.tar.gz" ]]; then
+    ITK_TARBALL="$HERE/../release/ITK-5.4.0-Huawei-Kunpeng.tar.gz"
+  elif [[ -f "$YYQ/ITK-5.4.0-Huawei-Kunpeng.tar.gz" ]]; then
+    ITK_TARBALL="$YYQ/ITK-5.4.0-Huawei-Kunpeng.tar.gz"
+  else
+    ITK_TARBALL="$YYQ/InsightToolkit-5.4.0.tar.gz"
+  fi
+fi
+# Prefer shared disk; keep source next to the chosen tarball layout.
+if [[ -z "${ITK_SRC:-}" ]]; then
+  if [[ "$(basename "$ITK_TARBALL")" == "ITK-5.4.0-Huawei-Kunpeng.tar.gz" ]]; then
+    ITK_SRC="$YYQ/itk-src/ITK-5.4.0-Huawei-Kunpeng"
+  else
+    ITK_SRC="$YYQ/itk-src/InsightToolkit-5.4.0"
+  fi
+fi
 ITK_BUILD="${ITK_BUILD:-$YYQ/itk-static-build}"
 ITK_INSTALL="${ITK_INSTALL:-$YYQ/ITK-5.4.0-static/install}"
 ITK_INC="${ITK_INC:-$ITK_INSTALL/include/ITK-5.4}"
