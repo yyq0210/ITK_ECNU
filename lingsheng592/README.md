@@ -95,9 +95,26 @@ bash compile_benches.sh     # 编译 precision_*_bench，套件支持 ITK_BENCH_
 ### 4. 提交：只测 355（正式送测复测）
 
 ```bash
-bash submit_mix100_355.sh          # 默认 RUNS=1
-# 若要加内层次数：RUNS=3 bash submit_mix100_355.sh
+bash submit_mix100_355.sh          # 默认 RUNS=1（每个函数内层计时 1 次）
 ```
+
+#### 跑多次（内层重复计时）
+
+`RUNS` = 每个函数 float / double **各自**重复执行并取平均的次数。同一次作业仍会同时产出加速比与误差。
+
+```bash
+# 与当年 mixable100 筛选用法一致：每个函数内层 100 次
+RUNS=100 bash submit_mix100_355.sh
+
+# 也可设为其他次数，例如 3 / 10
+RUNS=3 bash submit_mix100_355.sh
+```
+
+说明：
+
+- 默认 `RUNS=1` 只做快速复测；**当年正式筛 343/355 口径时是 `RUNS=100`**
+- `RUNS=100` 墙钟很长（可达一天量级），作业时限已按 12h 上限提交；若超时需再提或加大 `-T`
+- 全量可混精 468 个、固定一轮×100，用另一入口：`bash submit_mixable_100.sh`（默认即 `RUNS=100`）
 
 - 作业名：`itk-mix355`
 - 结果：`lingsheng592/results/mix100_355_<时间戳>/`
