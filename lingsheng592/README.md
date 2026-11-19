@@ -94,23 +94,25 @@ bash compile_benches.sh     # 编译 precision_*_bench，套件支持 ITK_BENCH_
 
 ### 4. 提交：只测 355（正式送测复测）
 
+常用写法：
+
 ```bash
-bash submit_mix100_355.sh          # 默认 RUNS=1（每个函数内层计时 1 次）
+# 默认：RUNS=1，结果写到 results/mix100_355_<时间戳>/
+bash submit_mix100_355.sh
+
+# 指定内层次数（与当年筛选用法一致用 100）
+RUNS=100 bash submit_mix100_355.sh
+
+# 指定结果写入目录（绝对路径更稳妥）
+RESULTS="$PWD/results/my_run_355" bash submit_mix100_355.sh
+
+# 次数 + 结果目录一起指定
+RUNS=100 RESULTS="$PWD/results/mix355_r100" bash submit_mix100_355.sh
 ```
 
 #### 跑多次（内层重复计时）
 
 `RUNS` = 每个函数 float / double **各自**重复执行并取平均的次数。同一次作业仍会同时产出加速比与误差。
-
-```bash
-# 与当年 mixable100 筛选用法一致：每个函数内层 100 次
-RUNS=100 bash submit_mix100_355.sh
-
-# 也可设为其他次数，例如 3 / 10
-RUNS=3 bash submit_mix100_355.sh
-```
-
-说明：
 
 - 默认 `RUNS=1` 只做快速复测；**当年正式筛 343/355 口径时是 `RUNS=100`**
 - `RUNS=100` 墙钟很长（可达一天量级），作业时限已按 12h 上限提交；若超时需再提或加大 `-T`
@@ -118,23 +120,14 @@ RUNS=3 bash submit_mix100_355.sh
 
 #### 指定结果写入目录
 
-用环境变量 `RESULTS`（绝对路径更稳妥）：
+环境变量 **`RESULTS`** 控制正式结果落盘路径（`measurements.csv` / `summary.txt` / `logs/`）：
 
-```bash
-# 默认：lingsheng592/results/mix100_355_<时间戳>/
-bash submit_mix100_355.sh
-
-# 指定目录（measurements.csv / summary.txt / logs/ 都写到这里）
-RESULTS="$PWD/results/my_run_355" bash submit_mix100_355.sh
-
-# 可与 RUNS 一起用
-RUNS=100 RESULTS="$PWD/results/mix355_r100" bash submit_mix100_355.sh
-```
-
-说明：`RESULTS` 是**正式结果目录**；Donau 作业 stdout/stderr 仍固定写到 `results/mix100_355.out` / `.err`。
+- 未设置时：默认 `$HERE/results/mix100_355_<时间戳>/`
+- 设置后：全部写入你指定的目录（提交脚本会 `mkdir -p`）
+- Donau 作业 stdout/stderr 仍固定写到 `results/mix100_355.out` / `.err`（与 `RESULTS` 无关）
 
 - 作业名：`itk-mix355`
-- 结果：默认 `lingsheng592/results/mix100_355_<时间戳>/`，或由 `RESULTS` 指定
+- 结果目录：见上（默认时间戳目录，或 `RESULTS`）
   - `measurements.csv`：每个函数的 float/double 时间、加速比、max_abs
   - `summary.txt`：`qualify_err_and_faster=...`
   - `logs/`：各 bench 日志
@@ -144,10 +137,14 @@ RUNS=100 RESULTS="$PWD/results/mix355_r100" bash submit_mix100_355.sh
 
 ```bash
 djob                 # 或 djob -J <作业号>
-# 成功后：
+# 成功后（默认目录）：
 ls results/mix100_355_*/
 cat results/mix100_355_*/summary.txt
 head results/mix100_355_*/measurements.csv
+
+# 若提交时设了 RESULTS，直接看该目录：
+# cat "$RESULTS/summary.txt"
+# head "$RESULTS/measurements.csv"
 ```
 
 判断是否仍双标合格：与当初相同——`max_abs < 1e-5` 且 `speedup > 1`（套件不可判定的 `0.0000` 不计入）。
