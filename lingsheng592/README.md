@@ -116,8 +116,25 @@ RUNS=3 bash submit_mix100_355.sh
 - `RUNS=100` 墙钟很长（可达一天量级），作业时限已按 12h 上限提交；若超时需再提或加大 `-T`
 - 全量可混精 468 个、固定一轮×100，用另一入口：`bash submit_mixable_100.sh`（默认即 `RUNS=100`）
 
+#### 指定结果写入目录
+
+用环境变量 `RESULTS`（绝对路径更稳妥）：
+
+```bash
+# 默认：lingsheng592/results/mix100_355_<时间戳>/
+bash submit_mix100_355.sh
+
+# 指定目录（measurements.csv / summary.txt / logs/ 都写到这里）
+RESULTS="$PWD/results/my_run_355" bash submit_mix100_355.sh
+
+# 可与 RUNS 一起用
+RUNS=100 RESULTS="$PWD/results/mix355_r100" bash submit_mix100_355.sh
+```
+
+说明：`RESULTS` 是**正式结果目录**；Donau 作业 stdout/stderr 仍固定写到 `results/mix100_355.out` / `.err`。
+
 - 作业名：`itk-mix355`
-- 结果：`lingsheng592/results/mix100_355_<时间戳>/`
+- 结果：默认 `lingsheng592/results/mix100_355_<时间戳>/`，或由 `RESULTS` 指定
   - `measurements.csv`：每个函数的 float/double 时间、加速比、max_abs
   - `summary.txt`：`qualify_err_and_faster=...`
   - `logs/`：各 bench 日志
