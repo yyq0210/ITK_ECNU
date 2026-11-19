@@ -35,6 +35,7 @@
 - 账号能登录灵昇，并已加载 Donau 客户端（`dsub` / `djob`）
 - 队列：`q_hpcapp`；单作业申请 `cpu=592`
 - 不要把 SSH 密码写进仓库或脚本
+- `run_mix100_355.sh` 会**固定**读 `qualified_mix100_355.tsv`（不要被 `env.sh` 里历史 `qualified_functions.tsv`≈300 覆盖；自定义名单用 `QUALIFIED_OVERRIDE=`）
 
 ### 1. 取代码
 

@@ -4,7 +4,8 @@
 set -u
 source "$(cd "$(dirname "$0")" && pwd)/env.sh"
 
-QUALIFIED="${QUALIFIED:-$HERE/qualified_mix100_355.tsv}"
+# Force 355 list (env.sh defaults QUALIFIED to historical qualified_functions.tsv ~300).
+QUALIFIED="${QUALIFIED_OVERRIDE:-$HERE/qualified_mix100_355.tsv}"
 RUNS="${RUNS:-1}"
 
 all="$(nproc --all 2>/dev/null || echo 0)"
