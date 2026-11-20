@@ -4,22 +4,24 @@
 
 - 分支：[`lingsheng-592-qualified`](https://github.com/yyq0210/ITK_ECNU/tree/lingsheng-592-qualified)
 - 改源码 ITK 5.4.0：[`lingsheng-itk-5.4-592`](https://github.com/yyq0210/ITK_ECNU/tree/lingsheng-itk-5.4-592)
-- **当前送测主口径：355 个函数**（`qualified_mix100_355.tsv` / `qualified_mix100_355.md`）
+- **双标送测口径：355 个函数**（`qualified_mix100_355.tsv`）
+- **误差达标复测口径：437 个函数**（`qualified_err_ok.tsv` / `qualified_err_ok_437.tsv`）——在 mixable100 的 468 个可混精函数中，凡可判定且 `max_abs < 1e-5` 全部纳入（含原双标 355 + 误差过但加速比未过的 82）
 
 不要用鲲鹏脚本当本分支验收流程。不要在登录节点直接跑计算节点脚本。
 
 ## 合格标准与当前送测名单
 
-两条须**同时**满足：
+**双标**须**同时**满足：
 
 1. 可判定的 `max_abs < 1e-5`（套件里只打到 4 位小数的 `0.0000` 不算）
 2. `speedup = double_ms / float_ms > 1`（图像 float 存储 vs 图像 double 存储）
 
+**误差达标名单**只要求第 1 条。
+
 | 口径 | 数量 | 说明 |
 | --- | ---: | --- |
-| **当前送测（主）** | **355** | mixable100 双标 343 + Hausdorff float 累加复测净增 12（作业 2026986；该波双标 13，其中 `HausdorffDistanceImageFilter` 已在 343）。**不含** opt94 噪声翻盘的 19 个 |
-| 名单文件 | — | `qualified_mix100_355.tsv`（跑测用）、`qualified_mix100_355.md`（按模块表） |
-| 重测入口 | — | `bash submit_mix100_355.sh` |
+| **误差达标复测** | **437** | mixable100×100 中误差达标全集；入口 `bash submit_err_ok.sh`；名单 `qualified_err_ok.tsv` |
+| **双标送测** | **355** | mixable100 双标 343 + Hausdorff float 累加净增 12；入口 `bash submit_mix100_355.sh` |
 | 基线 343 | 343 | 作业 1960127（`qualified_mix100_343.*` / `submit_mix100_343.sh`，备查） |
 
 全表 584 行见 `mixed_precision_lingsheng592.csv`（471 已测混精，113 不能做）。盘点说明见 `interface_status_584.md`。
@@ -28,14 +30,14 @@
 
 ## 其他使用者：推荐测试流程
 
-目标：在灵昇上只验证当前送测的 **355** 个函数。
+目标：在灵昇上复测 **误差达标 437**（推荐）或 **双标 355**。
 
 ### 0. 前置
 
 - 账号能登录灵昇，并已加载 Donau 客户端（`dsub` / `djob`）
 - 队列：`q_hpcapp`；单作业申请 `cpu=592`
 - 不要把 SSH 密码写进仓库或脚本
-- `run_mix100_355.sh` 会**固定**读 `qualified_mix100_355.tsv`（不要被 `env.sh` 里历史 `qualified_functions.tsv`≈300 覆盖；自定义名单用 `QUALIFIED_OVERRIDE=`）
+- `run_err_ok.sh` / `run_mix100_355.sh` 会**固定**读各自名单（不要被 `env.sh` 里历史 `qualified_functions.tsv`≈300 覆盖；自定义名单用 `QUALIFIED_OVERRIDE=`）
 
 ### 1. 取代码
 
@@ -49,8 +51,9 @@ cd lingsheng592
 
 若目录不是 git 仓库，从 GitHub 同步本目录文件即可，重点保证存在：
 
-- `qualified_mix100_355.tsv`
-- `run_mix100_355.sh` / `submit_mix100_355.sh`
+- `qualified_err_ok.tsv`（437）与/或 `qualified_mix100_355.tsv`（355）
+- `run_err_ok.sh` / `submit_err_ok.sh`（误差达标）
+- `run_mix100_355.sh` / `submit_mix100_355.sh`（双标）
 - `env.sh`（按本机路径改 `YYQ` / `ROOT`）
 - 需含 Hausdorff float 累加补丁的 ITK 安装树（见 `apply_float_accum.py`）
 
@@ -93,9 +96,22 @@ bash compile_benches.sh     # 编译 precision_*_bench，套件支持 ITK_BENCH_
 - 线程默认 592；绑核列表在 `env.sh` 的 `COMPUTE_CPUS`
 - 强制重编：`ITK_FORCE_REBUILD=1 bash compile_itk.sh`
 
-### 4. 提交：只测 355（正式送测复测）
+### 4. 提交
 
-常用写法：
+#### 4a. 误差达标 437（推荐，含未加速项）
+
+```bash
+bash submit_err_ok.sh
+RUNS=100 bash submit_err_ok.sh
+RESULTS="$PWD/results/my_err_ok" bash submit_err_ok.sh
+RUNS=100 RESULTS="$PWD/results/errok_r100" bash submit_err_ok.sh
+```
+
+- 作业名：`itk-errok`
+- 默认结果：`results/err_ok_<时间戳>/`
+- 名单：`qualified_err_ok.tsv`（437 = mixable100 误差达标全集）
+
+#### 4b. 双标 355（正式双标送测复测）
 
 ```bash
 # 默认：RUNS=1，结果写到 results/mix100_355_<时间戳>/
@@ -222,8 +238,11 @@ bash submit_592.sh              # 读 qualified_functions.tsv（历史上界 300
 | `compile_itk.sh` | 编译安装混精 ITK（优先烘焙源码包 + CMake 开关） |
 | `apply_float_accum.py` / `bake_release_itk.py` | 旧包回退补丁；维护 `release/ITK-5.4.0-Huawei-Kunpeng.tar.gz` |
 | `compile_benches.sh` / `apply_bench_filter.py` | 编译 bench；套件可读 `ITK_BENCH_ONLY_FILE` |
-| **`qualified_mix100_355.tsv` / `.md`** | **当前送测 355** |
-| **`run_mix100_355.sh` / `submit_mix100_355.sh`** | **只测 355（推荐）** |
+| **`qualified_err_ok.tsv` / `qualified_err_ok_437.*`** | **误差达标 437（mixable100 全集）** |
+| **`run_err_ok.sh` / `submit_err_ok.sh`** | **复测误差达标 437（推荐）** |
+| **`qualified_mix100_355.tsv` / `.md`** | **双标送测 355** |
+| **`run_mix100_355.sh` / `submit_mix100_355.sh`** | **只测双标 355** |
+| `build_err_ok_list.py` | 从 mixable100 measurements 重建 437 名单 |
 | `merge_hausdorff_qualify.py` | 343 + Hausdorff 波净增 → 355 |
 | `qualified_mix100_343.tsv` / `.md` | 基线 343（备查） |
 | `run_mix100_343.sh` / `submit_mix100_343.sh` | 只测 343（备查） |
