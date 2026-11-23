@@ -56,5 +56,5 @@ mkdir -p "$BENCH_BUILD"
   -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
   -DITK_DIR="$ITK_DIR"
 
-"$CMAKE" --build "$BENCH_BUILD" -j "$(nproc)"
+"$CMAKE" --build "$BENCH_BUILD" -- -j"$(nproc)"
 echo BENCH_OK

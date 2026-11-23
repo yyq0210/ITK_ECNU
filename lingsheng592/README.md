@@ -23,8 +23,20 @@
 | **误差达标复测** | **437** | mixable100×100 中误差达标全集；入口 `bash submit_err_ok.sh`；名单 `qualified_err_ok.tsv` |
 | **双标送测** | **355** | mixable100 双标 343 + Hausdorff float 累加净增 12；入口 `bash submit_mix100_355.sh` |
 | 基线 343 | 343 | 作业 1960127（`qualified_mix100_343.*` / `submit_mix100_343.sh`，备查） |
+| **全量重测（剔除整数型/两边同型）** | **426** | 原 mixable100 可跑 468，去掉 42 个不是 float 对 double 的函数；名单 `mixable_candidates.tsv` |
 
 全表 584 行见 `mixed_precision_lingsheng592.csv`（471 已测混精，113 不能做）。盘点说明见 `interface_status_584.md`。
+
+### 整数型函数（不进入 float/double 重测）
+
+`integer_functions.tsv` 共 **42** 个，已从 `mixable_candidates.tsv` 剔除。计时标签写成 float / double，两边实际不是 `Image<float>` 对 `Image<double>`。
+
+| 标记 | 数量 | 含义 |
+| --- | ---: | --- |
+| 整数型 | 34 | 两边都是 `unsigned char` / `unsigned short` 或整数标签图，输入也是同一张整数图 |
+| 两边同型 | 8 | 两边调用同一实现（都是 double 网格、都是 float RGB，或同一个函数） |
+
+这 42 个里，19 个曾写在双标 355、42 个曾写在误差达标 437。那两份名单保留为当时的测量记录。当前全量重测只跑 426，不再把这 42 个算进 float 对 double 的加速比。
 
 历史多轮浮动结果（作业 1859213，五轮、内层约 1～3 次）见文末「历史口径」；**新验收以 355 为准**。
 
@@ -133,7 +145,7 @@ RUNS=100 RESULTS="$PWD/results/mix355_r100" bash submit_mix100_355.sh
 
 - 默认 `RUNS=1` 只做快速复测；**当年正式筛 343/355 口径时是 `RUNS=100`**
 - `RUNS=100` 墙钟很长（可达一天量级），作业时限已按 12h 上限提交；若超时需再提或加大 `-T`
-- 全量可混精 468 个、固定一轮×100，用另一入口：`bash submit_mixable_100.sh`（默认即 `RUNS=100`）
+- 全量可混精重测 **426** 个（原 468 去掉整数型/两边同型 42 个）、固定一轮×100，用另一入口：`bash submit_mixable_100.sh`（默认即 `RUNS=100`）。丢掉前若干次用 `ITK_BENCH_WARMUP`（`RUNS=100` 且 `ITK_BENCH_WARMUP=10` 时只平均后 90 次）
 
 #### 指定结果写入目录
 
@@ -196,7 +208,7 @@ head results/mix100_355_*/measurements.csv
 
 ## 可选：复现 / 扩测（非日常送测）
 
-全量已测混精可跑名单（468）再跑一轮×100 次（耗时长，墙钟可到数十小时）：
+全量重测名单（426，已去掉整数型/两边同型）再跑一轮×100 次（耗时长，墙钟可到数十小时）：
 
 ```bash
 bash submit_mixable_100.sh
@@ -246,8 +258,9 @@ bash submit_592.sh              # 读 qualified_functions.tsv（历史上界 300
 | `merge_hausdorff_qualify.py` | 343 + Hausdorff 波净增 → 355 |
 | `qualified_mix100_343.tsv` / `.md` | 基线 343（备查） |
 | `run_mix100_343.sh` / `submit_mix100_343.sh` | 只测 343（备查） |
-| `mixable_candidates.tsv` | 已测混精可跑 468 |
-| `run_mixable_100.sh` / `submit_mixable_100.sh` | 全量 468，一轮×100 |
+| `mixable_candidates.tsv` | 全量重测 426（原 468 去掉整数型/两边同型） |
+| `integer_functions.tsv` | 剔除的 42 个：34 个整数型，8 个两边同型 |
+| `run_mixable_100.sh` / `submit_mixable_100.sh` | 全量 426，一轮×100；`ITK_BENCH_WARMUP` 丢掉前 N 次 |
 | `qualified_functions.tsv` | 历史上界 300 |
 | `run_qualified.sh` / `submit_592.sh` | 历史 300 复测 |
 | `stable_every_round_217.*` | 历史五轮交集 217 |

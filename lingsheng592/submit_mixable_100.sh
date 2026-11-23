@@ -1,5 +1,7 @@
 #!/bin/bash
-# Submit one-round mixable retest: every previously-tested mixable op, RUNS=100 each.
+# Submit one-round retest of mixable_candidates.tsv (426 float-vs-double ops).
+# Integer and same-both-sides ops are listed in integer_functions.tsv and are not run.
+# ITK_BENCH_WARMUP drops the first N of RUNS (RUNS=100 and WARMUP=10 averages the last 90).
 set -euo pipefail
 source "$(cd "$(dirname "$0")" && pwd)/env.sh"
 logdir="$HERE/results"

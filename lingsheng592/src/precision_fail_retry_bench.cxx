@@ -64,14 +64,7 @@ template <typename Fn>
 static double
 TimeRuns(Fn fn, int runs)
 {
-  double t = 0.0;
-  for (int i = 0; i < runs; ++i)
-  {
-    const auto t0 = Clock::now();
-    fn();
-    t += std::chrono::duration<double, std::milli>(Clock::now() - t0).count();
-  }
-  return t / static_cast<double>(runs);
+  return TimeRunsSkipWarmup(fn, runs);
 }
 
 static void

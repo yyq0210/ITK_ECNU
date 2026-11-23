@@ -1,5 +1,6 @@
 #!/bin/bash
-# One round: every previously-tested mixable operator, each timed RUNS times (default 100).
+# One round: mixable_candidates.tsv (426; integer / same-both-sides ops live in integer_functions.tsv).
+# Each operator is timed RUNS times (default 100). ITK_BENCH_WARMUP drops the first N of those calls.
 # Must run on a Lingsheng compute node (nproc --all >= 600).
 set -u
 source "$(cd "$(dirname "$0")" && pwd)/env.sh"
@@ -7,6 +8,8 @@ source "$(cd "$(dirname "$0")" && pwd)/env.sh"
 REPEATS="${REPEATS:-1}"
 RUNS="${RUNS:-100}"
 CANDIDATES="${CANDIDATES:-$HERE/mixable_candidates.tsv}"
+# First N of RUNS are discarded. RUNS=100 and ITK_BENCH_WARMUP=10 averages the last 90.
+export ITK_BENCH_WARMUP="${ITK_BENCH_WARMUP:-0}"
 
 all="$(nproc --all 2>/dev/null || echo 0)"
 if [[ "$all" -lt 600 ]]; then
@@ -35,6 +38,7 @@ mkdir -p "$root"
   echo "THREADS=$THREADS"
   echo "REPEATS=$REPEATS"
   echo "RUNS=$RUNS"
+  echo "WARMUP=$ITK_BENCH_WARMUP"
   echo "CANDIDATES=$CANDIDATES"
   echo "IMG=$IMG"
   echo "PIN=$PIN"
