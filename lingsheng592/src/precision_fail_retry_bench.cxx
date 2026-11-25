@@ -72,7 +72,7 @@ Emit(const std::string & module, const std::string & op, double msF, double msD)
 {
   const double sp = msF > 0.0 ? (msD / msF) : 0.0;
   std::cout << std::fixed << std::setprecision(8) << module << ',' << op << ',' << msF << ',' << msD << ',' << sp
-            << ",0,0\n";
+            << ",0,0" << std::endl;
 }
 
 template <typename FnF, typename FnD>
@@ -301,7 +301,6 @@ template <typename Real>
 static void
 RunMRF()
 {
-  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
   constexpr unsigned int bands = 2;
   constexpr unsigned int nclass = 3;
   using Vec = itk::Vector<Real, bands>;
@@ -321,8 +320,9 @@ RunMRF()
   itk::ImageRegionIteratorWithIndex<ClassImage> cit(classImage, classImage->GetBufferedRegion());
   for (it.GoToBegin(), cit.GoToBegin(); !it.IsAtEnd(); ++it, ++cit)
   {
-    const auto z = it.GetIndex()[2];
+    const auto x = it.GetIndex()[0];
     const auto y = it.GetIndex()[1];
+    const auto z = it.GetIndex()[2];
     unsigned char lab = 0;
     if (z == 0)
     {
@@ -337,8 +337,10 @@ RunMRF()
       lab = y < 3 ? 2 : 1;
     }
     Vec v;
-    v[0] = static_cast<Real>(10 + 8 * lab);
-    v[1] = static_cast<Real>(12 + 5 * lab);
+    // Identical samples make the class covariance singular. ApplyICMLabeller then
+    // indexes m_NeighborInfluence with an unset label and segfaults on a later call.
+    v[0] = static_cast<Real>(10 + 8 * lab) + static_cast<Real>(0.15 * (x % 3));
+    v[1] = static_cast<Real>(12 + 5 * lab) + static_cast<Real>(0.15 * (y % 3));
     it.Set(v);
     cit.Set(lab);
   }
@@ -464,6 +466,13 @@ main(int argc, char ** argv)
   if (!g_list && argc >= 4)
   {
     g_only = argv[3];
+  }
+  if (!g_list && g_only == "MRFImageFilter")
+  {
+    // SetGlobalDefaultNumberOfThreads inside every RunMRF rebuilds the pool threader.
+    // Destroying that threader segfaults from the fourth call. One thread is enough
+    // for the 6x6x3 volume; set it once, before any filter in this process is created.
+    itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
   }
   FImg::Pointer input;
   if (!g_list)

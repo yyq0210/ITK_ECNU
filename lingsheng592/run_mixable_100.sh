@@ -104,7 +104,14 @@ run_one_round() {
     local log="$out/logs/${bench}.log"
     echo "RUN$round suite $bench ($(wc -l < "$list") names) runs=$RUNS"
     set +e
-    "$BENCH_BUILD/$bench" "$IMG" "$RUNS" >"$log" 2>&1
+    # diffusion_bench reads argv as image, iterations, timeStep, conductance, runs.
+    # Passing RUNS in argv[2] made it iterate 100 times and print CAD(iter=100), which
+    # does not match the candidate name CAD(iter=50).
+    if [[ "$bench" == "precision_diffusion_bench" ]]; then
+      "$BENCH_BUILD/$bench" "$IMG" 50 0.125 3 "$RUNS" >"$log" 2>&1
+    else
+      "$BENCH_BUILD/$bench" "$IMG" "$RUNS" >"$log" 2>&1
+    fi
     set -e
     unset ITK_BENCH_ONLY_FILE
     while IFS= read -r op; do
